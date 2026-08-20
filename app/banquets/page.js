@@ -3,6 +3,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { money } from "@/lib/menu";
 import { Ornament } from "@/components/Ornament";
+import BanquetInquiry from "@/components/BanquetInquiry";
 
 export const metadata = {
   title: "Banquets and Events",
@@ -137,9 +138,20 @@ export default function Banquets() {
             rooms that fit and what they cost.
           </p>
           <div style={{ marginTop: 28, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link className="btn" href="/contact?about=events">Ask about a date</Link>
+            <a className="btn" href="#enquire">Ask about a date</a>
             <a className="btn ghost" href={`tel:${site.salesPhone.tel}`}>{site.salesPhone.display}</a>
           </div>
+        </div>
+      </section>
+
+      <section className="cream" id="enquire">
+        <div className="wrap narrow">
+          <div className="sec-head">
+            <Ornament className="orn draw" />
+            <h2>Tell us about it</h2>
+            <p>The type, the date and the guest count are all we need to come back with rooms and a price.</p>
+          </div>
+          <BanquetInquiry />
         </div>
       </section>
     </>

@@ -872,3 +872,26 @@ section.dark .facts li::before { background: var(--cream); }
   .crest { max-width: 100%; }
   .hero-crest h1 { margin-top: 26px; }
 }
+
+/* ---------------------------------------------------------------- host view
+   The staff screen behind the proposal's "your host stand gets a screen"
+   promise. Deliberately plain: it is read at a podium mid-service, at arm's
+   length, by someone holding menus. */
+.hostbar { display: flex; gap: 24px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; padding-bottom: 22px; margin-bottom: 8px; border-bottom: 2px solid var(--line); }
+.hostbig { font-family: var(--font-display), Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1.05; margin-top: 6px; }
+.hostsub { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.hostslot { margin-top: 26px; }
+.hostslot-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.hostslot-head h2 { font-size: 24px; }
+.hostslot-head span { font-size: 13.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--green); }
+.hostslot-head.full span { color: var(--ox); }
+.hostempty { font-size: 15px; color: var(--muted); padding: 12px 0; }
+.hostlist { list-style: none; display: grid; gap: 2px; }
+.hostlist li { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.hostlist li.seated { opacity: .5; }
+.hostparty { flex: none; width: 42px; height: 42px; border-radius: 50%; background: var(--cream); border: 2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.hostname { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.hostname b { font-size: 17px; }
+.hostname span { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hostname em { font-style: normal; font-size: 13.5px; color: var(--ox); font-weight: 700; }
+@media (max-width: 480px) { .hostbig { font-size: 32px; } .hostlist li { gap: 11px; } }

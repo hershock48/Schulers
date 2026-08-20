@@ -563,6 +563,40 @@ the kitchen is closed, because the cart is in its after-hours state. Verified
 with the clock pinned to a Friday at 6pm, the cart shows subtotal, sales tax,
 a 99 cent service fee and a total.
 
+### Third pass: claims extracted from the document, not from memory
+
+`tools/practice-check.mjs` tests the claims someone remembered. `tools/claim-check.mjs`
+parses the proposal itself and tests the sub-promises buried inside each build
+item, which a hand-written list misses. It found three more:
+
+| Promise in the document | State | Now |
+|---|---|---|
+| "your host stand gets a screen showing tonight's covers on any tablet or phone" | **Nothing behind it** | `/host` — tonight's book, covers by half hour, party sizes, notes, seat toggles, and a cover ceiling that marks a slot full |
+| "a banquet inquiry form that reaches the right inbox with the event type, date and guest count already sorted" | `/banquets` sent people to the **general contact form** | `BanquetInquiry` with type, date and guest count, which narrows to the rooms that fit and routes an oversize party to 19 Zero 9 |
+| "your link, when somebody texts it, showing your photograph" | Untested | All 13 `og:image`s verified to return 200 |
+
+**A live bug the third pass caught.** `banquetRooms[].seats` is not a number.
+The packet publishes a range for Heritage East ("8 to 20") and a ceiling for the
+combined room ("up to 120"), and the other three rooms have no published
+capacity and are `null` on purpose. The first version of the enquiry compared a
+guest count against that string, matched nothing, and told every enquirer "tell
+us the count and we will find the room" — a quiet wrong answer, which is the
+worst kind. It now parses a ceiling out of whatever is there and treats an
+unpublished capacity as unknown rather than as "does not fit".
+
+### Promised for the build, not demonstrable in a demo
+
+State these as build promises in the room, not as things to click:
+
+- The confirmation **email** on a booking or a gift card. No mail is configured;
+  every confirmation screen says outright that nothing was sent.
+- The **ticket reaching the kitchen** by printer or line screen. That is
+  hardware in their building, and the proposal now says we would watch a dinner
+  service before choosing between printer, screen and host stand.
+- **Booking notifications** to an inbox or phone.
+- The **events editor**. `/events` reads `lib/events.js`; the one-minute edit is
+  a build promise.
+
 ## For the room, not for the document
 
 Two things Kevin should know and the proposal should not say. Both were in the
