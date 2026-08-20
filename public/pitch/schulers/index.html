@@ -18,9 +18,13 @@
 <meta property="og:image:alt" content="Who else can read your staff schedule? A proposal from Glazed Web.">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="alternate icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- ABSOLUTE, not relative. This file is served by a REWRITE at the root of the
+     pitch host, so the browser's URL stays "/" and a relative href="favicon.svg"
+     resolves to /favicon.svg, which does not exist. The icons were there the
+     whole time; nothing could find them. -->
+<link rel="icon" type="image/svg+xml" href="/pitch/schulers/favicon.svg">
+<link rel="alternate icon" href="/pitch/schulers/favicon.ico">
+<link rel="apple-touch-icon" href="/pitch/schulers/apple-touch-icon.png">
 
 <style>
 /* Palette and type lifted from glazedweb app/globals.css. Three pinks on

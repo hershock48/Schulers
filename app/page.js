@@ -39,9 +39,12 @@ export default function Home() {
             since 1909. A dining room that has outlasted two world wars, Prohibition and every
             restaurant that ever opened across the street.
           </p>
+          {/* Ordering leads. It is the larger behaviour and the one that moves
+              money, so it takes the solid button and the first position;
+              booking follows in the outline. */}
           <div className="cta-row">
-            <Link className="btn" href="/reservations">Book a Table</Link>
-            <Link className="btn ghost" href="/order">Order Carryout</Link>
+            <Link className="btn" href="/order">Order Carryout</Link>
+            <Link className="btn ghost" href="/reservations">Book a Table</Link>
           </div>
           <OpenNow />
         </div>

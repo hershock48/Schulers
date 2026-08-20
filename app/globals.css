@@ -773,7 +773,18 @@ section.dark .facts li::before { background: var(--cream); }
 
 @supports (animation-timeline: view()) {
   @media not (prefers-reduced-motion: reduce) {
-    .years { animation: years linear both; animation-timeline: view(); animation-range: entry 15% cover 45%; }
+    /* Holds 1909 until the number is fully in view, THEN counts. It used to
+       start at `entry 15%`, which is 15% into the element merely beginning to
+       cross the bottom edge, so it was already running before you had seen it
+       and 1909 was never legible. `entry 100%` is the point the element has
+       finished entering. */
+    /* `entry 100%` was not enough of a hold. The number is only ~148px tall, so
+       "fully entered" still happens while it sits on the very bottom edge of
+       the screen and the count was under way before it was readable. Anchoring
+       to `cover` instead measures progress across the element's whole pass
+       through the viewport, so 1909 now sits still until it is properly in the
+       frame, and the count lands before it starts leaving. */
+    .years { animation: years linear both; animation-timeline: view(); animation-range: cover 34% cover 74%; }
     .mrow-dots { animation: setline linear both; animation-timeline: view(); animation-range: entry 12% cover 32%; }
   }
 }
@@ -826,7 +837,11 @@ section.dark .facts li::before { background: var(--cream); }
 .crest-run .crest-pen {
   stroke-dasharray: var(--len, 700);
   stroke-dashoffset: var(--len, 700);
-  animation: crest-write var(--dur, 700ms) linear var(--delay, 0ms) both;
+  /* Very slightly eased rather than dead linear. A hand does not start and stop
+     a word at full speed, but easing each stroke individually reads as
+     machinery, so the curve is nearly straight through the middle and only
+     softens at the very ends. */
+  animation: crest-write var(--dur, 700ms) cubic-bezier(.28,.02,.72,.98) var(--delay, 0ms) both;
 }
 
 .crest-run .crest-sheen {
@@ -926,3 +941,26 @@ section.dark .facts li::before { background: var(--cream); }
   .tick { padding: 3px 16px 3px 0; border-right: none; }
 }
 @media (max-width: 640px) { .tick { font-size: 11.5px; padding: 0 18px; } }
+
+/* The ticker gets a line telling you what it is. Without one it reads as a
+   stock strip of trivia rather than a hundred and seventeen years going past. */
+.histstrip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--cream); }
+.histstrip .histticker { border: none; background: none; padding: 0 0 12px; }
+.histtitle {
+  text-align: center; padding: 13px 16px 9px;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--green);
+}
+.histtitle span { position: relative; }
+/* Their own rule, the same one under the section headings. */
+.histtitle span::before, .histtitle span::after {
+  content: ""; position: absolute; top: 50%; width: 28px; height: 1px;
+  background: currentColor; opacity: .45;
+}
+.histtitle span::before { right: 100%; margin-right: 14px; }
+.histtitle span::after { left: 100%; margin-left: 14px; }
+@media (max-width: 560px) {
+  .histtitle { font-size: 10.5px; letter-spacing: .2em; }
+  .histtitle span::before, .histtitle span::after { width: 14px; }
+}

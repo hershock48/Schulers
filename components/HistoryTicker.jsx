@@ -22,10 +22,15 @@ export default function HistoryTicker() {
     </span>
   ));
   return (
-    <div className="histticker" aria-hidden="true">
-      <div className="histticker-track">
-        {items}
-        {items}
+    <div className="histstrip">
+      <p className="histtitle">
+        <span>What has happened since we opened</span>
+      </p>
+      <div className="histticker" aria-hidden="true">
+        <div className="histticker-track">
+          {items}
+          {items}
+        </div>
       </div>
     </div>
   );

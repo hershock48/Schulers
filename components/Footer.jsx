@@ -58,7 +58,11 @@ export default function Footer() {
           </span>
         </div>
       </div>
-      <GlazedPlate line="Concept build by" />
+      {/* "Double Dipped by" is the house default. brand.md reserves "Concept build
+          by" for a spec build that has not been bought, which this is, but Kevin
+          has overridden that line twice now (True North was the first), so the
+          doc is what needs correcting, not this footer. */}
+      <GlazedPlate line="Double Dipped by" />
     </footer>
   );
 }
