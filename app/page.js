@@ -12,7 +12,7 @@ export const metadata = {
     title: "Schuler's Restaurant & Pub",
     description: "Prime rib in the English tradition. Marshall, Michigan, since 1909.",
     url: "/",
-    images: [{ url: "/assets/schulers/building-front.webp", width: 1024, height: 865, alt: "Schuler's on Eagle Street in Marshall, Michigan" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Schuler's Restaurant & Pub, Marshall, Michigan, since 1909" }],
   },
 };
 
@@ -37,7 +37,7 @@ export default function Home() {
             <h1>A hundred and seventeen years of the same table.</h1>
             <p className="lede">
               Prime rib in the English tradition, Winston&rsquo;s Pub next door, and a dining room
-              that has been feeding this town since the year the first Model T rolled off the line.
+              that has been setting tables on Eagle Street since 1909.
             </p>
             <div className="cta-row">
               <Link className="btn on-dark" href="/reservations">Book a Table</Link>
@@ -173,7 +173,7 @@ export default function Home() {
             <Ornament />
             <h2>Room for the whole party</h2>
             <p>
-              Five private rooms in this building, a {site.family.venue.capacity}-guest venue two
+              Private rooms in this building, a {site.family.venue.capacity}-guest venue two
               blocks up, and {site.family.hotel.rooms} rooms for the people who should not drive.
             </p>
           </div>
@@ -186,8 +186,8 @@ export default function Home() {
               <div className="card-body">
                 <h3>Banquets and Events</h3>
                 <p>
-                  Rehearsal dinners, board lunches, showers and receptions, from {site.banquetRooms[0].seats} guests
-                  up to {site.banquetMax}.
+                  Rehearsal dinners, board lunches, showers and receptions, from a table of eight
+                  up to {site.banquetMax} in the Heritage Room.
                 </p>
                 <p className="card-link"><Link href="/banquets">Plan an event</Link></p>
               </div>

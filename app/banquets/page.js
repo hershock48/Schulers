@@ -7,11 +7,11 @@ import { Ornament } from "@/components/Ornament";
 export const metadata = {
   title: "Banquets and Events",
   description:
-    "Private rooms for 30 to 250 guests in downtown Marshall: rehearsal dinners, receptions, showers and board lunches, catered by Schuler's kitchen.",
+    "Private rooms in downtown Marshall for a table of eight up to 120, plus a 250-guest venue two blocks up: rehearsal dinners, receptions, showers and board lunches.",
   alternates: { canonical: "/banquets" },
   openGraph: {
     title: "Banquets and Events | Schuler's Restaurant & Pub",
-    description: "Five private rooms here, and a 250-guest venue two blocks up.",
+    description: "Private rooms here, and a 250-guest venue two blocks up Eagle Street.",
     url: "/banquets",
     images: [{ url: "/assets/schulers/banquets-banner.webp", width: 1600, height: 635, alt: "A room set for a private event at Schuler's" }],
   },
@@ -25,8 +25,8 @@ export default function Banquets() {
           <p className="eyebrow on-dark">Private events</p>
           <h1>Room for the whole party</h1>
           <p>
-            Five private rooms in this building for {site.banquetRooms[1].seats} to {site.banquetMax},
-            and a {site.family.venue.capacity}-guest venue two blocks up Eagle Street.
+            Private rooms in this building for a table of eight up to {site.banquetMax}, and a{" "}
+            {site.family.venue.capacity}-guest venue two blocks up Eagle Street.
           </p>
         </div>
       </div>
@@ -50,10 +50,15 @@ export default function Banquets() {
                 for thirty or a reception for a hundred and twenty. The Signature Room is the one to
                 ask for when everyone at the table should be able to hear each other.
               </p>
+              {/* Only two of these five capacities are published anywhere. The rest
+                  say so rather than carrying a plausible-looking invention, which is
+                  how a guest plans a party around a number nobody checked. */}
               <ul className="facts">
                 {site.banquetRooms.map((r) => (
                   <li key={r.name}>
-                    <b>{r.name}</b> &mdash; up to {r.seats} guests{r.note ? `. ${r.note}` : ""}
+                    <b>{r.name}</b>
+                    {r.seats ? <> &mdash; {r.seats} guests</> : <> &mdash; ask us for the count</>}
+                    {r.note ? `. ${r.note}` : ""}
                   </li>
                 ))}
               </ul>
@@ -87,8 +92,9 @@ export default function Banquets() {
           </div>
 
           <p style={{ textAlign: "center", marginTop: 30, color: "var(--muted)", fontSize: 15 }}>
-            Breakfast from $15, lunch from $19, buffets and hors d&rsquo;oeuvres priced separately.
-            Bar packages need a 75-guest minimum.
+            Breakfast from ${site.banquets.breakfastFrom}, lunch from ${site.banquets.lunchFrom},
+            buffets and hors d&rsquo;oeuvres priced separately. Bar packages need a{" "}
+            {site.banquets.barPackageMinGuests}-guest minimum.
           </p>
         </div>
       </section>

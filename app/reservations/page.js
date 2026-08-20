@@ -10,7 +10,7 @@ export const metadata = {
     title: "Reservations | Schuler's Restaurant & Pub",
     description: "Book a table in about thirty seconds.",
     url: "/reservations",
-    images: [{ url: "/assets/schulers/building-front.webp", width: 1024, height: 865, alt: "Schuler's on Eagle Street in Marshall, Michigan" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Schuler's Restaurant & Pub, Marshall, Michigan, since 1909" }],
   },
 };
 

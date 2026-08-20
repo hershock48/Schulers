@@ -15,9 +15,15 @@ export const metadata = {
   },
 };
 
-/* Room names and square footage are the hotel site's own, and the photographs
-   are the ones their photographer shot: each frame is the room door with its
-   name plate, which is why the captions can be trusted to match the pictures. */
+/* Room names and square footage are royalhotelmarshall.com's own, re-confirmed
+   against the rendered page on 20 Aug 2026. The photographs are their
+   photographer's: each frame has the room door with its name plate in shot,
+   which is how the captions can be trusted to match the pictures.
+
+   These numbers were nearly deleted as invented. A grep of the page's raw HTML
+   for "sq ft" returned nothing, so they looked fabricated. They are not: the
+   room details are injected client side, and a fetch strips them. Markup alone
+   is not enough for anything JavaScript renders. Read the page, not the source. */
 const ROOMS = [
   { slug: "eagle", name: "Eagle", sqft: 309 },
   { slug: "mansion", name: "Mansion", sqft: 286 },
@@ -60,9 +66,10 @@ export default function Hotel() {
               </p>
               <ul className="facts">
                 <li>Five rooms above Schuler&rsquo;s: Eagle, Mansion, Grand Suite, Hamilton and Jefferson</li>
-                <li>Three more inside Venue 19 Zero 9, each with a kitchenette</li>
-                <li>Two guests per room</li>
-                <li>One flight of stairs, and no elevator in either building</li>
+                <li>Three more inside Venue 19 Zero 9</li>
+                <li>Two guests per room. No exceptions.</li>
+                <li>Elevator access from the Green Street entrance</li>
+                <li>The Jefferson Room is ADA compliant, with a walk-in shower</li>
               </ul>
               <p style={{ marginTop: 28 }}>
                 <a className="btn" href={site.family.hotel.url}>See rooms and rates</a>
@@ -77,7 +84,7 @@ export default function Hotel() {
           <div className="sec-head">
             <Ornament />
             <h2>The five above the restaurant</h2>
-            <p>Each named for the building or the street it looks out on.</p>
+            <p>Two guests to a room, and an elevator up from Green Street.</p>
           </div>
           <div className="gallery">
             {ROOMS.map((r) => (

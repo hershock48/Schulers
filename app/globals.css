@@ -369,18 +369,6 @@ section.dark .facts li::before { background: var(--cream); }
   .hdr { gap: 8px; }
 }
 
-/* ============================================================================
-   Glazed Web studio credit.
-   Values from `node glaze/scripts/plate.mjs "#1E1E1E"`, run rather than
-   guessed: the footer here is #1E1E1E, and the chocolate mark on it measures
-   1.06, which is an invisible graphic rather than an ugly one. Cream plate at
-   15.54.
-   ========================================================================= */
-.gw-plate {
-  --gw-above: #1E1E1E;
-  --gw-plate: #FDF6EC;
-  --gw-plate-ink: #2B1E16;
-}
 
 /* ───────────────────────────────────────────────────────────────────────────
    Glazed Web studio credit — pairs with components/GlazedCredit.
@@ -488,4 +476,25 @@ section.dark .facts li::before { background: var(--cream); }
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ============================================================================
+   Glazed Web studio credit — THIS SITE'S VALUES.
+
+   Values from `node glaze/scripts/plate.mjs "#1E1E1E"`, run rather than
+   guessed. This footer is #1E1E1E, so a chocolate #201712 plate on it measures
+   1.06 and the drip edge is an invisible graphic rather than an ugly one. The
+   cream plate lands a 15.54 step.
+
+   THIS BLOCK MUST STAY LAST. It sits after the stock glazed-credit.css, which
+   ships the opposite pairing as its default at the SAME specificity, so
+   whichever comes later wins. It was originally placed above the stock block
+   and silently lost: the plate rendered chocolate-on-near-black and the whole
+   signature disappeared. Verified in a browser, not assumed, because the
+   failure mode here is invisibility rather than ugliness.
+   ========================================================================= */
+.gw-plate {
+  --gw-above: #1E1E1E;
+  --gw-plate: #FDF6EC;
+  --gw-plate-ink: #2B1E16;
 }

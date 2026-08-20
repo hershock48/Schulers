@@ -60,7 +60,7 @@ after the first click. Nothing 404s.
 | `/carryout` | Only what travels, at carryout prices |
 | `/order` | **Jelly.** Cart, pickup time, totals, demo checkout |
 | `/reservations` | Real-time booking, demo confirmation |
-| `/banquets` | Five private rooms, plated tiers, 19 Zero 9 |
+| `/banquets` | Private rooms, plated tiers, 19 Zero 9 |
 | `/events` | Dated events, filtered against today |
 | `/hotel` | The Royal Hotel, eight rooms, the five room gallery |
 | `/shop` | Chef's Salt, Take & Bake, gift cards, glassware |
@@ -72,22 +72,27 @@ Plus `/sitemap.xml`, `/robots.txt` and a branded 404.
 ## Deploying
 
 ```
-Framework: Next.js   Build: next build   No env vars.
+Framework: Next.js   Build: next build
+Env: NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com  (pitch only, see .env.example)
 ```
 
 1. Import into Vercel.
 2. Add **`schulers.glazedweb.com`**. Apex form only. Adding the `www` form
    leaves it without a certificate and that link fails when you send it.
-3. Fetch `https://schulers.glazedweb.com/` and confirm it serves the proposal,
+3. Set `NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com`, or every
+   `og:image` resolves to a domain that does not serve this build and the link
+   preview is blank. Delete the variable on launch day.
+4. Fetch `https://schulers.glazedweb.com/` and confirm it serves the proposal,
    not the site. Then fetch `/demo` and confirm the opposite.
-4. Confirm `X-Robots-Tag` on both the pitch host and the `.vercel.app` host.
+5. Confirm `X-Robots-Tag` on both the pitch host and the `.vercel.app` host, and
+   confirm `/pitch/schulers/index.html` 404s on the client host.
 
 ---
 
 ## Verified state, 20 August 2026
 
 Audited with `glaze/scripts/audit.mjs` against a **production** build served by
-`next start`, never the dev server.
+`next start`, never the dev server. Re-run in full after every correction below.
 
 ```
 === 12 route(s) at 390 and 1440px ===
@@ -100,8 +105,7 @@ console errors:       none
 Overflow separately checked on all 11 site routes plus the proposal at
 **320, 360, 390, 768, 1024 and 1440**. All clean.
 
-Behaviour checked, not assumed, by `/tmp/flow.mjs` (reproduced in
-`tools/flow-checks.mjs`):
+Behaviour checked, not assumed, by `tools/flow-checks.mjs`:
 
 - **Client-side navigation asserts visibility.** Menu, Banquets, About and Shop
   each land with the `h1` visible at opacity 1 and zero `.reveal` elements still
@@ -116,6 +120,14 @@ Behaviour checked, not assumed, by `/tmp/flow.mjs` (reproduced in
   discloses that no table was held.
 - **JavaScript off:** home, menu and banquets all arrive as complete pages with
   nothing hidden.
+- **Keyboard:** the skip link is the first tab stop, becomes visible on focus,
+  and its `#main` target exists. The mobile nav opens, reports `aria-expanded`,
+  every one of its 7 links is hittable, and it closes on navigate.
+- **The studio credit renders.** `.gw-plate` present, last child of `<footer>`,
+  computed background `rgb(253,246,236)` matching the value `plate.mjs`
+  computed, 15.54 against the footer above it.
+- **Every route has a unique title, its own description, and an `og:image` that
+  returns 200.**
 
 ### Faults found and fixed on the way
 
@@ -128,16 +140,81 @@ Recorded because the reasoning is what stops them coming back.
    `room-eagle`, `room-mansion`, `room-grand-suite`, `room-hamilton`,
    `room-jefferson`, every reference repointed, and the hero is now the building
    on Eagle Street. **When a thing appears N times, check all N.**
-2. **Two `h1` elements on `/order`.** The banner owns the h1 and the demo
+2. **The studio credit was invisible.** `plate.mjs` said cream plate on this
+   `#1E1E1E` footer, and the CSS said so, but the override was appended to
+   `globals.css` *before* the stock `glazed-credit.css`, which ships the
+   opposite pairing at the same specificity. Later wins, so the page rendered a
+   chocolate `#201712` plate on a near-black footer: contrast **1.06**, a drip
+   edge nobody could see. Moved to the end of the file, now **15.54**. This is
+   the exact failure mode the house doc warns about, and it only surfaced
+   because the plate was checked in a browser instead of assumed. The override
+   block must stay last in `globals.css`.
+3. **"No elevator in either building" was backwards.** royalhotelmarshall.com
+   states elevator access from the Green Street entrance and an ADA-compliant
+   Jefferson Room. Of every fact on this build that is the worst one to get
+   wrong: a guest who needs the lift reads it and books somewhere else. Fixed,
+   and the accessibility facts are now on the page as selling points.
+4. **Nearly deleted five correct numbers.** A grep of the hotel site's raw HTML
+   for "sq ft" returned nothing, so the room square footages looked invented and
+   a retraction comment was written saying so. They are published: the room
+   details render client side and a fetch strips them. Restored, with the
+   reasoning in the file. **Markup is not enough for anything JavaScript
+   injects** — read the page, not the source.
+5. **The Model T was 1908.** The homepage said the dining room had been feeding
+   the town "since the year the first Model T rolled off the line", next to 1909.
+   Production started September 1908. The clause is gone.
+6. **Invented banquet capacities.** `lib/site.js` carried a seat count for all
+   five private rooms. The April 2026 packet publishes exactly two of them
+   (Heritage East 8-20, combined Heritage up to 120) and their site publishes
+   none. `banquetMax` was also 250, which is Venue 19 Zero 9's number, not this
+   building's. Corrected to the two real figures, the other three now say "ask us
+   for the count", and breakfast/lunch went from an invented $15/$19 to the
+   packet's $16/$21.
+7. **OG images would have 404'd on the demo.** `metadataBase` was hardcoded to
+   schulersrestaurant.com, which does not serve this build, so every absolute
+   `og:image` pointed at a domain with nothing behind it. The link preview would
+   have come back blank at the exact moment it matters. Now driven by
+   `NEXT_PUBLIC_SITE_ORIGIN`; see `.env.example`.
+8. **Two `h1` elements on `/order`.** The banner owns the h1 and the demo
    confirmation added a second. The confirmation is an `h2` now.
-3. **Anchor jumps landed under two sticky bars.** `#pub` put the heading behind
-   the header and the menu nav. Fixed with `scroll-margin-top` on `.msec`.
-4. **320px overflow, 16px.** Long unbreakable tokens. Fixed with
-   `overflow-wrap` on the text elements rather than on the one heading the
-   measurement named, because there are a dozen more of those tokens here.
-5. **A stale `next start` survived `pkill`** and served an old build that made a
-   fixed test look still-broken. Killed by PID and the port confirmed free
-   before re-testing.
+9. **Anchor jumps landed under two sticky bars.** `#pub` put the heading behind
+   the header and the menu nav. Fixed with `scroll-margin-top` on `.msec`,
+   measured at 176px clear of bars ending at 119px.
+10. **320px overflow, 16px.** Long unbreakable tokens. Fixed with
+    `overflow-wrap` on the text elements rather than on the one heading the
+    measurement named, because there are a dozen more of those tokens here.
+11. **A stale `next start` survived `pkill`** and served an old build that made a
+    fixed test look still-broken. Killed by PID and the port confirmed free
+    before re-testing.
+
+### Findings retracted from the proposal, 20 August 2026
+
+Their live site changed between the research pass and the build. Every finding
+was re-verified by hand before sending; **five of thirteen did not survive.**
+Kept here rather than quietly deleted, because a claim that was wrong is what
+stops the next person re-deriving it.
+
+| Claim | Status now |
+|---|---|
+| An older version of the site is still live underneath | **Dead.** `/banquets-catering/`, `/about/history/` and `/menus/` all 404 |
+| Four contradictory sets of opening hours | **Dead.** Three of the four lived on those legacy pages |
+| The Royal Hotel is three rooms smaller on the restaurant site | **Dead.** `/the-royal-hotel/` 301s to royalhotelmarshall.com |
+| Events opens to a Thanksgiving page | **Wrong.** It shows a July Take & Bake, listed twice under two dates. Replaced with that |
+| 19zero9.com never links back to Schuler's | **Wrong.** Clickable links exist in the body of `/about/` and `/preferred-vendors/`. Rewritten around the competing-hotels list, which is true |
+
+What survived, re-verified with quotes: the staff schedules (**worse than
+stated** — 60 PDFs, back to mid-July, weekly), reservations as a request form
+("Request Booking", "For same day reservations, please call the restaurant"),
+no ordering path at all (the carryout page's only phone number is labeled
+"FOR RESERVATIONS CALL"), gift cards mailed, 250 vs 300 on the venue, the 2024
+banquet packet still live, no `Restaurant` schema anywhere, the homepage titled
+`Home - Schuler's`, no published room rates, and one review on The Knot dated
+August 2025.
+
+One finding got **stronger**: The Knot listing advertises a "$4,000 starting
+price", which is the superseded 2024 Sunday-to-Thursday venue fee. It is $4,500
+in the current packet. The stale pricing is not only in a PDF, it is on a
+listing they pay for.
 
 ### Not measured
 
@@ -246,17 +323,21 @@ reads as "this number is real."
       99 cent guest fee.
 - [ ] **Photo permission is granted** (Kevin, Aug 2026), but confirm it covers
       the Royal Hotel room photography, which was shot for the hotel site.
+- [ ] **Set `NEXT_PUBLIC_SITE_ORIGIN`** to the pitch host in Vercel while this is
+      a pitch, and delete it on launch day. Without it the demo's link previews
+      are blank.
 
 ## Before you send it
 
-- [ ] Every audit finding in the proposal links to the page that proves it, and
-      the one thing that could not be verified is named on the page. **Done.**
+- [x] Every audit finding links to the page that proves it, the unverifiable one
+      is named, and **all eleven were re-checked by hand on 20 August 2026**. The
+      proposal says so on the page and names the three findings that were already
+      fixed before it was sent.
 - [ ] The demo is deployed and every route loads.
-- [ ] Proposal card and demo card exist, are different files, and both render.
-      **The demo card does not exist yet.** `public/pitch/schulers/og.jpg` is the
-      proposal card; the demo currently has no `og.jpg` of its own, so a
-      forwarded `/demo` link falls back to per-page images. Make one before this
-      gets forwarded.
+- [x] Proposal card and demo card exist, are different files, and both render.
+      `public/pitch/schulers/og.jpg` is the proposal's (Glazed Web's voice);
+      `public/og.jpg` is the demo's, built from their logo, their building and
+      their green, 1200x630. Different files, as the house doc requires.
 - [ ] The pitch host and the `.vercel.app` host are both `noindex`.
 - [ ] The price is a number. **$4,500 build, $250 a month, ordering included.**
 - [ ] Read it once as Sue Damron, not as the builder.

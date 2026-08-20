@@ -13,7 +13,7 @@ export const metadata = {
     title: "Shop | Schuler's Restaurant & Pub",
     description: "Chef's Salt, Take & Bake, gift cards and glassware.",
     url: "/shop",
-    images: [{ url: "/assets/schulers/takeandbake.webp", width: 1200, height: 1107, alt: "A Take and Bake family meal" }],
+    images: [{ url: "/assets/schulers/takeandbake-spread.webp", width: 1200, height: 874, alt: "A Take and Bake family meal laid out" }],
   },
 };
 

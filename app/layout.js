@@ -30,11 +30,28 @@ const body = Karla({
   variable: "--font-body",
 });
 
+/**
+ * Absolute-URL base for canonicals and OG images.
+ *
+ * It defaults to their real domain, which is correct the day this launches:
+ * pointing metadataBase at a preview host makes every canonical advertise a
+ * duplicate of the site as the original.
+ *
+ * But while this is a pitch it is served from schulers.glazedweb.com/demo, and
+ * a metadataBase of schulersrestaurant.com makes every og:image an absolute URL
+ * on a domain that does not serve this build. The images 404 and the link
+ * preview comes back blank, which is exactly the moment it matters: when Kevin
+ * texts the link to an owner.
+ *
+ * So: set NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com in Vercel for
+ * the pitch, and DELETE that variable on launch day. Everything on the pitch
+ * host is noindex, so a canonical pointing at the pitch host costs nothing
+ * while it is set.
+ */
+const ORIGIN = process.env.NEXT_PUBLIC_SITE_ORIGIN || SITE_URL;
+
 export const metadata = {
-  // Their real domain, not a preview host. Pointing metadataBase at a
-  // .vercel.app makes every canonical and OG url advertise a duplicate of the
-  // site as the original.
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(ORIGIN),
   title: {
     default: "Schuler's Restaurant & Pub | Marshall, Michigan since 1909",
     template: "%s | Schuler's Restaurant & Pub",
@@ -45,7 +62,8 @@ export const metadata = {
     type: "website",
     siteName: site.name,
     locale: "en_US",
-    url: SITE_URL,
+    url: "/",
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Schuler's Restaurant & Pub, Marshall, Michigan, since 1909" }],
   },
   twitter: { card: "summary_large_image" },
   icons: { icon: "/assets/schulers/favicon-180.png", apple: "/assets/schulers/favicon-180.png" },
