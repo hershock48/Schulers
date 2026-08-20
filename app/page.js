@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 import { Ornament } from "@/components/Ornament";
 import OpenNow from "@/components/OpenNow";
 import ReserveStrip from "@/components/ReserveStrip";
-import Signature from "@/components/Signature";
+import CrestSignature from "@/components/CrestSignature";
 
 export const metadata = {
   title: "Schuler's Restaurant & Pub | Marshall, Michigan since 1909",
@@ -22,38 +22,27 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <section className="hero">
+      {/* The crest is the hero. Their mark is the strongest thing they own and
+          the previous build had it at 130px in the header while a phone
+          snapshot of the building -- blown sky, parked cars, a utility pole --
+          carried the page. See components/CrestSignature.jsx. */}
+      <section className="hero hero-crest">
         <div className="hero-inner">
-          <div>
-            <p className="eyebrow">Marshall, Michigan &middot; Est. {site.since}</p>
-            <h1>Come early if you want <em>the end cut.</em></h1>
-            <p className="lede">
-              Prime rib in the English tradition, roasted since 1909 on one corner of Eagle Street.
-              A dining room that has outlasted two world wars, Prohibition and every restaurant that
-              ever opened across the street, and a pub next door where the burger is worth the drive
-              on its own.
-            </p>
-            <div className="cta-row">
-              <Link className="btn" href="/reservations">Book a Table</Link>
-              <Link className="btn ghost" href="/order">Order Carryout</Link>
-            </div>
-            <OpenNow />
-          </div>
+          <p className="eyebrow">Marshall, Michigan &middot; Est. {site.since}</p>
 
-          {/* One uncropped photograph on the page's own ground. Nothing sits on
-              top of an image, so nothing needs a scrim, and the type contrast is
-              the page's rather than whatever the pixels happen to be. */}
-          <figure className="hero-figure reveal-img" style={{ margin: 0 }}>
-            <Image
-              src="/assets/schulers/building-front.webp"
-              alt="Schuler's on the corner of Eagle Street in Marshall, Michigan, with the patio full"
-              width={1024}
-              height={865}
-              priority
-              sizes="(max-width: 900px) 100vw, 46vw"
-            />
-            <figcaption>115 S. Eagle Street &middot; since 1909</figcaption>
-          </figure>
+          <CrestSignature priority />
+
+          <h1>Come early if you want <em>the end cut.</em></h1>
+          <p className="lede">
+            Prime rib in the English tradition, roasted on one corner of Eagle Street since
+            1909. A dining room that has outlasted two world wars, Prohibition and every
+            restaurant that ever opened across the street.
+          </p>
+          <div className="cta-row">
+            <Link className="btn" href="/reservations">Book a Table</Link>
+            <Link className="btn ghost" href="/order">Order Carryout</Link>
+          </div>
+          <OpenNow />
         </div>
       </section>
 
@@ -229,13 +218,6 @@ export default function Home() {
               </div>
             </article>
           </div>
-        </div>
-      </section>
-
-      <section className="tight">
-        <div className="wrap narrow" style={{ textAlign: "center" }}>
-          <Signature />
-          <p className="sig-caption">Marshall, Michigan &middot; Est. 1909</p>
         </div>
       </section>
 

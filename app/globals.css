@@ -796,46 +796,79 @@ section.dark .facts li::before { background: var(--cream); }
 .reserve-strip select, .reserve-strip input { width: auto; min-width: 132px; }
 @media (max-width: 620px) { .reserve-strip form { width: 100%; } .reserve-strip select, .reserve-strip input, .reserve-strip .btn { width: 100%; } }
 
-/* ---------------------------------------------------------------- signature
+/* ============================================================================
+   The signed crest.
 
-   Their script writing itself, then the colour arriving. See
-   components/Signature.jsx for how the ink layer was lifted out of the lockup.
+   Read the header comment in components/CrestSignature.jsx first; the short
+   version is that the DEFAULT state below is the finished crest, in colour,
+   signature complete. Every rule that hides something lives under .crest-run,
+   which JavaScript adds and only after checking reduced motion. Move any of
+   these out from under that class and a blocked script leaves a blank hero.
+   ========================================================================= */
+.crest { width: 100%; max-width: 620px; margin: 0 auto; }
+.crest-svg { display: block; width: 100%; height: auto; overflow: visible; }
 
-   The two layers register because both are positioned with the same fractions
-   the ink was cropped at: left 17.0%, top 25.5%, width 69.5%, height 39.5% of
-   the colour lockup's box. Change the crop in the extractor and these four
-   numbers change with it or the script will sit off its own sign. */
-.sig { position: relative; width: min(520px, 84vw); margin: 0 auto; }
-.sig-color { width: 100%; height: auto; display: block; opacity: 1; }
-.sig-ink {
-  position: absolute;
-  left: 17.0%; top: 25.5%; width: 69.5%; height: 39.5%;
-  object-fit: contain; opacity: 0; pointer-events: none;
+/* finished state */
+.crest-plate { filter: none; opacity: 1; }
+.crest-pen   { stroke-dashoffset: 0; }
+.crest-sheen { opacity: 0; }
+
+/* --- running ------------------------------------------------------------- */
+/* The plate starts as an engraving. Not a grey wash: grayscale plus a little
+   contrast, because a flat desaturate of an oxblood field goes muddy and the
+   hatching disappears, which is the one piece of texture worth keeping. */
+.crest-run .crest-plate {
+  filter: grayscale(1) contrast(1.14) brightness(0.94);
+  animation: crest-colour 1100ms cubic-bezier(.22,.61,.36,1) 1900ms both;
 }
 
-@supports (animation-timeline: view()) {
-  @media not (prefers-reduced-motion: reduce) {
-    .sig-ink {
-      opacity: 1;
-      /* Written left to right. The clip is on the ink only, so the colour
-         lockup underneath is never clipped, only revealed. */
-      animation: write linear both, handoff linear both;
-      animation-timeline: view(), view();
-      animation-range: entry 5% cover 34%, cover 34% cover 52%;
-    }
-    .sig-color {
-      animation: bloom linear both;
-      animation-timeline: view();
-      animation-range: cover 30% cover 55%;
-    }
-  }
+/* The pen. 1.9s is deliberate. The house note about motion applies twice over
+   here: this is the one thing on the page a visitor is meant to actually watch,
+   and the previous build's 800ms reveals were over before the eye arrived.
+   The easing is slow-fast-slow rather than ease-out, because a hand accelerates
+   into the middle of a word and decelerates into the flourish. */
+.crest-run .crest-pen {
+  stroke-dasharray: var(--crest-len, 700);
+  stroke-dashoffset: var(--crest-len, 700);
+  animation: crest-write 1900ms cubic-bezier(.62,.03,.36,1) 420ms both;
 }
-@keyframes write  { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes handoff{ from { opacity: 1; } to { opacity: 0; } }
-@keyframes bloom  { from { opacity: 0; filter: saturate(0); } to { opacity: 1; filter: saturate(1); } }
 
-.sig-caption {
-  margin-top: 18px; text-align: center;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+/* One pass, once, well after the colour has settled. */
+/* A glint, not a veil. At 0.30 across a 10%-wide band this read as a milky
+   smear sitting on top of the whole box; the crest looked hazy rather than
+   polished. Narrower and much fainter, it catches the frame and leaves. */
+.crest-run .crest-sheen {
+  animation: crest-sheen 1400ms ease-in-out 3150ms both;
+}
+
+@keyframes crest-write { to { stroke-dashoffset: 0; } }
+@keyframes crest-colour { to { filter: grayscale(0) contrast(1) brightness(1); } }
+@keyframes crest-sheen {
+  0%   { opacity: 0; transform: translateX(-58%) skewX(-12deg); }
+  22%  { opacity: 1; }
+  78%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(58%) skewX(-12deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crest-run .crest-plate,
+  .crest-run .crest-pen,
+  .crest-run .crest-sheen { animation: none; }
+  .crest-run .crest-plate { filter: none; }
+  .crest-run .crest-pen { stroke-dashoffset: 0; }
+}
+
+/* --- the hero this sits in ------------------------------------------------ */
+/* Centred, because a crest is a symmetrical object and the old split hero put
+   their best asset in a corner and a weak snapshot in the middle. */
+.hero-crest { padding: 58px 0 4px; text-align: center; }
+.hero-crest .hero-inner { display: block; max-width: 860px; margin: 0 auto; padding: 0 22px; }
+.hero-crest h1 { font-size: clamp(30px, 4.2vw, 52px); margin: 34px auto 0; max-width: 15ch; }
+.hero-crest .lede { margin: 20px auto 0; max-width: 60ch; }
+.hero-crest .cta-row { justify-content: center; margin-top: 30px; }
+.hero-crest .openrow { justify-content: center; }
+@media (max-width: 640px) {
+  .hero-crest { padding: 30px 0 2px; }
+  .crest { max-width: 100%; }
+  .hero-crest h1 { margin-top: 26px; }
 }

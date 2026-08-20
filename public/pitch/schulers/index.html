@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Can a guest book a table right now? A proposal for Schuler's</title>
+<title>Who else can read your staff schedule? A proposal for Schuler's</title>
 <meta name="description" content="A website proposal for Schuler's Restaurant &amp; Pub in Marshall, Michigan, where every claim links to the proof.">
 <meta name="robots" content="noindex, nofollow">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Glazed Web">
-<meta property="og:title" content="Can a guest book a table right now?">
+<meta property="og:title" content="Who else can read your staff schedule?">
 <meta property="og:description" content="A website proposal for Schuler's Restaurant &amp; Pub, where every claim links to the proof.">
 <meta property="og:url" content="https://schulers.glazedweb.com/">
 <meta property="og:image" content="https://schulers.glazedweb.com/pitch/schulers/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Can a guest book a table right now? A proposal from Glazed Web.">
+<meta property="og:image:alt" content="Who else can read your staff schedule? A proposal from Glazed Web.">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -235,6 +235,11 @@ h2.sec-title { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spaci
    badly here. White on --raspberry-deep is 4.78. */
 .ctaband .btn.on-band { background: transparent; color: #fff !important; border: 2px solid #fff; box-shadow: none; }
 .ctaband .btn.on-band:hover { background: #fff; color: var(--raspberry-deep) !important; }
+/* The kicker inherits --fern, which is a green chosen for small bold text on
+   CREAM. On the deep pink band it measured as a serious contrast failure. Fixed
+   on the band's own class rather than on the one element axe named, because any
+   kicker dropped into this band would carry the same fault. White is 4.78 here. */
+.ctaband .sec-kicker { color: #fff; }
 /* Was #FBEFF4, a softened white, which measured 4.27 on --raspberry-deep and
    failed the 4.5 that normal-weight text needs. Same fault and same fix as the
    band's own paragraph in globals.css: the softness was costing the pass on its
@@ -361,8 +366,8 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
 <div class="hero">
   <div>
     <p class="kicker">A website proposal, August 2026</p>
-    <h1>Can a guest book a table <em>right now?</em></h1>
-    <p class="sub">Not send a request and wait for a callback. Book it, see it confirmed, and get an email. On a Saturday night, at 11pm, from a phone in Chicago. We already built the site that does it, with your menu in it.</p>
+    <h1>Who else can read your <em>staff schedule?</em></h1>
+    <p class="sub">Right now, anybody. Six weeks of them are sitting on your website where anyone can download them, roughly fifty-five people a week, by name, against their shifts. That took four minutes to find. We kept looking for another hour, and this is what else turned up.</p>
     <div class="ctas">
       <a class="btn big" href="/demo">See it built</a>
       <a class="btn big ghost" href="#found">What we found</a>
@@ -425,14 +430,14 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
 
       <article class="fcard urgent reveal">
         <span class="tag">Fix this today</span>
-        <h3>Your weekly staff schedules are public on the internet.</h3>
+        <h3>Start here. It is the fastest thing on this list to fix.</h3>
         <p>Six schedule PDFs are sitting in your website's media library where anyone can download them, no password. We opened the week of August 17 to 23 and it lists roughly 55 employees by name against their shifts. Front of house and back of house, both. A new one goes up every week, so this is how somebody on your team is sharing the schedule, not a one-time slip.</p>
         <p>You do not need us to fix it. Delete the files, and post the schedule somewhere that asks for a login. We are telling you first because it is the kind of thing an owner should hear from a stranger before it becomes a problem.</p>
         <span class="proof">Proof: schulersrestaurant.com/wp-content/uploads/2026/08/8.23.26-Week-Ending-FOH.pdf</span>
       </article>
 
       <article class="fcard reveal">
-        <h3>Reservations are a request, not a booking.</h3>
+        <h3>Can a guest book a table right now?</h3>
         <p>Your reservations page takes a name, a date and a party size, then somebody on your staff has to work the queue and call people back. Same-day guests are told to phone instead. You are also not on the OpenTable network, which OpenTable states on its own page for you, and the reviews there stopped in 2016.</p>
         <p>A guest deciding between you and somewhere else at 9pm on a Thursday does not wait for a callback.</p>
         <span class="proof"><a href="https://schulersrestaurant.com/reservations/">Your reservations page</a> &middot; <a href="https://www.opentable.com/r/schulers-restaurant-and-pub">Your OpenTable listing</a></span>
@@ -579,7 +584,7 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
         <div class="num" aria-hidden="true">5</div>
         <h4>Online ordering, built in</h4>
         <p class="sub">Your whole menu, not a phone call</p>
-        <p>A guest picks the food, picks a pickup time, and pays before leaving the house. The ticket prints in your kitchen with the time on it. It runs alongside Aloha rather than through it, which matters: the online ordering NCR sells you arrives with a thirty-six month contract. This is part of the site and costs you nothing a month.</p>
+        <p>A guest picks the food, picks a pickup time, and pays before leaving the house. The ticket prints in your kitchen with the time on it. It runs alongside Aloha rather than through it, which matters: the online ordering NCR sells you arrives with a thirty-six month contract. This is part of the site, it carries no monthly fee and no term, and the section below says plainly how it is paid for.</p>
         <a class="seeit" href="/demo/order">Order a Winston Burger &rarr;</a>
       </div>
       <div class="bitem reveal">
@@ -641,7 +646,11 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
         </div>
         <div class="reveal">
           <b>Nothing rented underneath it</b>
-          <span>The reservations and the gift cards are written into your site rather than licensed from anyone. The only outside cost is the card processing fee on money you collect, and you hear that number before it is added.</span>
+          <span>The reservations and the gift cards are written into your site rather than licensed from anyone. There is no monthly fee for any of it beyond the $250, and no contract term.</span>
+        </div>
+        <div class="reveal">
+          <b>How the ordering pays for itself</b>
+          <span>A guest pays a <b>99 cent service fee</b> on an online order, the way they already do on every ordering site they use. <b>Half of it comes back to you</b> and we keep the rest, which is why online ordering adds nothing to your monthly and carries no term. Card processing is separate and goes straight to your own processor at their published rate. If you would rather absorb the fee and show a clean total, you can, and we will show you what that costs first.</span>
         </div>
       </div>
     </div>
@@ -650,7 +659,7 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
 
 <div class="ctaband">
   <div class="inner">
-    <p class="sec-kicker" style="color:#fff;opacity:.85">What happens next</p>
+    <p class="sec-kicker">What happens next</p>
     <h2 style="margin-top:12px">Give us thirty minutes.</h2>
     <p>Open the build on your phone first. Order a Winston Burger for 6:15, book a table for four, then tell us where we are wrong. No slides.</p>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
