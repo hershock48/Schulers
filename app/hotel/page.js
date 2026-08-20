@@ -79,6 +79,38 @@ export default function Hotel() {
         </div>
       </section>
 
+      {/* Rates are published here on purpose. The proposal's finding is that
+          they publish none anywhere, and a demo that repeats the fault it names
+          is worthless in the room. The numbers are marked PLACEHOLDER in
+          lib/site.js and the page says so. */}
+      <section>
+        <div className="wrap narrow">
+          <div className="sec-head">
+            <h2>Rates</h2>
+            <p>Two guests per room, and an elevator up from the Green Street entrance.</p>
+          </div>
+          <div className="mlist">
+            {site.hotelRates.rooms.map((r) => (
+              <article className="mrow" key={r.name}>
+                <div className="mrow-top">
+                  <h3 className="mrow-name">{r.name}</h3>
+                  <span className="mrow-dots" aria-hidden="true" />
+                  <span className="mrow-price">from ${r.from}</span>
+                </div>
+                <p className="mrow-desc">{r.sqft} square feet</p>
+              </article>
+            ))}
+          </div>
+          {site.hotelRates.placeholder ? (
+            <div className="demo-flag" style={{ marginTop: 26 }}>
+              <b>Concept build.</b> These rates are indicative, not theirs. The live build reads
+              their real rate sheet, and the rates go into the page&rsquo;s structured data so
+              Google can show them.
+            </div>
+          ) : null}
+        </div>
+      </section>
+
       <section className="cream">
         <div className="wrap">
           <div className="sec-head">

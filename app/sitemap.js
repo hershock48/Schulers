@@ -1,6 +1,6 @@
 import { SITE_URL } from "@/lib/site";
 
-const routes = ["", "/menu", "/carryout", "/order", "/reservations", "/banquets", "/events", "/hotel", "/shop", "/about", "/contact"];
+const routes = ["", "/menu", "/carryout", "/order", "/reservations", "/banquets", "/events", "/hotel", "/shop", "/gift-cards", "/about", "/contact"];
 
 export default function sitemap() {
   return routes.map((r) => ({

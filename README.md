@@ -537,6 +537,32 @@ to the client.
 - [ ] **`kevin@glazedweb.com` is the only action in the proposal.** Confirm that
       mailbox exists and is watched.
 
+## Practise what we preach
+
+`tools/practice-check.mjs` walks the demo and asserts that we do not commit any
+fault the proposal names, and that every feature it promises actually exists and
+transacts. Run it before sending anything. It found six real failures the first
+time, and every one of them would have been found by Sue instead:
+
+| What the proposal says | What the demo did | Fixed |
+|---|---|---|
+| Attacks mailed-only gift cards, promises emailed ones | The buy button went to a **contact form** | Real `/gift-cards` purchase flow: amount, recipient, sender, message, delivery date |
+| "Nowhere on any of your three sites is a room rate" | `/hotel` published **no rate either** | Rate table on `/hotel`, marked PLACEHOLDER on the page and in `lib/site.js` |
+| Flags their robots.txt for having no `Sitemap:` line | Ours **had no `Sitemap:` line** | A leftover static `public/robots.txt` was shadowing `app/robots.js`. Deleted |
+| "The store, opened up" | `/shop` **sold nothing**, it listed prices | Real basket, ship or collect, their live prices and stock |
+| Attacks contradictory facts across their pages | My own rates section said "no elevator" while the page above said there is one | Corrected |
+| Sitemap hygiene | `/gift-cards` was **missing from the sitemap** | Added |
+
+Two flagged items were false positives worth recording so nobody re-fixes them:
+"five rooms above Schuler's" is correct, because five sit above the restaurant
+and three more are inside 19 Zero 9; and the Thanksgiving 6:00pm close is a
+special-day time, not a contradiction of the standing 9:00pm.
+
+The one remaining warning is expected: the service fee line does not render when
+the kitchen is closed, because the cart is in its after-hours state. Verified
+with the clock pinned to a Friday at 6pm, the cart shows subtotal, sales tax,
+a 99 cent service fee and a total.
+
 ## For the room, not for the document
 
 Two things Kevin should know and the proposal should not say. Both were in the

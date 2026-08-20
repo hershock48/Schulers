@@ -3,6 +3,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { money } from "@/lib/menu";
 import { Ornament } from "@/components/Ornament";
+import ShopClient from "@/components/ShopClient";
 
 export const metadata = {
   title: "Shop",
@@ -16,17 +17,6 @@ export const metadata = {
     images: [{ url: "/assets/schulers/takeandbake-spread.webp", width: 1200, height: 874, alt: "A Take and Bake family meal laid out" }],
   },
 };
-
-const goods = [
-  { name: "Chef's Salt, 16 oz", price: 10, img: "/assets/schulers/product-chefs-salt.webp", alt: "A tub of Schuler's Chef's Salt", desc: "Kosher salt, black pepper, ground rosemary, garlic and celery seed. The only place on earth it is sold." },
-  { name: "Chef's Salt, 8 oz", price: 6, img: null, desc: "The same blend, half the tub." },
-  { name: "Winston's Snifter", price: 14, img: "/assets/schulers/shop-snifter.webp", alt: "A Winston's Pub snifter", desc: "Sixteen ounces, with the Winston's Pub mark." },
-  { name: "Bottle Opener", price: 20, img: "/assets/schulers/shop-opener.webp", alt: "A Schuler's bottle opener", desc: "Cast, heavy, and older-looking than it is." },
-  { name: "Stoneware Coffee Mug", price: 12, img: "/assets/schulers/shop-mug.webp", alt: "A Schuler's stoneware coffee mug", desc: "The mug the coffee comes in downstairs." },
-  { name: "Schuler Pint Glass", price: 10, img: null, desc: "For the pub side of the house." },
-  { name: "Rocks Glass", price: 8, img: null, desc: "Heavy base, short pour." },
-  { name: "Michigan Oven Mitt", price: 14, img: null, desc: "The mitt, in the shape of the state." },
-];
 
 export default function Shop() {
   return (
@@ -91,7 +81,7 @@ export default function Shop() {
                 still mail one.
               </p>
               <p style={{ marginTop: 26 }}>
-                <Link className="btn" href="/contact?about=gift-card">Buy a gift card</Link>
+                <Link className="btn" href="/gift-cards">Buy a gift card</Link>
               </p>
             </div>
             <div>
@@ -114,23 +104,7 @@ export default function Shop() {
             <h2>From the shelf</h2>
             <p>Ships anywhere in the continental United States, usually the next morning.</p>
           </div>
-
-          <div className="grid g4 stagger">
-            {goods.map((g) => (
-              <article className="card" key={g.name}>
-                {g.img ? (
-                  <div className="card-img reveal-img">
-                    <Image src={g.img} alt={g.alt || ""} width={800} height={800} sizes="(max-width: 620px) 100vw, 25vw" />
-                  </div>
-                ) : null}
-                <div className="card-body">
-                  <h3 style={{ fontSize: 19 }}>{g.name}</h3>
-                  <p>{g.desc}</p>
-                  <p className="price-tag" style={{ fontSize: 26, marginTop: 14 }}>{money(g.price)}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <ShopClient />
         </div>
       </section>
     </>
