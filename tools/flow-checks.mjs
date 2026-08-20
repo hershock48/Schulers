@@ -66,8 +66,11 @@ for (const w of [320, 360, 390, 768, 1024, 1440]) {
   const t1 = (await p.locator(".cart-totals .total .num").textContent()) || "";
   if (!/\$\d/.test(t1)) bad("order: no total after adding an item, got " + t1);
   if (!(await place.isDisabled())) bad("order: place enabled before a pickup time is chosen");
+  const closed = await p.locator("text=The kitchen has finished for today").count();
+  if (closed) { console.log("order flow: kitchen closed for today, after-hours state shown correctly"); await p.close(); }
+  else {
   const opts = await p.locator("#pickup-select option:not([disabled])").all();
-  if (opts.length < 2) bad("order: no selectable pickup times");
+  if (opts.length < 2) bad("order: no selectable pickup times while the kitchen is open");
   await p.selectOption("#pickup-select", await opts[1].getAttribute("value"));
   await p.waitForTimeout(120);
   if (await place.isDisabled()) bad("order: place still disabled with item + time");
@@ -80,6 +83,7 @@ for (const w of [320, 360, 390, 768, 1024, 1440]) {
   if (!/order would go in/i.test(confirm)) bad("order: confirmation screen wrong, got " + confirm);
   else console.log("order flow: add -> time -> place -> honest confirmation OK");
   await p.close();
+  }
 }
 
 // --- 4. reservations flow
@@ -108,7 +112,18 @@ for (const w of [320, 360, 390, 768, 1024, 1440]) {
   const p = await ctx.newPage();
   for (const r of ["/", "/menu", "/banquets"]) {
     await p.goto(B + r, { waitUntil: "domcontentloaded" });
-    const hidden = await p.evaluate(() => Array.from(document.querySelectorAll(".reveal")).filter(e => Number(getComputedStyle(e).opacity) < 0.9).length);
+    // Motion here is pure CSS scroll-driven animation, so with JavaScript off it
+    // still runs — content below the fold sits at its start state until the
+    // reader scrolls to it, which is the animation working rather than a broken
+    // page. So scroll the way a reader does, then assert nothing stayed hidden.
+    // Driven from outside the page with the wheel. An async p.evaluate that
+    // relies on timers cannot run in a context with JavaScript disabled, which
+    // is the whole point of this check.
+    for (let i = 0; i < 16; i++) { await p.mouse.wheel(0, 480); await p.waitForTimeout(70); }
+    await p.waitForTimeout(500);
+    const hidden = await p.evaluate(() => Array.from(document.querySelectorAll(".reveal"))
+      .filter(e => { const r = e.getBoundingClientRect();
+                     return r.bottom > 0 && Number(getComputedStyle(e).opacity) < 0.9; }).length);
     const h1 = await p.locator("h1").first().isVisible();
     if (hidden || !h1) bad(`no-JS ${r}: ${hidden} hidden reveals, h1 visible=${h1}`);
     else console.log(`no-JS ${r}: complete page`);

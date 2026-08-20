@@ -65,7 +65,7 @@ export default function Events() {
 
       <section className="cream tight">
         <div className="wrap narrow" style={{ textAlign: "center" }}>
-          <Ornament />
+          <Ornament className="orn draw" />
           <p style={{ marginTop: 18, color: "var(--muted)" }}>
             Wine dinners fill from the mailing list. Ask a server to put you on it, or send us a
             note and we will.

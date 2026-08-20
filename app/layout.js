@@ -1,7 +1,7 @@
-import { Bodoni_Moda, Karla } from "next/font/google";
+import { Newsreader, Archivo, IBM_Plex_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Reveal from "@/components/Reveal";
+import ActionBar from "@/components/ActionBar";
 import { site, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -11,42 +11,64 @@ import "./globals.css";
  * request to Google and nothing breaks if Google does. A runtime <link> to a
  * font CDN would be a third-party dependency the client did not choose.
  *
- * Bodoni Moda is a didone, which is the letterform on nearly every American
- * bill of fare printed the decade Schuler's opened. Karla underneath it keeps
- * the small text legible, which a didone at 15px does not.
+ * WHY NOT BODONI. The first build used Bodoni Moda, and it was wrong twice.
+ *
+ * Wrong historically: Bodoni is Neoclassical, c. 1790s, and reads French and
+ * Italian fashion. Schuler's is 1909. The display types of Anglo-American
+ * commercial and menu printing in that era are Scotch Romans, Clarendons and
+ * fat faces, not didones. Bodoni is a full generation early for the room.
+ *
+ * Wrong commercially: Bodoni Moda is the free Google font every Squarespace and
+ * Canva "luxury" template reaches for. A 117-year-old institution should not
+ * open with the typeface of a template. A survey of Fonts In Use's hospitality
+ * and menu tags for 2024-2026 turns up no Bodoni at all.
+ *
+ * Newsreader is a Scotch-adjacent face with a real optical-size axis, so the
+ * headline weight and the 15px caption are drawn differently rather than
+ * scaled. Archivo is the plain neo-grotesque underneath it, which is the
+ * current hospitality formula: one characterful serif, one neutral sans.
+ *
+ * The mono is the third piece of that formula and the cheapest signal that this
+ * site was built in 2026 rather than 2019: prices, hours, capacities and
+ * allergen keys are set in it, the way a kitchen ticket or a ledger sets them.
  */
-const display = Bodoni_Moda({
+const display = Newsreader({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
   variable: "--font-display",
 });
 
-const body = Karla({
+const body = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-body",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-mono",
 });
 
 /**
  * Absolute-URL base for canonicals and OG images.
  *
- * It defaults to their real domain, which is correct the day this launches:
+ * Defaults to their real domain, which is correct the day this launches:
  * pointing metadataBase at a preview host makes every canonical advertise a
  * duplicate of the site as the original.
  *
- * But while this is a pitch it is served from schulers.glazedweb.com/demo, and
- * a metadataBase of schulersrestaurant.com makes every og:image an absolute URL
+ * While this is a pitch it is served from schulers.glazedweb.com/demo, and a
+ * metadataBase of schulersrestaurant.com makes every og:image an absolute URL
  * on a domain that does not serve this build. The images 404 and the link
- * preview comes back blank, which is exactly the moment it matters: when Kevin
- * texts the link to an owner.
+ * preview comes back blank, which is exactly the moment it matters.
  *
  * So: set NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com in Vercel for
- * the pitch, and DELETE that variable on launch day. Everything on the pitch
- * host is noindex, so a canonical pointing at the pitch host costs nothing
- * while it is set.
+ * the pitch, and DELETE it on launch day. Everything on the pitch host is
+ * noindex, so a canonical pointing there costs nothing while it is set.
  */
 const ORIGIN = process.env.NEXT_PUBLIC_SITE_ORIGIN || SITE_URL;
 
@@ -116,7 +138,7 @@ function schema() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body>
         <script
           type="application/ld+json"
@@ -126,7 +148,7 @@ export default function RootLayout({ children }) {
         <Header />
         <main id="main">{children}</main>
         <Footer />
-        <Reveal />
+        <ActionBar />
       </body>
     </html>
   );

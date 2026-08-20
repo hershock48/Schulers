@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { site } from "@/lib/site";
 import { Ornament } from "@/components/Ornament";
+import OpenNow from "@/components/OpenNow";
+import ReserveStrip from "@/components/ReserveStrip";
+import Signature from "@/components/Signature";
 
 export const metadata = {
   title: "Schuler's Restaurant & Pub | Marshall, Michigan since 1909",
@@ -19,91 +22,94 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <section className="hero" style={{ padding: 0 }}>
-        <div className="hero-img">
-          <Image
-            src="/assets/schulers/building-front.webp"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            style={{ objectFit: "cover" }}
-          />
-        </div>
-        <div className="hero-scrim" />
+      <section className="hero">
         <div className="hero-inner">
-          <div className="narrow">
-            <p className="eyebrow on-dark">Marshall, Michigan &middot; Since {site.since}</p>
-            <h1>A hundred and seventeen years of the same table.</h1>
+          <div>
+            <p className="eyebrow">Marshall, Michigan &middot; Est. {site.since}</p>
+            <h1>Come early if you want <em>the end cut.</em></h1>
             <p className="lede">
-              Prime rib in the English tradition, Winston&rsquo;s Pub next door, and a dining room
-              that has been setting tables on Eagle Street since 1909.
+              Prime rib in the English tradition, roasted since 1909 on one corner of Eagle Street.
+              A dining room that has outlasted two world wars, Prohibition and every restaurant that
+              ever opened across the street, and a pub next door where the burger is worth the drive
+              on its own.
             </p>
             <div className="cta-row">
-              <Link className="btn on-dark" href="/reservations">Book a Table</Link>
-              <Link className="btn ghost on-dark" href="/order">Order Online</Link>
+              <Link className="btn" href="/reservations">Book a Table</Link>
+              <Link className="btn ghost" href="/order">Order Carryout</Link>
             </div>
-            <p className="meta">
-              <b>{site.hoursShort}</b> &nbsp;&middot;&nbsp; {site.address.street}, {site.address.city}
-              &nbsp;&middot;&nbsp; <a href={`tel:${site.phone.tel}`} style={{ color: "var(--cream)" }}>{site.phone.display}</a>
-            </p>
+            <OpenNow />
           </div>
+
+          {/* One uncropped photograph on the page's own ground. Nothing sits on
+              top of an image, so nothing needs a scrim, and the type contrast is
+              the page's rather than whatever the pixels happen to be. */}
+          <figure className="hero-figure reveal-img" style={{ margin: 0 }}>
+            <Image
+              src="/assets/schulers/building-front.webp"
+              alt="Schuler's on the corner of Eagle Street in Marshall, Michigan, with the patio full"
+              width={1024}
+              height={865}
+              priority
+              sizes="(max-width: 900px) 100vw, 46vw"
+            />
+            <figcaption>115 S. Eagle Street &middot; since 1909</figcaption>
+          </figure>
         </div>
       </section>
+
+      <ReserveStrip />
 
       <section className="tight">
         <div className="wrap">
           <div className="sec-head">
-            <Ornament />
-            <h2>Three ways to eat here</h2>
+            <Ornament className="orn draw" />
+            <h2>Three rooms, one kitchen</h2>
             <p>
-              The dining room for an occasion, the pub for a Tuesday, and the whole carryout menu
-              waiting at the door when you have twenty minutes and a drive ahead of you.
+              The dining room for an occasion, the pub for a Tuesday, and the whole menu boxed and
+              waiting when you have twenty minutes and a drive ahead of you.
             </p>
           </div>
 
-          <div className="grid g3">
-            <article className="card reveal">
-              <div className="card-img">
-                <Image src="/assets/schulers/food-primerib.webp" alt="Schuler's roast prime rib of beef" width={426} height={284} sizes="(max-width: 620px) 100vw, 33vw" />
-              </div>
-              <div className="card-body">
+          {/* Asymmetric on purpose: the dining room carries the weight, the pub
+              and carryout stack beside it. A row of three equal cards is the
+              other generic tell, after the scrim hero. */}
+          <div className="rooms stagger">
+            <Link className="room room-lead reveal-img" href="/menu">
+              <figure>
+                <Image src="/assets/schulers/food-primerib.webp" alt="Schuler's roast prime rib of beef" width={426} height={284} sizes="(max-width: 860px) 100vw, 55vw" />
+              </figure>
+              <div className="room-body">
                 <h3>The Dining Room</h3>
                 <p>
-                  Prime rib carved the way it has always been carved here, plus halibut, filet and
-                  the Florentine chicken. White tablecloths without the hush.
+                  Prime rib in the English tradition, cut the Schuler way at twelve ounces. Filet,
+                  halibut with cherries, the Florentine chicken, and a Swiss onion soup people order
+                  before they have taken their coats off.
                 </p>
-                <p className="card-link"><Link href="/menu">See the menu</Link></p>
+                <span className="go">See the menu &rarr;</span>
               </div>
-            </article>
+            </Link>
 
-            <article className="card reveal">
-              <div className="card-img">
-                <Image src="/assets/schulers/food-burger.webp" alt="The Winston Burger" width={426} height={284} sizes="(max-width: 620px) 100vw, 33vw" />
-              </div>
-              <div className="card-body">
+            <Link className="room reveal-img" href="/menu#pub">
+              <figure>
+                <Image src="/assets/schulers/food-burger.webp" alt="The Winston Burger" width={426} height={284} sizes="(max-width: 860px) 100vw, 42vw" />
+              </figure>
+              <div className="room-body">
                 <h3>Winston&rsquo;s Pub</h3>
-                <p>
-                  The Winston Burger, the two napkin brisket, fish and chips. Same kitchen, shorter
-                  sleeves, and a room built for a long afternoon.
-                </p>
-                <p className="card-link"><Link href="/menu#pub">See pub favorites</Link></p>
+                <p>Same kitchen, shorter sleeves. The Winston Burger, the two napkin brisket, fish and chips.</p>
+                <span className="go">Pub favorites &rarr;</span>
               </div>
-            </article>
+            </Link>
 
-            <article className="card reveal">
-              <div className="card-img">
-                <Image src="/assets/schulers/food-brisket-mac.webp" alt="Brisket and macaroni ready to go" width={1000} height={667} sizes="(max-width: 620px) 100vw, 33vw" />
-              </div>
-              <div className="card-body">
+            <Link className="room reveal-img" href="/order">
+              <figure>
+                <Image src="/assets/schulers/food-brisket-mac.webp" alt="Carryout from Schuler's, boxed and ready" width={1000} height={667} sizes="(max-width: 860px) 100vw, 42vw" />
+              </figure>
+              <div className="room-body">
                 <h3>Carryout</h3>
-                <p>
-                  The whole menu, ordered on your phone, paid for before you leave the house, and
-                  ready at a time you pick. No calling and holding.
-                </p>
-                <p className="card-link"><Link href="/order">Order online</Link></p>
+                <p>Order it on your phone, pay before you leave, pick a time. No calling and holding.</p>
+                <span className="go">Order online &rarr;</span>
               </div>
-            </article>
+            </Link>
           </div>
         </div>
       </section>
@@ -113,7 +119,9 @@ export default function Home() {
           <div className="split">
             <div className="reveal">
               <p className="eyebrow on-dark">Since {site.since}</p>
-              <h2>It started as a cigar store.</h2>
+              <span className="years" aria-hidden="true" />
+              <span className="years-label">on one corner of Eagle Street, and counting</span>
+              <h2 style={{ marginTop: 30 }}>It started as a cigar store.</h2>
               <p>
                 Albert Schuler bought a small shop on Eagle Street in {site.since} and started
                 serving food to the people already standing in it. His son Win turned it into a
@@ -170,7 +178,7 @@ export default function Home() {
       <section>
         <div className="wrap">
           <div className="sec-head">
-            <Ornament />
+            <Ornament className="orn draw" />
             <h2>Room for the whole party</h2>
             <p>
               Private rooms in this building, a {site.family.venue.capacity}-guest venue two
@@ -178,9 +186,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid g3">
+          <div className="grid g3 stagger">
             <article className="card reveal">
-              <div className="card-img">
+              <div className="card-img reveal-img">
                 <Image src="/assets/schulers/room-signature.webp" alt="The Signature Room set for a private dinner" width={600} height={400} sizes="(max-width: 620px) 100vw, 33vw" />
               </div>
               <div className="card-body">
@@ -194,7 +202,7 @@ export default function Home() {
             </article>
 
             <article className="card reveal">
-              <div className="card-img">
+              <div className="card-img reveal-img">
                 <Image src="/assets/schulers/hotel-suite.webp" alt="A guest room at The Royal Hotel" width={1200} height={798} sizes="(max-width: 620px) 100vw, 33vw" />
               </div>
               <div className="card-body">
@@ -208,7 +216,7 @@ export default function Home() {
             </article>
 
             <article className="card reveal">
-              <div className="card-img">
+              <div className="card-img reveal-img">
                 <Image src="/assets/schulers/banquets-banner.webp" alt="Venue 19 Zero 9 set for a reception" width={1600} height={635} sizes="(max-width: 620px) 100vw, 33vw" />
               </div>
               <div className="card-body">
@@ -221,6 +229,13 @@ export default function Home() {
               </div>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section className="tight">
+        <div className="wrap narrow" style={{ textAlign: "center" }}>
+          <Signature />
+          <p className="sig-caption">Marshall, Michigan &middot; Est. 1909</p>
         </div>
       </section>
 

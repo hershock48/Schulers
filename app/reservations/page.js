@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ReservationForm from "@/components/ReservationForm";
 import { site } from "@/lib/site";
 
@@ -29,7 +30,9 @@ export default function Reservations() {
 
       <section>
         <div className="wrap narrow">
-          <ReservationForm />
+          <Suspense fallback={<p style={{ color: "var(--muted)" }}>Loading the book&hellip;</p>}>
+            <ReservationForm />
+          </Suspense>
 
           <div className="notice" style={{ marginTop: 34 }}>
             Prefer the phone, or booking for tonight in the next hour? Call{" "}

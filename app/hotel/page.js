@@ -82,11 +82,11 @@ export default function Hotel() {
       <section className="cream">
         <div className="wrap">
           <div className="sec-head">
-            <Ornament />
+            <Ornament className="orn draw" />
             <h2>The five above the restaurant</h2>
             <p>Two guests to a room, and an elevator up from Green Street.</p>
           </div>
-          <div className="gallery">
+          <div className="gallery stagger">
             {ROOMS.map((r) => (
               <figure key={r.slug} style={{ margin: 0 }}>
                 <Image
@@ -106,7 +106,7 @@ export default function Hotel() {
 
       <section className="tight">
         <div className="wrap narrow" style={{ textAlign: "center" }}>
-          <Ornament />
+          <Ornament className="orn draw" />
           <h2 style={{ fontSize: "clamp(24px, 3vw, 32px)", marginTop: 16 }}>Also in the family</h2>
           <p style={{ marginTop: 14, color: "var(--muted)" }}>
             {site.family.hydeAway.name}: {site.family.hydeAway.blurb.toLowerCase()}

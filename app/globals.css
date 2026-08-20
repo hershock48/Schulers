@@ -1,3 +1,15 @@
+/* Registered at the very top of the file, and this position is load-bearing.
+   Declared further down, the CSS pipeline failed to parse it and SILENTLY
+   DISCARDED EVERY RULE AFTER IT — the years counter, the menu leaders and the
+   reserve strip all vanished from the built stylesheet while `next build`
+   reported success. A green build proves syntax and nothing else. Any future
+   @property goes here, and the built CSS gets grepped afterwards. */
+@property --year {
+  syntax: "<integer>";
+  initial-value: 2026;
+  inherits: false;
+}
+
 /* ============================================================================
    Schuler's Restaurant & Pub
 
@@ -26,7 +38,12 @@
   --gold: #B08A3E;        /* the Royal Hotel's gold, from their hotel lockup. */
 
   --wrap: 1120px;
-  --radius: 4px;          /* almost square. A 1909 chophouse is not a SaaS app. */
+  /* Square. 12-24px rounding reads as SaaS card UI and is the clearest "built
+     from a template in 2019" tell on a heritage site. A 1909 chop house gets
+     hairline rules and right angles. 2px on inputs only, so a focus ring has
+     something to sit on. */
+  --radius: 0px;
+  --radius-input: 2px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,10 +65,16 @@ h1, h2, h3, h4, p, li, a, span, b, td, th, dd, dt { overflow-wrap: break-word; }
 
 h1, h2, h3, h4 {
   font-family: var(--font-display), Georgia, serif;
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  /* Newsreader carries a real optical-size axis, so display sizes are drawn
+     with finer joins and tighter spacing rather than being scaled up from the
+     text cut. Without this the headings are a 16px face at 60px. */
+  font-optical-sizing: auto;
 }
+h1 { font-variation-settings: "opsz" 72; }
+h2 { font-variation-settings: "opsz" 48; }
 
 a { color: var(--ox); text-underline-offset: 3px; }
 a:hover { color: var(--ox-deep); }
@@ -76,10 +99,21 @@ img { max-width: 100%; height: auto; display: block; }
 .skip:focus { left: 8px; top: 8px; color: var(--cream); }
 
 /* ---------------------------------------------------------------- eyebrow */
+/* Prices, hours, capacities, dates, allergen keys. The working data of a
+   restaurant, set the way a kitchen ticket sets it. This is the cheapest
+   available signal that the site was built in 2026 rather than 2019, and it is
+   completely absent from every competitor site in Marshall. */
+.mono, .mrow-price, .oitem-price, .cart-line .cl-price, .cart-totals .num,
+.price-tag, .slot, .qty span {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
 .eyebrow {
-  font-family: var(--font-body), Georgia, serif;
-  font-size: 12px; font-weight: 700;
-  letter-spacing: 0.24em; text-transform: uppercase;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--green);
 }
 .eyebrow.on-dark { color: var(--cream); opacity: 0.92; }
@@ -145,24 +179,59 @@ img { max-width: 100%; height: auto; display: block; }
   .hdr-cta .btn { padding: 10px 13px; font-size: 11px; }
 }
 
-/* ---------------------------------------------------------------- hero */
-.hero { position: relative; background: var(--green-deep); color: var(--cream); overflow: hidden; }
+/* ---------------------------------------------------------------- hero
+
+   REBUILT. The first version was a full-bleed photograph with the headline
+   over a dark scrim and a ghost button, which is named in the 2026 trend
+   research as the single most legible "2019 agency template" tell. Rules of
+   London and L'Enclume both avoid it, and both put real editorial copy where
+   the two-word slogan usually goes.
+
+   This is a split instead: type on the page's own ground on the left, one
+   uncropped photograph on the right. Nothing sits on top of an image, so
+   nothing needs a scrim, and the contrast is the page's contrast rather than
+   whatever the pixels happen to be. */
+/* padding:0 is load-bearing. .hero is a <section>, so it also matches the
+   global `section { padding: 78px 0 }` rule, and that stacked on top of
+   .hero-inner's own 76px put 154px of dead cream above the headline. */
+.hero { position: relative; padding: 0; background: var(--page); border-bottom: 1px solid var(--line); }
+.hero-inner {
+  max-width: var(--wrap); margin: 0 auto; padding: 76px 22px 84px;
+  display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center;
+}
+@media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 34px; padding: 44px 20px 54px; } }
+.hero h1 { font-size: clamp(40px, 5.6vw, 68px); margin: 20px 0 0; max-width: 12ch; }
+.hero h1 em { font-style: italic; font-weight: 500; color: var(--ox); }
+.hero p.lede { margin-top: 22px; font-size: clamp(17px, 1.6vw, 19px); line-height: 1.62; max-width: 46ch; color: var(--muted); }
+.hero .cta-row { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Today's hours, above the fold, computed rather than typed. The 2026
+   restaurant-UX convention is that a visitor answers hours / location / menu /
+   booking / price in about three seconds. */
+.hero .openline {
+  margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line);
+  display: flex; gap: 10px 24px; flex-wrap: wrap; align-items: baseline;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 13.5px; letter-spacing: .01em; color: var(--muted);
+}
+.hero .openline b { color: var(--ink); font-weight: 600; }
+.hero .openline .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; margin-right: 7px; }
+.hero .openline a { color: var(--ox); font-weight: 600; }
+
+.hero-figure { position: relative; }
+/* The ratio goes on the IMAGE, not the <figure>. On the figure it clipped the
+   caption straight off the bottom of the box. */
+.hero-figure img { width: 100%; height: auto; aspect-ratio: 4 / 3.4; object-fit: cover; display: block; }
+@media (max-width: 900px) { .hero-figure img { aspect-ratio: 3 / 2; } }
+.hero-figure figcaption {
+  margin-top: 12px; font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+
+/* The old full-bleed treatment, kept for the inner-page banners only, where
+   there is no photograph underneath and the ground is a flat colour. */
 .hero-img { position: absolute; inset: 0; }
 .hero-img img { width: 100%; height: 100%; object-fit: cover; }
-/* The scrim is opaque enough at the top-left that the headline measures over
-   the darkest and the lightest pixels behind it, not just the average. */
-.hero-scrim {
-  position: absolute; inset: 0;
-  background: linear-gradient(100deg, rgba(16,56,28,0.94) 0%, rgba(16,56,28,0.86) 42%, rgba(16,56,28,0.58) 100%);
-}
-.hero-inner { position: relative; z-index: 2; max-width: var(--wrap); margin: 0 auto; padding: 92px 22px 96px; }
-.hero-inner .narrow { max-width: 660px; }
-.hero h1 { font-size: clamp(38px, 6vw, 70px); margin: 18px 0 0; }
-.hero p.lede { margin-top: 20px; font-size: clamp(17px, 2vw, 20px); line-height: 1.6; max-width: 560px; color: #F3EDD4; }
-.hero .cta-row { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
-.hero .meta { margin-top: 30px; font-size: 14px; letter-spacing: .04em; color: #DFD6B4; }
-.hero .meta b { color: var(--cream); }
-@media (max-width: 640px) { .hero-inner { padding: 60px 18px 64px; } }
 
 /* page banner, the smaller hero on inner routes */
 .banner { background: var(--green-deep); color: var(--cream); padding: 62px 0 58px; text-align: center; }
@@ -184,6 +253,39 @@ section.ox p { color: #F6E9DF; }
 .sec-head p { margin-top: 16px; color: var(--muted); }
 section.dark .sec-head p { color: #E6DDBE; }
 .sec-head.left { text-align: left; margin-left: 0; }
+
+/* ---------------------------------------------------------------- rooms
+
+   Replaces a row of three equal cards, which the trend research calls out by
+   name: "Three equal cards in a row (Food / Drink / Events) with icon,
+   heading, 20 words, Learn more. Utterly generic." Public Records NYC is the
+   counter-example, using asymmetric blocks weighted differently per room.
+
+   So: the dining room gets the big frame, the pub and carryout stack beside
+   it at half the height. The weighting is the argument. */
+.rooms { display: grid; grid-template-columns: 1.25fr 1fr; gap: 20px; margin-top: 48px; }
+.rooms > .room-lead { grid-row: span 2; }
+@media (max-width: 860px) { .rooms { grid-template-columns: 1fr; } .rooms > .room-lead { grid-row: auto; } }
+.room {
+  position: relative; display: flex; flex-direction: column;
+  border: 1px solid var(--line); background: var(--card); text-decoration: none; color: inherit;
+  transition: border-color .18s ease;
+}
+.room:hover { border-color: var(--ox); }
+.room figure { margin: 0; overflow: hidden; }
+.room img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.room-lead figure { aspect-ratio: 4 / 3; }
+.room:not(.room-lead) figure { aspect-ratio: 16 / 9; }
+.room .room-body { padding: 24px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+.room h3 { font-size: clamp(22px, 2.2vw, 28px); }
+.room-lead h3 { font-size: clamp(26px, 2.8vw, 34px); }
+.room p { margin-top: 10px; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
+.room .go {
+  margin-top: auto; padding-top: 18px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ox);
+}
+.room:hover .go { text-decoration: underline; text-underline-offset: 4px; }
 
 /* ---------------------------------------------------------------- cards */
 .grid { display: grid; gap: 22px; }
@@ -345,15 +447,110 @@ section.dark .facts li::before { background: var(--cream); }
 .foot-bottom { margin-top: 48px; border-top: 1px solid rgba(252,246,210,0.16); padding: 20px 0 26px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; font-size: 13px; }
 
 /* ---------------------------------------------------------------- motion
-   The un-animated state IS the finished state. `.js` is added by script, so a
-   blocked script or reduced motion leaves a complete page rather than an empty
-   one. Do not move .reveal's opacity out from under the .js selector. */
-.js .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
-.js .reveal.in { opacity: 1; transform: none; }
+
+   NATIVE CSS SCROLL-DRIVEN ANIMATION, and the cascade here is inverted on
+   purpose. Read this before touching it.
+
+   Support as of Aug 2026: Chrome 115+, Edge 115+, Safari 26+ (shipped
+   15 Sep 2025). Firefox does NOT ship it — it is behind
+   layout.css.scroll-driven-animations.enabled in Nightly only, which is the
+   sole reason this feature is not Baseline.
+
+   THE TRAP: when `animation-timeline` is unsupported the browser does not skip
+   the animation, it falls back to a TIME-based timeline. A fade-up written the
+   ordinary way would play once on load, on a timer, so on Firefox everything
+   below the fold finishes animating before the visitor ever scrolls to it, and
+   the page flashes. So the animation must never sit in the default cascade.
+
+   Default = the finished state. The motion is added only inside
+   @supports (animation-timeline: view()), which is also exactly the house rule:
+   the un-animated state IS the finished state, so a blocked script, an old
+   browser or reduced motion all leave a complete page rather than an empty one.
+
+   This also runs off the main thread, so it does not jank behind image
+   decoding, which is the reason JS scroll listeners always felt cheap. The
+   IntersectionObserver this replaced is gone, and with it the whole class of
+   bug where a reveal system queried once on mount hides the next page forever.
+
+   Ranges end early on purpose. Motion that continues all the way through the
+   viewport is the amateur tell; these finish while the element is still
+   arriving. */
+
+.reveal, .reveal-img, .stagger > * { opacity: 1; transform: none; }
+
+@supports (animation-timeline: view()) {
+  @media not (prefers-reduced-motion: reduce) {
+
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 26%;
+    }
+
+    /* Image reveals wipe rather than fade. The research is blunt about this:
+       a mask wipe dramatises the photograph, a fade decorates around it. */
+    .reveal-img { overflow: hidden; }
+    .reveal-img > img, .reveal-img > span > img {
+      animation: unveil linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 34%;
+    }
+
+    /* Desynchronisation matters more than amplitude. Three things arriving
+       150-300ms apart read as weather; arriving together they read as a slide
+       transition. With a scroll timeline the offset is spatial rather than
+       temporal, so each child starts a little later along the scroll. */
+    .stagger > * {
+      animation: rise linear both;
+      animation-timeline: view();
+    }
+    .stagger > *:nth-child(1) { animation-range: entry 6%  cover 24%; }
+    .stagger > *:nth-child(2) { animation-range: entry 10% cover 29%; }
+    .stagger > *:nth-child(3) { animation-range: entry 14% cover 34%; }
+    .stagger > *:nth-child(4) { animation-range: entry 18% cover 38%; }
+
+    /* Their own filigree drawing itself. The best effect is the client's own
+       brand doing something, not a generic reveal, and this is the one piece of
+       artwork on the site that is theirs and nobody else's. The mark is a
+       filled path, so it cannot be stroke-drawn; it is wiped open from the
+       centre outward instead, which matches how the ornament is built. */
+    .orn { clip-path: inset(0 0 0 0); }
+    .orn.draw {
+      animation: unfurl linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+
+    /* The hero photograph drifts a little slower than the page. Scroll-scrubbed,
+       so the visitor controls it, and small enough to read as depth rather than
+       as an effect. */
+    .hero-img img {
+      animation: drift linear both;
+      animation-timeline: scroll();
+      animation-range: 0 60vh;
+    }
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes unveil {
+  from { clip-path: inset(0 0 100% 0); transform: scale(1.06); }
+  to   { clip-path: inset(0 0 0 0);    transform: none; }
+}
+@keyframes unfurl {
+  from { clip-path: inset(0 50% 0 50%); opacity: 0; }
+  to   { clip-path: inset(0 0 0 0);     opacity: 1; }
+}
+@keyframes drift {
+  from { transform: translateY(0) scale(1.06); }
+  to   { transform: translateY(5%) scale(1.06); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .js .reveal { opacity: 1; transform: none; transition: none; }
   * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }
 
@@ -497,4 +694,148 @@ section.dark .facts li::before { background: var(--cream); }
   --gw-above: #1E1E1E;
   --gw-plate: #FDF6EC;
   --gw-plate-ink: #2B1E16;
+}
+
+/* ---------------------------------------------------------------- mobile bar
+
+   A Reserve action that persists through scroll is named in the 2026
+   restaurant-UX research as the one non-negotiable on mobile. Reserve, menu
+   and a tappable phone number, always reachable, never more than a thumb away.
+
+   It only exists under 860px, and the body gets bottom padding to match so it
+   can never cover the last line of the footer. */
+.actionbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+  display: none; background: var(--ink);
+  border-top: 1px solid rgba(252,246,210,.18);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.actionbar ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); }
+.actionbar a {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 15px 6px; text-decoration: none; color: #F1EAD2;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+}
+.actionbar li + li a { border-left: 1px solid rgba(252,246,210,.18); }
+.actionbar a.primary { background: var(--ox); color: var(--cream); font-weight: 600; }
+/* The reserve rounds up from the bar's measured 50.8px. If the bar ever grows,
+   this is the number that has to grow with it, or it starts sitting on top of
+   the last line of the footer. */
+@media (max-width: 860px) {
+  .actionbar { display: block; }
+  body { padding-bottom: 64px; }
+}
+@media print { .actionbar { display: none; } }
+
+/* ---------------------------------------------------------------- signatures
+
+   Two effects that are Schuler's specifically rather than decoration that would
+   suit any restaurant. The house pattern is the client's own object doing
+   something meaningful, scrubbed to scroll so the visitor controls it. Chism
+   drops eggs; Be A Number rolls a shirt number; the studio's own menu prices
+   melt from market rate. These are theirs.
+
+   1. THE YEARS COUNT. 1909 ticks to the present as the history block passes.
+      No JavaScript: --year is a registered integer so it can be interpolated,
+      and a CSS counter prints it. Where scroll timelines are unsupported it
+      simply reads 2026, which is the finished state and the true one.
+
+   2. THE LEADERS SET. Each menu row's dotted leader draws left to right as the
+      row arrives, the way a bill of fare is typeset. Sequencing is free:
+      view() is per-element, so rows set themselves in the order you reach them.
+      The leader is painted as a repeating background rather than a border,
+      because a border-bottom cannot be partially drawn. */
+
+.years {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(64px, 11vw, 148px);
+  font-weight: 500; line-height: .9; letter-spacing: -.045em;
+  font-variant-numeric: tabular-nums; display: block;
+  counter-reset: yr var(--year);
+}
+.years::after { content: counter(yr); }
+.years-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--cream); opacity: .8; margin-top: 14px; display: block;
+}
+
+.mrow-dots {
+  flex: 1 1 auto; min-width: 18px;
+  border-bottom: 0;
+  height: 1px; align-self: flex-end; margin-bottom: 6px; transform: none;
+  background-image: radial-gradient(circle, rgba(30,30,30,.42) 1px, transparent 1.1px);
+  background-size: 6px 100%;
+  background-repeat: repeat-x;
+  background-position: 0 bottom;
+}
+
+@supports (animation-timeline: view()) {
+  @media not (prefers-reduced-motion: reduce) {
+    .years { animation: years linear both; animation-timeline: view(); animation-range: entry 15% cover 45%; }
+    .mrow-dots { animation: setline linear both; animation-timeline: view(); animation-range: entry 12% cover 32%; }
+  }
+}
+@keyframes years { from { --year: 1909; } to { --year: 2026; } }
+@keyframes setline { from { background-size: 0 100%; } to { background-size: 6px 100%; } }
+
+/* ---------------------------------------------------------------- reserve strip
+
+   An inline booking entry on the homepage rather than a link out to it. Gage &
+   Tollner and Frenchette both do this and it is the current convention: the
+   first thing a returning guest wants is a table, and making them load a second
+   page to start is a tax on the most valuable action on the site. */
+.reserve-strip { background: var(--cream); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.reserve-strip .inner { max-width: var(--wrap); margin: 0 auto; padding: 34px 22px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.reserve-strip .rs-copy { flex: 1 1 260px; }
+.reserve-strip h2 { font-size: clamp(24px, 2.6vw, 32px); }
+.reserve-strip p { margin-top: 7px; color: var(--muted); font-size: 15.5px; }
+.reserve-strip form { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+.reserve-strip label { display: block; font-family: var(--font-mono), ui-monospace, monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+.reserve-strip select, .reserve-strip input { width: auto; min-width: 132px; }
+@media (max-width: 620px) { .reserve-strip form { width: 100%; } .reserve-strip select, .reserve-strip input, .reserve-strip .btn { width: 100%; } }
+
+/* ---------------------------------------------------------------- signature
+
+   Their script writing itself, then the colour arriving. See
+   components/Signature.jsx for how the ink layer was lifted out of the lockup.
+
+   The two layers register because both are positioned with the same fractions
+   the ink was cropped at: left 17.0%, top 25.5%, width 69.5%, height 39.5% of
+   the colour lockup's box. Change the crop in the extractor and these four
+   numbers change with it or the script will sit off its own sign. */
+.sig { position: relative; width: min(520px, 84vw); margin: 0 auto; }
+.sig-color { width: 100%; height: auto; display: block; opacity: 1; }
+.sig-ink {
+  position: absolute;
+  left: 17.0%; top: 25.5%; width: 69.5%; height: 39.5%;
+  object-fit: contain; opacity: 0; pointer-events: none;
+}
+
+@supports (animation-timeline: view()) {
+  @media not (prefers-reduced-motion: reduce) {
+    .sig-ink {
+      opacity: 1;
+      /* Written left to right. The clip is on the ink only, so the colour
+         lockup underneath is never clipped, only revealed. */
+      animation: write linear both, handoff linear both;
+      animation-timeline: view(), view();
+      animation-range: entry 5% cover 34%, cover 34% cover 52%;
+    }
+    .sig-color {
+      animation: bloom linear both;
+      animation-timeline: view();
+      animation-range: cover 30% cover 55%;
+    }
+  }
+}
+@keyframes write  { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes handoff{ from { opacity: 1; } to { opacity: 0; } }
+@keyframes bloom  { from { opacity: 0; filter: saturate(0); } to { opacity: 1; filter: saturate(1); } }
+
+.sig-caption {
+  margin-top: 18px; text-align: center;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { site } from "@/lib/site";
 
 /**
@@ -35,9 +36,12 @@ const pretty = (t) => {
 };
 
 export default function ReservationForm() {
+  // Prefilled from the homepage strip, so a guest who picked a date and a party
+  // size there does not fill the same two fields again.
+  const params = useSearchParams();
   const [today, setToday] = useState("");
-  const [date, setDate] = useState("");
-  const [party, setParty] = useState("2");
+  const [date, setDate] = useState(params.get("date") || "");
+  const [party, setParty] = useState(params.get("party") || "2");
   const [time, setTime] = useState(null);
   const [done, setDone] = useState(false);
 

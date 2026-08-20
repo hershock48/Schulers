@@ -64,7 +64,7 @@ export default function Contact() {
 
       <section className="cream tight">
         <div className="wrap" style={{ textAlign: "center" }}>
-          <Ornament />
+          <Ornament className="orn draw" />
         </div>
       </section>
     </>

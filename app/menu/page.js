@@ -71,7 +71,7 @@ export default function MenuPage() {
           {menu.map((sec) => (
             <div className="msec" id={sec.id} key={sec.id}>
               <div className="msec-head">
-                <Ornament width={132} />
+                <Ornament width={132} className="orn draw" />
                 <h2>{sec.name}</h2>
                 {sec.blurb ? <p>{sec.blurb}</p> : null}
               </div>

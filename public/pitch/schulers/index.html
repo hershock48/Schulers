@@ -18,7 +18,9 @@
 <meta property="og:image:alt" content="Can a guest book a table right now? A proposal from Glazed Web.">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23E84D8A'/%3E%3Ccircle cx='50' cy='50' r='11' fill='%23FDF6EC'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <style>
 /* Palette and type lifted from glazedweb app/globals.css. Three pinks on
@@ -189,6 +191,11 @@ h2.sec-title { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spaci
 .bitem .sub { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--fern); font-weight: 700; margin: 4px 0 10px; }
 .bitem p { font-size: 14.5px; color: #5A4A3A; line-height: 1.6; }
 .later { margin-top: 28px; font-size: 14.5px; color: var(--taupe); line-height: 1.65; max-width: 700px; }
+/* The demo pointers. Section four exists so this proposal can be short, which
+   only works if every claim in it is one tap from the thing itself. */
+.seeit { display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--raspberry-ink); text-decoration: none; border-bottom: 2px solid var(--raspberry); padding-bottom: 2px; }
+.seeit:hover { color: var(--chocolate); border-color: var(--chocolate); }
+.fcard .seeit { margin-top: 12px; }
 .later b { color: var(--chocolate); }
 
 /* ============ price ============ */
@@ -223,6 +230,11 @@ h2.sec-title { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spaci
 .ctaband h2 { font-size: clamp(28px, 4.2vw, 44px); font-weight: 800; letter-spacing: -1.6px; line-height: 1.08; }
 .ctaband p { margin: 16px auto 30px; font-size: 17px; max-width: 520px; line-height: 1.55; color: #fff; }
 .ctaband .btn { background: var(--chocolate); box-shadow: 0 10px 24px -10px rgba(0,0,0,.4); }
+/* The secondary action sits on the deep pink band, so it takes a white border
+   and white text. The default ghost is chocolate-on-cream and would measure
+   badly here. White on --raspberry-deep is 4.78. */
+.ctaband .btn.on-band { background: transparent; color: #fff !important; border: 2px solid #fff; box-shadow: none; }
+.ctaband .btn.on-band:hover { background: #fff; color: var(--raspberry-deep) !important; }
 /* Was #FBEFF4, a softened white, which measured 4.27 on --raspberry-deep and
    failed the 4.5 that normal-weight text needs. Same fault and same fix as the
    band's own paragraph in globals.css: the softness was costing the pass on its
@@ -424,6 +436,7 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
         <p>Your reservations page takes a name, a date and a party size, then somebody on your staff has to work the queue and call people back. Same-day guests are told to phone instead. You are also not on the OpenTable network, which OpenTable states on its own page for you, and the reviews there stopped in 2016.</p>
         <p>A guest deciding between you and somewhere else at 9pm on a Thursday does not wait for a callback.</p>
         <span class="proof"><a href="https://schulersrestaurant.com/reservations/">Your reservations page</a> &middot; <a href="https://www.opentable.com/r/schulers-restaurant-and-pub">Your OpenTable listing</a></span>
+        <a class="seeit" href="/demo/reservations">Book a table on the build &rarr;</a>
       </article>
 
       <article class="fcard reveal">
@@ -431,6 +444,7 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
         <p>The carryout menu is a price list. The only number on that page is labeled &ldquo;for reservations,&rdquo; so a guest who wants food to go gets pointed at the reservations line, and somebody at the host stand writes the order down by hand. You are not on Toast or DoorDash either, so there is no other door in.</p>
         <p>Meanwhile the Take &amp; Bake sells online every single week, on this same website. So the question is not whether people will order from you on the internet. They already do. It is one item.</p>
         <span class="proof"><a href="https://schulersrestaurant.com/our-carryout-menu/">Your carryout page</a> &middot; <a href="https://schulersrestaurant.com/product/take-bake/">Take &amp; Bake, which does work</a></span>
+        <a class="seeit" href="/demo/order">Order from your own menu on the build &rarr;</a>
       </article>
 
       <article class="fcard reveal">
@@ -530,7 +544,7 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
   <div class="inner">
     <p class="sec-kicker reveal">What we would build</p>
     <h2 class="sec-title reveal">A new schulersrestaurant.com, with the two things it cannot do today.</h2>
-    <p class="sec-sub reveal">Written from scratch, not assembled from plugins. Your photography, your history, your voice. Fast on a phone, readable on a screen reader, and every page carrying the information Google needs to put you where you belong.</p>
+    <p class="sec-sub reveal">Written from scratch, not assembled from plugins. Your photography, your history, your voice. <b>All of it is already built and running</b>, so every line below is one tap from the thing itself.</p>
 
     <div class="blist">
       <div class="bitem reveal">
@@ -538,42 +552,49 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
         <h4>Real reservations</h4>
         <p class="sub">Booked, confirmed, done</p>
         <p>A guest picks a date, a time and a party size, sees what is actually open, and gets a confirmation email before they close the tab. Your team gets one screen showing tonight's book instead of a queue of requests to answer. Holiday and special-menu dates handled, because Mother's Day and Christmas are where the phone currently melts.</p>
+        <a class="seeit" href="/demo/reservations">Book a table on the build &rarr;</a>
       </div>
       <div class="bitem reveal">
         <div class="num" aria-hidden="true">2</div>
         <h4>Gift cards that arrive in ten seconds</h4>
         <p class="sub">Emailed, any amount, any hour</p>
         <p>Bought on the site, delivered to the recipient's inbox with your name on it, redeemable at the register. Physical cards stay available for anyone who wants one in an envelope. December stops being a mailing operation.</p>
+        <a class="seeit" href="/demo/shop">See it in the shop &rarr;</a>
       </div>
       <div class="bitem reveal">
         <div class="num" aria-hidden="true">3</div>
         <h4>One set of facts</h4>
         <p class="sub">Eight rooms, everywhere</p>
         <p>Hours, capacities, room counts and prices live in one place in the code, so a correction is one edit and every page updates together. The old site comes down, the stale PDFs come down, and the contradictions in this document stop being possible.</p>
+        <a class="seeit" href="/demo/hotel">Eight rooms, everywhere &rarr;</a>
       </div>
       <div class="bitem reveal">
         <div class="num" aria-hidden="true">4</div>
         <h4>Menus, events and banquets that carry their weight</h4>
         <p class="sub">Findable, current, linked</p>
         <p>Menus as real pages a phone can read and Google can index, not a plugin's leftovers. A working events page you can update yourself in under a minute. A banquet inquiry form that reaches the right inbox with the event type, date and guest count already sorted.</p>
+        <a class="seeit" href="/demo/menu">Read the menu &rarr;</a>
       </div>
       <div class="bitem reveal">
         <div class="num" aria-hidden="true">5</div>
         <h4>Online ordering, built in</h4>
         <p class="sub">Your whole menu, not a phone call</p>
         <p>A guest picks the food, picks a pickup time, and pays before leaving the house. The ticket prints in your kitchen with the time on it. It runs alongside Aloha rather than through it, which matters: the online ordering NCR sells you arrives with a thirty-six month contract. This is part of the site and costs you nothing a month.</p>
+        <a class="seeit" href="/demo/order">Order a Winston Burger &rarr;</a>
       </div>
       <div class="bitem reveal">
         <div class="num" aria-hidden="true">6</div>
         <h4>The store, opened up</h4>
         <p class="sub">Chef's Salt, shipped</p>
         <p>You already ship. Chef's Salt is yours, it keeps on a shelf, and it is sold nowhere else on earth. The Take &amp; Bake keeps its weekly rhythm. Same checkout, more in it.</p>
+        <a class="seeit" href="/demo/shop">See the shop &rarr;</a>
       </div>
       <div class="bitem reveal">
         <div class="num" aria-hidden="true">7</div>
         <h4>Found by the people looking for you</h4>
         <p class="sub">Search, maps and link previews</p>
         <p>Your address, hours, cuisine and price range written where search engines read them. Every page with its own title and description. Your link, when somebody texts it, showing your photograph and your name instead of a blank row.</p>
+        <a class="seeit" href="/demo">Open the build &rarr;</a>
       </div>
     </div>
 
@@ -629,9 +650,13 @@ footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
 
 <div class="ctaband">
   <div class="inner">
-    <h2>Give us thirty minutes.</h2>
+    <p class="sec-kicker" style="color:#fff;opacity:.85">What happens next</p>
+    <h2 style="margin-top:12px">Give us thirty minutes.</h2>
     <p>Open the build on your phone first. Order a Winston Burger for 6:15, book a table for four, then tell us where we are wrong. No slides.</p>
-    <a class="btn big" href="mailto:kevin@glazedweb.com?subject=Schuler%27s%20website%20proposal">Email Kevin</a>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn big" href="/demo">Open the build</a>
+      <a class="btn big ghost on-band" href="mailto:kevin@glazedweb.com?subject=Schuler%27s%20website%20proposal">Email Kevin</a>
+    </div>
     <p class="after">Glazed Web is one person in Marshall. You would be working with Kevin, start to finish.</p>
   </div>
 </div>

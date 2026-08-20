@@ -57,7 +57,7 @@ export default function Banquets() {
                 {site.banquetRooms.map((r) => (
                   <li key={r.name}>
                     <b>{r.name}</b>
-                    {r.seats ? <> &mdash; {r.seats} guests</> : <> &mdash; ask us for the count</>}
+                    {r.seats ? <>, {r.seats} guests</> : <>, ask us for the count</>}
                     {r.note ? `. ${r.note}` : ""}
                   </li>
                 ))}
@@ -70,7 +70,7 @@ export default function Banquets() {
       <section className="cream">
         <div className="wrap">
           <div className="sec-head">
-            <Ornament />
+            <Ornament className="orn draw" />
             <h2>What it costs</h2>
             <p>
               Plated dinner, per guest, from the {site.banquets.packetDate} packet. A{" "}
@@ -79,7 +79,7 @@ export default function Banquets() {
             </p>
           </div>
 
-          <div className="grid g3">
+          <div className="grid g3 stagger">
             {site.banquets.plated.map((t) => (
               <article className="card" key={t.tier}>
                 <div className="card-body">
@@ -130,7 +130,7 @@ export default function Banquets() {
 
       <section>
         <div className="wrap narrow" style={{ textAlign: "center" }}>
-          <Ornament />
+          <Ornament className="orn draw" />
           <h2 style={{ fontSize: "clamp(26px, 3.4vw, 38px)", marginTop: 18 }}>Start a conversation</h2>
           <p style={{ marginTop: 16, color: "var(--muted)" }}>
             Tell us the date and roughly how many people, and Elizabeth will come back with the

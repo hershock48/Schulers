@@ -110,16 +110,16 @@ export default function Shop() {
       <section>
         <div className="wrap">
           <div className="sec-head">
-            <Ornament />
+            <Ornament className="orn draw" />
             <h2>From the shelf</h2>
             <p>Ships anywhere in the continental United States, usually the next morning.</p>
           </div>
 
-          <div className="grid g4">
+          <div className="grid g4 stagger">
             {goods.map((g) => (
               <article className="card" key={g.name}>
                 {g.img ? (
-                  <div className="card-img">
+                  <div className="card-img reveal-img">
                     <Image src={g.img} alt={g.alt || ""} width={800} height={800} sizes="(max-width: 620px) 100vw, 25vw" />
                   </div>
                 ) : null}

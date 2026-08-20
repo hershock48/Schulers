@@ -48,7 +48,7 @@ export default function About() {
           </p>
 
           <div style={{ margin: "44px 0" }}>
-            <Ornament />
+            <Ornament className="orn draw" />
           </div>
 
           <Image
@@ -83,13 +83,13 @@ export default function About() {
       <section className="cream">
         <div className="wrap">
           <div className="sec-head">
-            <Ornament />
+            <Ornament className="orn draw" />
             <h2>What grew</h2>
             <p>
               The block did not stay one building. Four places now, all run out of the same kitchen.
             </p>
           </div>
-          <div className="grid g3">
+          <div className="grid g3 stagger">
             <article className="card">
               <div className="card-body">
                 <h3>{site.family.hotel.name}</h3>

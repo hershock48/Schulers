@@ -187,6 +187,84 @@ Recorded because the reasoning is what stops them coming back.
     fixed test look still-broken. Killed by PID and the port confirmed free
     before re-testing.
 
+### Second pass: the redesign, and what it cost
+
+The first build was audited clean and was still, by the 2026 trend research,
+wearing two of the most legible "template from 2019" tells. Both are gone.
+
+12. **The hero was a full-bleed photograph with the headline on a dark scrim
+    over it, and a ghost button.** That exact combination is named in the
+    research as the single clearest dated pattern in restaurant web design.
+    Rules of London uses a still photograph and real editorial copy; L'Enclume
+    puts a full sentence where the two-word slogan usually goes. Rebuilt as a
+    split: type on the page's own ground, one uncropped photograph beside it.
+    Nothing sits on an image, so nothing needs a scrim.
+13. **Three equal cards in a row.** Also named, verbatim, as generic. Replaced
+    with asymmetric blocks where the dining room carries the weight and the pub
+    and carryout stack beside it. The weighting is the argument.
+14. **Bodoni Moda was wrong twice.** Historically: it is Neoclassical, c. 1790s,
+    and Schuler's is 1909 Anglo-American, whose display types are Scotch Romans,
+    Clarendons and fat faces. Commercially: it is the free Google font every
+    "luxury" template reaches for, and a survey of Fonts In Use's hospitality
+    and menu tags for 2024-2026 turns up no Bodoni at all. Replaced with
+    Newsreader, which carries a real optical-size axis, over Archivo, with IBM
+    Plex Mono for prices, hours, capacities and dates. That mono is the current
+    hospitality formula's third piece and is absent from every competitor site
+    in Marshall.
+15. **12-24px rounded corners.** Read as SaaS card UI. Square now, with hairline
+    rules, which is both more current and more period-correct.
+16. **The reveal system was JavaScript.** Replaced with native CSS scroll-driven
+    animation, which runs off the main thread. The `Reveal` component and its
+    re-arm-on-navigation logic are deleted, and with them the entire class of
+    bug where an observer queried once on mount hides every subsequent page.
+17. **No persistent Reserve action on mobile**, which the research calls the one
+    non-negotiable. Added as a fixed bar carrying Reserve, Menu and Call.
+18. **`@property` silently ate a third of the stylesheet.** Declared partway
+    down `globals.css`, the pipeline failed to parse it and dropped every rule
+    after it: the years counter, the menu leaders and the reserve strip all
+    vanished from the built CSS while `next build` reported success. Moved to
+    the top of the file. **The built CSS is now grepped after every change**,
+    because a green build proves syntax and nothing else.
+19. **The studio credit was invisible.** Covered below; it was the same class of
+    silent CSS failure.
+20. **The prime rib is not carved at the table.** Kevin caught this: the hero
+    headline made an operational claim about the dining room that is not true.
+    Replaced with a line from their own menu, "End cuts may be available if your
+    timing is right", which is theirs and is accurate.
+21. **Ordering had no after-hours state.** Past the last pickup window the page
+    showed a time picker where every option was disabled and a button reading
+    "Choose a pickup time" forever. It now says the kitchen has finished, gives
+    tomorrow's first slot, and offers a table instead.
+
+### The three signature effects
+
+Motion here is the client's own object doing something specific, scrubbed to
+scroll so the visitor drives it. That is the house pattern: Chism drops eggs,
+Be A Number rolls a shirt number, the studio's own menu prices melt from market
+rate. None of these would suit another restaurant.
+
+- **The signature writes itself.** Their script is lifted out of `logo.webp`
+  (the band at x 17.0-86.5%, y 25.5-65.0%, upscaled 6x and thresholded on
+  luminance to separate the cream glyphs from the oxblood stripe behind them),
+  then wiped left to right in ink before the full colour lockup blooms up
+  underneath and the ink hands over. Black and white, written, then alive. Every
+  curve is the curve on their sign; nothing was redrawn. Registration was
+  verified by overlaying both layers at half opacity.
+- **The years count.** 1909 ticks to the present as the history block passes.
+  No JavaScript: `--year` is a registered integer so it can be interpolated and
+  a CSS counter prints it. Measured mid-scroll at 1943.
+- **The leaders set.** Each menu row's dotted leader draws left to right as the
+  row arrives, the way a bill of fare is typeset. Sequencing is free because
+  `view()` is per element. The leader is painted as a repeating background, not
+  a border, because a border-bottom cannot be partially drawn.
+
+Support: Chrome 115+, Safari 26+. **Firefox does not ship scroll-driven
+animations**, which is why the cascade is inverted: the finished state is the
+default and the motion is added only inside
+`@supports (animation-timeline: view())`. Written the ordinary way, an
+unsupported browser falls back to a *time* based timeline and everything below
+the fold finishes animating before the reader arrives.
+
 ### Findings retracted from the proposal, 20 August 2026
 
 Their live site changed between the research pass and the build. Every finding
@@ -315,6 +393,11 @@ reads as "this number is real."
 - [ ] **This week's Take & Bake menu** on `/shop`, which the kitchen writes
       every Monday.
 - [ ] **Real-time reservation availability**, which needs their book.
+- [ ] **Three banquet room capacities.** The April 2026 packet publishes only
+      Heritage East (8 to 20) and the combined Heritage Room (up to 120). The
+      Signature Room, Heritage West and Heritage Center are marked
+      `PLACEHOLDER: capacity not published` in `lib/site.js` and render as "ask
+      us for the count" rather than carrying an invented number.
 - [ ] **Form destinations.** Neither the contact form nor the booking form has a
       real destination or a confirmed inbox, which are two different things.
       Both say so on the page and the contact form hands off to `mailto:` with
@@ -326,6 +409,40 @@ reads as "this number is real."
 - [ ] **Set `NEXT_PUBLIC_SITE_ORIGIN`** to the pitch host in Vercel while this is
       a pitch, and delete it on launch day. Without it the demo's link previews
       are blank.
+
+## Checked against the house docs
+
+Worked line by line through `launch.md`, `link-cards.md`, `brand.md` and
+`proposal.md`, not just `glaze.md`. What that turned up:
+
+| Doc | Item | Result |
+|---|---|---|
+| launch.md | 0 axe violations, 0 console errors, 0 4xx | pass, 11 routes |
+| launch.md | every route its own title and description | pass, 11 unique each |
+| launch.md | canonical on the client's real domain | pass |
+| launch.md | LocalBusiness data with hours and address | pass, as `Restaurant`, a LocalBusiness subtype |
+| launch.md | sitemap + robots, preview host noindex | pass |
+| launch.md | `npm audit` reviewed | **was 1 critical + 2 high.** Next 15.5.4 carried an RCE in the React flight protocol plus 25 other advisories. Upgraded to Next 16.3.1 / React 19.2.8 rather than documenting them. Now 0 |
+| launch.md | no secret in the repo | pass |
+| launch.md | studio credit, plate ground computed | pass, and the plate bug in the log below |
+| link-cards.md | two different cards, demo card is theirs | pass |
+| link-cards.md | centre 630x630 crop still carries the point | **failed, fixed.** See the log below |
+| link-cards.md | no text under 28px at 1200 wide | **failed, fixed.** The meta line was 23px |
+| link-cards.md | contrast measured against the real pixels | pass at 6.44 worst case |
+| brand.md | the real mark, never redrawn | **failed, fixed.** The proposal favicon was a hand-drawn donut |
+| brand.md | "Concept build by" on an unbought spec build | pass |
+| proposal.md | the six sections in order | pass |
+| proposal.md | the price is a number | pass, $4,500 and $250 |
+| glaze.md | no em dashes in rendered copy | **failed, fixed.** 5 in the banquet room list |
+| glaze.md | American spelling | pass, 0 British spellings |
+| glaze.md | antithesis rationed | pass, 0 instances |
+
+**Two items cannot be ticked from here.** The link cards have not been pasted
+into Messages and a non-Apple surface and looked at, which `link-cards.md`
+requires; and nothing has been opened on a real iOS device, which `launch.md`
+requires for anything visually unusual. The signature animation is the unusual
+thing on this build and it should be looked at on a real phone before this goes
+to the client.
 
 ## Before you send it
 

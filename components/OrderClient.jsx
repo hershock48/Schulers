@@ -77,6 +77,11 @@ export default function OrderClient() {
 
   const slots = useMemo(buildSlots, []);
   const earliest = nowMins === null ? null : nowMins + site.pickup.leadMinutes;
+  // After the last pickup window there is nothing left to offer today. Without
+  // this the page shows a time picker where every option is disabled and a
+  // button that says "Choose a pickup time" forever, with no explanation. A
+  // guest at 9pm should be told the kitchen is done, not left guessing.
+  const kitchenDone = earliest !== null && earliest > toMinutes(site.pickup.lastSlot);
 
   const lines = Object.entries(cart)
     .filter(([, q]) => q > 0)
@@ -137,6 +142,13 @@ export default function OrderClient() {
                   Pickup times load in a moment. If they do not, call{" "}
                   <a href={`tel:${site.phone.tel}`}>{site.phone.display}</a> and the kitchen will
                   take the order.
+                </p>
+              ) : kitchenDone ? (
+                <p style={{ fontSize: 15, color: "var(--muted)" }}>
+                  The kitchen has finished for today. Carryout runs until{" "}
+                  {label(toMinutes(site.pickup.lastSlot))}, and the first pickup tomorrow is{" "}
+                  {label(toMinutes(site.pickup.firstSlot))}. You can still{" "}
+                  <a href="/reservations">book a table</a> for another night.
                 </p>
               ) : (
                 <>
@@ -223,10 +235,10 @@ export default function OrderClient() {
             <button
               className="btn"
               type="button"
-              disabled={!lines.length || slot === null}
+              disabled={!lines.length || slot === null || kitchenDone}
               onClick={() => setPlaced(true)}
             >
-              {slot === null && lines.length ? "Choose a pickup time" : "Place the order"}
+              {kitchenDone ? "Closed for today" : slot === null && lines.length ? "Choose a pickup time" : "Place the order"}
             </button>
 
             <p className="cart-note">
