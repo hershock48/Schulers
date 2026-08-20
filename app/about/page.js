@@ -6,11 +6,11 @@ import { Ornament } from "@/components/Ornament";
 export const metadata = {
   title: "Our History",
   description:
-    "A cigar store in 1909, a restaurant people drove across Michigan for, and four generations on Eagle Street in Marshall. The story of Schuler's.",
+    "A cigar store in 1909, the Royal Hotel in 1924, and four generations feeding Marshall, Michigan. The story of Schuler's.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "Our History | Schuler's Restaurant & Pub",
-    description: "A cigar store in 1909, and four generations on Eagle Street since.",
+    description: "A cigar store in 1909, the Royal Hotel in 1924, and four generations since.",
     url: "/about",
     images: [{ url: "/assets/schulers/historical.webp", width: 1080, height: 837, alt: "Schuler's on Eagle Street, early twentieth century" }],
   },
@@ -30,13 +30,13 @@ export default function About() {
       <section>
         <div className="wrap narrow">
           <p style={{ fontSize: 20, lineHeight: 1.65 }}>
-            Albert Schuler bought a small shop on Eagle Street in {site.since}. It sold cigars. It
+            Albert Schuler opened a shop on Main Street in {site.since}. It sold cigars. It
             also sold food to the people who were already standing in it, and that turned out to be
             the better business.
           </p>
           <p style={{ marginTop: 20, color: "var(--muted)" }}>
-            In 1924 the family took over the Royal Hotel and restaurant next door and put their name
-            on it. Albert&rsquo;s son Win ran it for most of the century that followed and made it the
+            In 1924 the family bought the Royal Hotel on Eagle Street, an 1895 building, and put their
+            name on it. The dining room as people know it came about a decade later. Albert&rsquo;s son Win ran it for most of the century that followed and made it the
             kind of place people drove across the state for, on a reputation built on prime rib, a
             cheese spread, and knowing everybody&rsquo;s name. Win&rsquo;s son Hans took it on in his turn,
             started here at eight years old, and was named National Restaurateur of the Year in 2012.

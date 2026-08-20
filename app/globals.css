@@ -797,51 +797,43 @@ section.dark .facts li::before { background: var(--cream); }
 @media (max-width: 620px) { .reserve-strip form { width: 100%; } .reserve-strip select, .reserve-strip input, .reserve-strip .btn { width: 100%; } }
 
 /* ============================================================================
-   The signed crest.
+   The signed crest. Read components/CrestSignature.jsx first.
 
-   Read the header comment in components/CrestSignature.jsx first; the short
-   version is that the DEFAULT state below is the finished crest, in colour,
-   signature complete. Every rule that hides something lives under .crest-run,
-   which JavaScript adds and only after checking reduced motion. Move any of
-   these out from under that class and a blocked script leaves a blank hero.
+   DEFAULT = FINISHED: full colour, signature complete, dash offset 0. Every
+   rule that hides something is under .crest-run, which JavaScript adds and only
+   after checking reduced motion. Move one out and a blocked script leaves a
+   blank hero.
    ========================================================================= */
-.crest { width: 100%; max-width: 620px; margin: 0 auto; }
+.crest { width: 100%; max-width: 430px; margin: 0 auto; }
 .crest-svg { display: block; width: 100%; height: auto; overflow: visible; }
 
-/* finished state */
-.crest-plate { filter: none; opacity: 1; }
+.crest-plate { filter: none; }
 .crest-pen   { stroke-dashoffset: 0; }
 .crest-sheen { opacity: 0; }
 
-/* --- running ------------------------------------------------------------- */
-/* The plate starts as an engraving. Not a grey wash: grayscale plus a little
-   contrast, because a flat desaturate of an oxblood field goes muddy and the
-   hatching disappears, which is the one piece of texture worth keeping. */
+/* An engraved plate, not a grey wash: a flat desaturate of an oxblood field
+   goes muddy and the hatching disappears, and the hatching is the one piece of
+   texture worth keeping. */
 .crest-run .crest-plate {
   filter: grayscale(1) contrast(1.14) brightness(0.94);
-  animation: crest-colour 1100ms cubic-bezier(.22,.61,.36,1) 1900ms both;
+  animation: crest-colour 1000ms cubic-bezier(.22,.61,.36,1) var(--ink-done, 2500ms) both;
 }
 
-/* The pen. 1.9s is deliberate. The house note about motion applies twice over
-   here: this is the one thing on the page a visitor is meant to actually watch,
-   and the previous build's 800ms reveals were over before the eye arrived.
-   The easing is slow-fast-slow rather than ease-out, because a hand accelerates
-   into the middle of a word and decelerates into the flourish. */
+/* Per-stroke timing is set in JS from each path's real length, so the pen keeps
+   one speed across strokes of very different sizes. linear, deliberately: a
+   hand does not ease into and out of every single stroke, and eased strokes
+   next to each other read as machinery. */
 .crest-run .crest-pen {
-  stroke-dasharray: var(--crest-len, 700);
-  stroke-dashoffset: var(--crest-len, 700);
-  animation: crest-write 1900ms cubic-bezier(.62,.03,.36,1) 420ms both;
+  stroke-dasharray: var(--len, 700);
+  stroke-dashoffset: var(--len, 700);
+  animation: crest-write var(--dur, 700ms) linear var(--delay, 0ms) both;
 }
 
-/* One pass, once, well after the colour has settled. */
-/* A glint, not a veil. At 0.30 across a 10%-wide band this read as a milky
-   smear sitting on top of the whole box; the crest looked hazy rather than
-   polished. Narrower and much fainter, it catches the frame and leaves. */
 .crest-run .crest-sheen {
-  animation: crest-sheen 1400ms ease-in-out 3150ms both;
+  animation: crest-sheen 1400ms ease-in-out calc(var(--ink-done, 2500ms) + 900ms) both;
 }
 
-@keyframes crest-write { to { stroke-dashoffset: 0; } }
+@keyframes crest-write  { to { stroke-dashoffset: 0; } }
 @keyframes crest-colour { to { filter: grayscale(0) contrast(1) brightness(1); } }
 @keyframes crest-sheen {
   0%   { opacity: 0; transform: translateX(-58%) skewX(-12deg); }
@@ -851,26 +843,28 @@ section.dark .facts li::before { background: var(--cream); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .crest-run .crest-plate,
-  .crest-run .crest-pen,
-  .crest-run .crest-sheen { animation: none; }
+  .crest-run .crest-plate, .crest-run .crest-pen, .crest-run .crest-sheen { animation: none; }
   .crest-run .crest-plate { filter: none; }
   .crest-run .crest-pen { stroke-dashoffset: 0; }
 }
 
 /* --- the hero this sits in ------------------------------------------------ */
-/* Centred, because a crest is a symmetrical object and the old split hero put
-   their best asset in a corner and a weak snapshot in the middle. */
-.hero-crest { padding: 58px 0 4px; text-align: center; }
-.hero-crest .hero-inner { display: block; max-width: 860px; margin: 0 auto; padding: 0 22px; }
-.hero-crest h1 { font-size: clamp(30px, 4.2vw, 52px); margin: 34px auto 0; max-width: 15ch; }
-.hero-crest .lede { margin: 20px auto 0; max-width: 60ch; }
-.hero-crest .cta-row { justify-content: center; margin-top: 30px; }
-.hero-crest .openrow { justify-content: center; }
+.hero-crest { padding: 54px 0 4px; text-align: center; }
+.hero-crest .hero-inner { display: block; max-width: 820px; margin: 0 auto; padding: 0 22px; }
+.hero-crest h1 { font-size: clamp(30px, 4vw, 50px); margin: 30px auto 0; max-width: 15ch; }
+.hero-crest .lede { margin: 18px auto 0; max-width: 58ch; }
+.hero-crest .cta-row { justify-content: center; margin-top: 28px; }
+/* The hours row was left-aligned inside a centred column, so on desktop it sat
+   visibly off to one side of everything above it. */
+/* The hours line is .openline, a flex row. Inside a centred column it still
+   packed to the start, so on a wide desktop it sat visibly left of the crest,
+   headline and buttons stacked above it. Centred here rather than globally,
+   because the same component is left-aligned in the footer. */
+.hero-crest .openline { justify-content: center; text-align: center; flex-wrap: wrap; }
 @media (max-width: 640px) {
-  .hero-crest { padding: 30px 0 2px; }
-  .crest { max-width: 100%; }
-  .hero-crest h1 { margin-top: 26px; }
+  .hero-crest { padding: 26px 0 2px; }
+  .crest { max-width: 300px; }
+  .hero-crest h1 { margin-top: 22px; }
 }
 
 /* ---------------------------------------------------------------- host view
@@ -895,3 +889,40 @@ section.dark .facts li::before { background: var(--cream); }
 .hostname span { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .hostname em { font-style: normal; font-size: 13.5px; color: var(--ox); font-weight: 700; }
 @media (max-width: 480px) { .hostbig { font-size: 32px; } .hostlist li { gap: 11px; } }
+
+/* ------------------------------------------------------------- history ticker
+   What has gone past outside while the room stayed open. The track holds two
+   copies of the list and translates exactly -50%, which is the only offset that
+   loops without a seam. */
+.histticker {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--cream);
+  padding: 11px 0;
+}
+.histticker-track {
+  display: flex; width: max-content;
+  animation: histroll 96s linear infinite;
+}
+.tick {
+  display: inline-flex; align-items: baseline; gap: 9px;
+  padding: 0 26px; white-space: nowrap;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12.5px; letter-spacing: .04em; color: var(--muted);
+  border-right: 1px solid rgba(30,30,30,.13);
+}
+.tick b {
+  font-weight: 700; color: var(--ox);
+  font-variant-numeric: tabular-nums; letter-spacing: .06em;
+}
+@keyframes histroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.histticker:hover .histticker-track { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .histticker-track { animation: none; flex-wrap: wrap; width: auto; gap: 4px 0; }
+  .histticker { padding: 12px 16px; }
+  .tick { padding: 3px 16px 3px 0; border-right: none; }
+}
+@media (max-width: 640px) { .tick { font-size: 11.5px; padding: 0 18px; } }

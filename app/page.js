@@ -5,6 +5,7 @@ import { Ornament } from "@/components/Ornament";
 import OpenNow from "@/components/OpenNow";
 import ReserveStrip from "@/components/ReserveStrip";
 import CrestSignature from "@/components/CrestSignature";
+import HistoryTicker from "@/components/HistoryTicker";
 
 export const metadata = {
   title: "Schuler's Restaurant & Pub | Marshall, Michigan since 1909",
@@ -34,8 +35,8 @@ export default function Home() {
 
           <h1>Come early if you want <em>the end cut.</em></h1>
           <p className="lede">
-            Prime rib in the English tradition, roasted on one corner of Eagle Street since
-            1909. A dining room that has outlasted two world wars, Prohibition and every
+            Prime rib in the English tradition, from a family that has been feeding this town
+            since 1909. A dining room that has outlasted two world wars, Prohibition and every
             restaurant that ever opened across the street.
           </p>
           <div className="cta-row">
@@ -45,6 +46,8 @@ export default function Home() {
           <OpenNow />
         </div>
       </section>
+
+      <HistoryTicker />
 
       <ReserveStrip />
 
@@ -109,7 +112,7 @@ export default function Home() {
             <div className="reveal">
               <p className="eyebrow on-dark">Since {site.since}</p>
               <span className="years" aria-hidden="true" />
-              <span className="years-label">on one corner of Eagle Street, and counting</span>
+              <span className="years-label">years feeding Marshall, and counting</span>
               <h2 style={{ marginTop: 30 }}>It started as a cigar store.</h2>
               <p>
                 Albert Schuler bought a small shop on Eagle Street in {site.since} and started
