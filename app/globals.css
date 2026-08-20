@@ -1,0 +1,491 @@
+/* ============================================================================
+   Schuler's Restaurant & Pub
+
+   The palette is not invented. Every colour below was pixel-sampled from their
+   own logo file at public/assets/schulers/logo.webp, which is 19.6% cream,
+   18.9% oxblood, 9.7% near-black ink and 5.7% forest green by area. Those four
+   ARE the brand, and they have been since the sign went up.
+
+   Contrast was computed, not judged. On the page ground #FDFAF1: oxblood 8.88,
+   green 8.60, ink 15.97, muted 7.65. Cream on oxblood 8.49, cream on green
+   8.23. Everything here clears AA with room, which is a happy accident of a
+   Victorian palette: those signs had to read from across a street.
+   ========================================================================= */
+
+:root {
+  --ox: #8A1E00;          /* their oxblood. Body links, rules, the crest ground. */
+  --ox-deep: #6E1800;     /* pressed states and the deepest band. */
+  --green: #18542A;       /* their forest green. */
+  --green-deep: #10381C;  /* dark sections that are not black. */
+  --ink: #1E1E1E;         /* body copy. */
+  --muted: #5A4F42;       /* secondary copy. 7.65 on the page ground. */
+  --page: #FDFAF1;        /* the page. A lighter tint of their cream. */
+  --cream: #FCF6D2;       /* their actual cream. Panels, the crest, dark-ground text. */
+  --card: #FFFFFF;
+  --line: rgba(30, 30, 30, 0.14);
+  --gold: #B08A3E;        /* the Royal Hotel's gold, from their hotel lockup. */
+
+  --wrap: 1120px;
+  --radius: 4px;          /* almost square. A 1909 chophouse is not a SaaS app. */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 17px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* Long tokens in this build: schulersrestaurant.com, sales@schulersrestaurant.com,
+   dish names like "Two Napkin Beef Brisket Sandwich". 320px is the width that
+   breaks, always. Fixed on the text elements rather than per-heading. */
+h1, h2, h3, h4, p, li, a, span, b, td, th, dd, dt { overflow-wrap: break-word; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+
+a { color: var(--ox); text-underline-offset: 3px; }
+a:hover { color: var(--ox-deep); }
+img { max-width: 100%; height: auto; display: block; }
+::selection { background: var(--cream); color: var(--ink); }
+
+:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
+.narrow { max-width: 760px; }
+
+/* Skip link. Keyboard users should not tab through the whole nav on every page. */
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 200;
+  background: var(--green); color: var(--cream);
+  padding: 12px 18px; font-weight: 700; text-decoration: none;
+}
+.skip:focus { left: 8px; top: 8px; color: var(--cream); }
+
+/* ---------------------------------------------------------------- eyebrow */
+.eyebrow {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--green);
+}
+.eyebrow.on-dark { color: var(--cream); opacity: 0.92; }
+
+/* ---------------------------------------------------------------- ornament
+   Their own filigree, lifted from wp-content/uploads/2022/05/schuler-ornament.svg
+   and recoloured by currentColor. Not redrawn. */
+.orn { display: block; margin: 0 auto; width: 168px; height: auto; color: var(--ox); opacity: 0.85; }
+.orn.on-dark { color: var(--cream); opacity: 0.55; }
+
+/* ---------------------------------------------------------------- buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  padding: 14px 26px; border-radius: var(--radius);
+  background: var(--ox); color: var(--cream);
+  border: 2px solid var(--ox); text-decoration: none; cursor: pointer;
+  transition: background .16s ease, color .16s ease, border-color .16s ease;
+}
+.btn:hover { background: var(--ox-deep); border-color: var(--ox-deep); color: var(--cream); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.btn.ghost { background: transparent; color: var(--ox); }
+.btn.ghost:hover { background: var(--ox); color: var(--cream); }
+.btn.on-dark { background: var(--cream); color: var(--green-deep); border-color: var(--cream); }
+.btn.on-dark:hover { background: #fff; color: var(--green-deep); border-color: #fff; }
+.btn.ghost.on-dark { background: transparent; color: var(--cream); border-color: var(--cream); }
+.btn.ghost.on-dark:hover { background: var(--cream); color: var(--green-deep); }
+.btn.sm { padding: 9px 16px; font-size: 12px; }
+
+/* ---------------------------------------------------------------- header */
+.site-header {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--page);
+  border-bottom: 1px solid var(--line);
+}
+.hdr { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 22px; max-width: var(--wrap); margin: 0 auto; }
+.hdr-logo img { width: 132px; height: auto; }
+.hdr-nav { display: flex; align-items: center; gap: 22px; }
+.hdr-nav a {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+}
+.hdr-nav a:hover, .hdr-nav a[aria-current="page"] { color: var(--ox); }
+.hdr-cta { display: flex; align-items: center; gap: 10px; }
+.navtoggle { display: none; background: none; border: 2px solid var(--line); border-radius: var(--radius); padding: 8px 12px; font: inherit; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; color: var(--ink); }
+@media (max-width: 1000px) {
+  .hdr-nav { display: none; }
+  .navtoggle { display: inline-block; }
+  .hdr-nav.open {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+    position: absolute; left: 0; right: 0; top: 100%;
+    background: var(--page); border-bottom: 1px solid var(--line);
+    padding: 10px 22px 20px;
+  }
+  .hdr-nav.open a { padding: 11px 0; font-size: 15px; width: 100%; border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .hdr { padding: 10px 14px; }
+  .hdr-logo img { width: 104px; }
+  .hdr-cta .btn { padding: 10px 13px; font-size: 11px; }
+}
+
+/* ---------------------------------------------------------------- hero */
+.hero { position: relative; background: var(--green-deep); color: var(--cream); overflow: hidden; }
+.hero-img { position: absolute; inset: 0; }
+.hero-img img { width: 100%; height: 100%; object-fit: cover; }
+/* The scrim is opaque enough at the top-left that the headline measures over
+   the darkest and the lightest pixels behind it, not just the average. */
+.hero-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(16,56,28,0.94) 0%, rgba(16,56,28,0.86) 42%, rgba(16,56,28,0.58) 100%);
+}
+.hero-inner { position: relative; z-index: 2; max-width: var(--wrap); margin: 0 auto; padding: 92px 22px 96px; }
+.hero-inner .narrow { max-width: 660px; }
+.hero h1 { font-size: clamp(38px, 6vw, 70px); margin: 18px 0 0; }
+.hero p.lede { margin-top: 20px; font-size: clamp(17px, 2vw, 20px); line-height: 1.6; max-width: 560px; color: #F3EDD4; }
+.hero .cta-row { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+.hero .meta { margin-top: 30px; font-size: 14px; letter-spacing: .04em; color: #DFD6B4; }
+.hero .meta b { color: var(--cream); }
+@media (max-width: 640px) { .hero-inner { padding: 60px 18px 64px; } }
+
+/* page banner, the smaller hero on inner routes */
+.banner { background: var(--green-deep); color: var(--cream); padding: 62px 0 58px; text-align: center; }
+.banner h1 { font-size: clamp(34px, 5vw, 54px); margin-top: 14px; }
+.banner p { margin: 16px auto 0; max-width: 620px; color: #E6DDBE; font-size: 17px; }
+
+/* ---------------------------------------------------------------- sections */
+section { padding: 78px 0; }
+section.tight { padding: 54px 0; }
+section.cream { background: var(--cream); }
+section.dark { background: var(--green-deep); color: var(--cream); }
+section.dark h2, section.dark h3 { color: var(--cream); }
+section.dark p { color: #E6DDBE; }
+section.ox { background: var(--ox); color: var(--cream); }
+section.ox p { color: #F6E9DF; }
+
+.sec-head { text-align: center; max-width: 660px; margin: 0 auto 46px; }
+.sec-head h2 { font-size: clamp(28px, 3.6vw, 42px); margin-top: 14px; }
+.sec-head p { margin-top: 16px; color: var(--muted); }
+section.dark .sec-head p { color: #E6DDBE; }
+.sec-head.left { text-align: left; margin-left: 0; }
+
+/* ---------------------------------------------------------------- cards */
+.grid { display: grid; gap: 22px; }
+.grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.grid.g3 { grid-template-columns: repeat(3, 1fr); }
+.grid.g4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) { .grid.g3, .grid.g4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .grid.g2, .grid.g3, .grid.g4 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.card .card-img { aspect-ratio: 3 / 2; background: var(--cream); }
+.card .card-img img { width: 100%; height: 100%; object-fit: cover; }
+.card .card-body { padding: 24px 22px 26px; flex: 1; display: flex; flex-direction: column; }
+.card h3 { font-size: 22px; }
+.card p { margin-top: 10px; color: var(--muted); font-size: 15.5px; }
+.card .card-link { margin-top: auto; padding-top: 18px; }
+.card .card-link a {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ox); text-decoration: none; border-bottom: 2px solid var(--ox); padding-bottom: 2px;
+}
+
+/* ---------------------------------------------------------------- menu */
+.menu-nav { position: sticky; top: 61px; z-index: 40; background: var(--page); border-bottom: 1px solid var(--line); }
+.menu-nav ul { list-style: none; display: flex; gap: 6px; overflow-x: auto; padding: 10px 22px; max-width: var(--wrap); margin: 0 auto; -webkit-overflow-scrolling: touch; }
+.menu-nav a {
+  display: block; white-space: nowrap; padding: 7px 13px; border-radius: var(--radius);
+  font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none; border: 1px solid transparent;
+}
+.menu-nav a:hover { border-color: var(--line); color: var(--ox); }
+
+/* Two sticky bars sit above an anchored section: the header (~61px) and the
+   menu nav (~49px). Without this, jumping to #pub lands the heading
+   underneath both of them and the section reads as starting mid-sentence. */
+.msec { margin-bottom: 60px; scroll-margin-top: 124px; }
+.msec-head { text-align: center; margin-bottom: 30px; }
+.msec-head h2 { font-size: clamp(26px, 3.2vw, 36px); margin-top: 12px; }
+.msec-head p { margin-top: 12px; color: var(--muted); font-size: 15.5px; }
+
+.mlist { display: grid; gap: 4px; }
+.mrow { padding: 17px 0; border-bottom: 1px solid var(--line); }
+.mrow:last-child { border-bottom: none; }
+.mrow-top { display: flex; align-items: baseline; gap: 12px; }
+.mrow-name { font-family: var(--font-display), Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; }
+.mrow-dots { flex: 1; border-bottom: 1px dotted rgba(30,30,30,0.32); transform: translateY(-4px); min-width: 18px; }
+.mrow-price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 17px; }
+.mrow-desc { margin-top: 6px; color: var(--muted); font-size: 15.5px; max-width: 640px; }
+.mrow-unit { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-top: 2px; }
+.mrow-carry { font-size: 13px; color: var(--green); font-weight: 700; margin-top: 6px; }
+
+/* ---------------------------------------------------------------- ordering */
+.order-layout { display: grid; grid-template-columns: 1fr 340px; gap: 34px; align-items: start; }
+@media (max-width: 940px) { .order-layout { grid-template-columns: 1fr; } }
+
+.oitem { display: flex; gap: 16px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.oitem-main { flex: 1; min-width: 0; }
+.oitem h3 { font-size: 19px; }
+.oitem p { margin-top: 5px; font-size: 15px; color: var(--muted); }
+.oitem-price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.oitem-add { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 9px; }
+
+.cart {
+  position: sticky; top: 82px;
+  background: var(--card); border: 2px solid var(--green);
+  border-radius: var(--radius); padding: 22px 20px;
+}
+.cart h2 { font-size: 22px; margin-bottom: 4px; }
+.cart .empty { color: var(--muted); font-size: 15px; padding: 18px 0; }
+.cart-line { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.cart-line .cl-name { flex: 1; min-width: 0; }
+.cart-line .cl-price { font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.qty button {
+  width: 32px; height: 32px; border: none; background: var(--cream);
+  font: inherit; font-size: 17px; font-weight: 700; line-height: 1; cursor: pointer; color: var(--ink);
+}
+.qty button:hover { background: var(--ox); color: var(--cream); }
+.qty span { min-width: 30px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cart-totals { margin-top: 14px; font-size: 15px; }
+.cart-totals div { display: flex; justify-content: space-between; padding: 4px 0; }
+.cart-totals .total { border-top: 2px solid var(--ink); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 18px; }
+.cart-totals .num { font-variant-numeric: tabular-nums; }
+.cart .btn { width: 100%; margin-top: 16px; }
+.cart-note { margin-top: 12px; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+.pickup { background: var(--cream); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 26px; }
+.pickup label { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: 7px; }
+select, input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], textarea {
+  font: inherit; font-size: 16px; color: var(--ink); background: #fff;
+  border: 1px solid rgba(30,30,30,0.34); border-radius: var(--radius);
+  padding: 11px 12px; width: 100%;
+}
+textarea { line-height: 1.55; resize: vertical; }
+select:focus, input:focus, textarea:focus { outline: 3px solid var(--green); outline-offset: 1px; }
+
+.demo-flag {
+  background: var(--cream); border: 2px dashed var(--ox);
+  border-radius: var(--radius); padding: 14px 18px; margin-bottom: 26px;
+  font-size: 14.5px; line-height: 1.55;
+}
+.demo-flag b { color: var(--ox); }
+
+/* ---------------------------------------------------------------- forms */
+.form-grid { display: grid; gap: 18px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 620px) { .form-row { grid-template-columns: 1fr; } }
+.field label { display: block; font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+.field .hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.req { color: var(--ox); }
+
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.slot {
+  font: inherit; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums;
+  padding: 11px 6px; border: 1px solid rgba(30,30,30,0.3); border-radius: var(--radius);
+  background: #fff; color: var(--ink); cursor: pointer;
+}
+.slot:hover:not([disabled]) { border-color: var(--ox); color: var(--ox); }
+.slot[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: var(--cream); }
+.slot[disabled] { opacity: .34; cursor: not-allowed; text-decoration: line-through; }
+
+.notice { background: var(--cream); border-left: 4px solid var(--green); padding: 16px 18px; border-radius: var(--radius); font-size: 15px; }
+.notice.warn { border-left-color: var(--ox); }
+
+/* ---------------------------------------------------------------- misc */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 28px; } }
+.split img { border-radius: var(--radius); }
+.split h2 { font-size: clamp(28px, 3.4vw, 40px); }
+.split p { margin-top: 16px; color: var(--muted); }
+section.dark .split p { color: #E6DDBE; }
+
+.facts { list-style: none; display: grid; gap: 10px; margin-top: 22px; }
+.facts li { padding-left: 26px; position: relative; font-size: 16px; }
+.facts li::before { content: ""; position: absolute; left: 0; top: 9px; width: 10px; height: 10px; background: var(--ox); border-radius: 50%; }
+section.dark .facts li::before { background: var(--cream); }
+
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 760px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+.gallery img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border-radius: var(--radius); }
+
+.price-tag { font-family: var(--font-display), Georgia, serif; font-size: 40px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------- footer */
+.site-footer { background: var(--ink); color: #D8D0BC; padding: 62px 0 0; }
+.site-footer a { color: #F1EAD2; text-decoration: none; }
+.site-footer a:hover { color: var(--cream); text-decoration: underline; }
+.foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+@media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .foot-grid { grid-template-columns: 1fr; } }
+.foot-grid h3 { font-family: var(--font-body), Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--cream); margin-bottom: 14px; }
+.foot-grid ul { list-style: none; display: grid; gap: 9px; font-size: 15px; }
+.foot-logo img { width: 168px; margin-bottom: 16px; }
+.foot-blurb { font-size: 15px; line-height: 1.6; max-width: 320px; }
+.foot-bottom { margin-top: 48px; border-top: 1px solid rgba(252,246,210,0.16); padding: 20px 0 26px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; font-size: 13px; }
+
+/* ---------------------------------------------------------------- motion
+   The un-animated state IS the finished state. `.js` is added by script, so a
+   blocked script or reduced motion leaves a complete page rather than an empty
+   one. Do not move .reveal's opacity out from under the .js selector. */
+.js .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+/* ---------------------------------------------------------------- 320px
+   The width that breaks. Checked, not assumed. */
+@media (max-width: 400px) {
+  body { font-size: 16px; }
+  .wrap { padding: 0 14px; }
+  section { padding: 52px 0; }
+  .btn { padding: 12px 16px; font-size: 12.5px; letter-spacing: .09em; }
+  .mrow-name { font-size: 18px; }
+  .menu-nav ul { padding: 10px 14px; }
+  .hdr { gap: 8px; }
+}
+
+/* ============================================================================
+   Glazed Web studio credit.
+   Values from `node glaze/scripts/plate.mjs "#1E1E1E"`, run rather than
+   guessed: the footer here is #1E1E1E, and the chocolate mark on it measures
+   1.06, which is an invisible graphic rather than an ugly one. Cream plate at
+   15.54.
+   ========================================================================= */
+.gw-plate {
+  --gw-above: #1E1E1E;
+  --gw-plate: #FDF6EC;
+  --gw-plate-ink: #2B1E16;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Glazed Web studio credit — pairs with components/GlazedCredit.
+   Everything is scoped to .gw-credit. The words inherit the footer's own colour
+   and size; the mark carries Glazed's own palette, because it is a logo and a
+   logo does not take on the host's colours.
+   ─────────────────────────────────────────────────────────────────────────── */
+.gw-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  /* A credit that sets its own colour is a credit that stops matching the day
+     the footer changes. */
+  color: inherit;
+  text-decoration: none;
+}
+.gw-credit-name {
+  font-weight: 600;
+}
+.gw-credit:hover .gw-credit-name,
+.gw-credit:focus-visible .gw-credit-name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.gw-credit-mark {
+  /* Sized in em so it tracks the text beside it rather than needing a number per
+     client. 2.15em against a 12px footer line is ~26px, which is where his real
+     mark reads: the hole lands at 4.7px and the disc at 19px. At 22px the hole
+     closes to 3px and it starts reading as a lollipop; at 30px+ it dominates the
+     bar. Measured across all five footers, not guessed. */
+  height: 2.15em;
+  width: auto;
+  flex: none;
+  /* This has to be here rather than only as the SVG attribute: the UA stylesheet
+     sets overflow:hidden on an outermost <svg>, and that beats a presentation
+     attribute. Without it the hover extension is clipped at the viewBox edge. */
+  overflow: visible;
+}
+.gw-credit-drips {
+  transform-box: fill-box;
+  /* Top centre of the drip group — where the glaze leaves the donut. Scaling from
+     anywhere else slides the drips off the donut instead of running them down. */
+  transform-origin: 50% 0%;
+  /* Resting is 1: the default state is his drawing at his lengths. */
+  transform: scaleY(1);
+  transition: transform 340ms cubic-bezier(0.34, 1.32, 0.5, 1);
+}
+.gw-credit:hover .gw-credit-drips,
+.gw-credit:focus-visible .gw-credit-drips {
+  transform: scaleY(1.22);
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Nothing to suppress — there is no autoplay. The hover just stops easing. */
+  .gw-credit-drips {
+    transition-duration: 0s;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   The signature plate — pairs with components/GlazedPlate.
+   Set the three values below per site, in that site's own palette block:
+     --gw-above      the footer colour directly above (the drip's fill)
+     --gw-plate      cream #FDF6EC under a dark footer, chocolate-2 #201712 under a light one
+     --gw-plate-ink  cream on chocolate (16.41) or chocolate on cream (15.05); both AA
+   The inversion is not taste — a chocolate plate under a #191919 footer measures 1.00 and the
+   drip vanishes. See the table in GlazedPlate for every footer in the account.
+   ─────────────────────────────────────────────────────────────────────────── */
+.gw-plate {
+  /* Defaults are the light-footer case, so a site that forgets to set them still gets a
+     legible plate rather than an invisible one. */
+  --gw-above: #FDF6EC;
+  --gw-plate: #201712;
+  --gw-plate-ink: #FDF6EC;
+  background: var(--gw-plate);
+}
+.gw-plate-drip {
+  display: block;
+  width: 100%;
+  height: 46px;
+  /* The drip is the colour of the band above it, dripping down into the plate. */
+  color: var(--gw-above);
+  fill: currentColor;
+  /* Kills the hairline of plate colour that otherwise shows along the top edge from
+     subpixel rounding — the same -1px his DripDivider uses. */
+  margin-bottom: -1px;
+}
+.gw-plate-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 22px 18px;
+}
+.gw-plate .gw-credit {
+  /* Overrides the inherit-the-footer rule above: on the plate the credit takes the plate's
+     ink, because the plate is Glazed's ground, not the client's. */
+  color: var(--gw-plate-ink);
+  font-size: 12px;
+}
+@media (max-width: 640px) {
+  .gw-plate-drip { height: 34px; }
+  .gw-plate-bar { justify-content: center; padding: 0 16px 16px; }
+}
+
+/* Visually hidden but read aloud. Used on "Add" buttons so a screen reader
+   hears "Add Winston Burger" rather than a page of buttons all called "Add". */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
