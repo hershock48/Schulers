@@ -76,9 +76,18 @@ Framework: Next.js   Build: next build
 Env: NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com  (pitch only, see .env.example)
 ```
 
-1. Import into Vercel.
-2. Add **`schulers.glazedweb.com`**. Apex form only. Adding the `www` form
-   leaves it without a certificate and that link fails when you send it.
+1. Import into Vercel. The project exists: `schulers`,
+   `prj_eBwLTdF25ufbI7YFSn6u5X96Gh0c`, on the GlazedWeb team.
+2. **Add `schulers.glazedweb.com` to the project.** This is the step that was
+   missed, and it is the whole reason the URL 404s: as of 20 Aug 2026 the
+   project has only its three auto-generated `.vercel.app` domains attached,
+   and no custom domain at all. Compare `cascarellis`, which has
+   `cascarellis.glazedweb.com` on it. The subdomain form only, never a `www`
+   variant, which would have no certificate.
+
+   The host string has to match `PITCH_HOST` in `next.config.mjs` exactly or
+   the rewrites never fire and the prospect lands on the demo instead of the
+   pitch. Both are `schulers.glazedweb.com`, checked.
 3. Set `NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com`, or every
    `og:image` resolves to a domain that does not serve this build and the link
    preview is blank. Delete the variable on launch day.
@@ -86,6 +95,21 @@ Env: NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com  (pitch only, see .e
    not the site. Then fetch `/demo` and confirm the opposite.
 5. Confirm `X-Robots-Tag` on both the pitch host and the `.vercel.app` host, and
    confirm `/pitch/schulers/index.html` 404s on the client host.
+
+**Deployment protection is already right, leave it alone.** Vercel
+Authentication is on with `all_except_custom_domains`, so the `.vercel.app`
+URLs are SSO-gated and the custom domain will be public the moment it is
+attached. That is the correct setting for a pitch: the prospect gets in, and a
+stray preview URL does not leak.
+
+**Vercel refuses to deploy a vulnerable Next.js.** Two production deployments
+sat in ERROR with `Vulnerable version of Next.js detected, please update
+immediately` as the last line of the build log. The build itself compiled
+cleanly both times and completed in 23 seconds; the platform rejected the
+output afterwards. That was Next 15.5.4 carrying the React flight protocol RCE.
+The upgrade to 16.3.1 fixed the deploy as a side effect of fixing the audit, so
+if a deploy ever goes ERROR with a green build, read the last line of the log
+before assuming it is the code.
 
 ---
 
