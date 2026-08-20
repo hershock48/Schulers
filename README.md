@@ -102,6 +102,32 @@ URLs are SSO-gated and the custom domain will be public the moment it is
 attached. That is the correct setting for a pitch: the prospect gets in, and a
 stray preview URL does not leak.
 
+**The framework preset must be Next.js, and `vercel.json` pins it.** This is
+the trap that produced a 404 on a green, READY, correctly-aliased deployment,
+and it is invisible from the build log because the build itself is fine.
+
+When the project was imported, Vercel did not detect the framework and left the
+preset unset (`"framework": null` on the project, against `"nextjs"` on
+`cascarellis`). With no preset, Vercel treats the repo as "Other": it runs
+`npm run build`, throws the Next.js output away, and serves `public/` as a
+plain static directory. The symptom is very specific and worth recognizing:
+
+| Path | Result |
+|---|---|
+| `/assets/schulers/logo.webp` | 200, because it is in `public/` |
+| `/pitch/schulers/index.html` | 200, same reason |
+| `/robots.txt` | 200, same reason |
+| `/`, `/demo`, `/menu`, `/order` | **404 `x-vercel-error: NOT_FOUND`** |
+| `/package.json`, `/README.md` | 404, so it is serving `public/`, not the root |
+
+Static assets serving while every route 404s means the server was never
+deployed. Note also that the 404 is `text/plain` from the platform, not the
+branded `text/html` 404 this app renders. If you ever see that combination,
+check the framework preset before anything else.
+
+`vercel.json` now pins `"framework": "nextjs"` so the preset travels with the
+repo and an import can never get this wrong again.
+
 **Vercel refuses to deploy a vulnerable Next.js.** Two production deployments
 sat in ERROR with `Vulnerable version of Next.js detected, please update
 immediately` as the last line of the build log. The build itself compiled
