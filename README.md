@@ -125,8 +125,32 @@ deployed. Note also that the 404 is `text/plain` from the platform, not the
 branded `text/html` 404 this app renders. If you ever see that combination,
 check the framework preset before anything else.
 
-`vercel.json` now pins `"framework": "nextjs"` so the preset travels with the
-repo and an import can never get this wrong again.
+There was a second layer underneath it, left behind by the same mistake. This
+project began as a static deploy whose `vercel.json` set
+`"outputDirectory": "public"`. That file was deleted when the build became a
+Next.js app, but **deleting the file does not clear the setting**: the value had
+already been written into the project's dashboard settings at import and it
+persisted. So the moment the framework preset was fixed, the Next builder ran
+correctly and then died looking for the routing manifest in the wrong place:
+
+```
+Error: The file "/vercel/path0/public/routes-manifest.json" couldn't be found.
+```
+
+`vercel.json` now pins all three, so the whole build configuration travels with
+the repo and no dashboard leftover can override it:
+
+```json
+{ "framework": "nextjs", "buildCommand": null, "outputDirectory": null }
+```
+
+`null` means "use the framework default" rather than "unset", which is what
+actually overrides a stale dashboard value. For a Next.js project the default
+output directory is `.next` and it should never be stated explicitly.
+
+**The general lesson: a Vercel project setting written at import outlives the
+file that created it.** If a build behaves as though a `vercel.json` you deleted
+is still in force, it is.
 
 **Vercel refuses to deploy a vulnerable Next.js.** Two production deployments
 sat in ERROR with `Vulnerable version of Next.js detected, please update
