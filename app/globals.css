@@ -982,3 +982,39 @@ section.dark .facts li::before { background: var(--cream); }
   .histtitle { font-size: 10.5px; letter-spacing: .2em; }
   .histtitle span::before, .histtitle span::after { width: 14px; }
 }
+
+/* ------------------------------------------------------------- the ink drawing
+   Ken Elliott's pen-and-ink of the building, revealed through a mask built from
+   the drawing's own ink. See components/BuildingInk.jsx for why it is not
+   vectorised.
+
+   DEFAULT = FINISHED. The mask is only attached under .ink-run, so a blocked
+   script or reduced motion leaves the drawing complete. */
+.ink { margin: 0; }
+.ink-svg { display: block; width: 100%; height: auto; }
+.ink figcaption {
+  margin-top: 12px; text-align: center;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+}
+.ink-g { opacity: 1; }
+.ink-run .ink-art { mask: url(#inkMask); -webkit-mask: url(#inkMask); }
+/* Each group fades in on its own beat. Groups overlap heavily, so the eye reads
+   one continuous hand rather than 28 separate reveals. */
+.ink-run .ink-g {
+  opacity: 0;
+  animation: ink-lay 460ms ease-out both;
+  animation-delay: calc(var(--i) * 78ms + 180ms);
+}
+@keyframes ink-lay { to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-run .ink-art { mask: none; -webkit-mask: none; }
+  .ink-run .ink-g { opacity: 1; animation: none; }
+}
+
+/* The crest lives in the header now, so it sizes to the bar and the cord has to
+   hang inside it rather than pushing the header taller. */
+.hdr-logo .crest { max-width: 132px; }
+.hdr-logo .crest-svg { overflow: visible; }
+@media (max-width: 560px) { .hdr-logo .crest { max-width: 104px; } }

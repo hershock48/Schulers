@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 import { Ornament } from "@/components/Ornament";
 import OpenNow from "@/components/OpenNow";
 import ReserveStrip from "@/components/ReserveStrip";
-import CrestSignature from "@/components/CrestSignature";
+import BuildingInk from "@/components/BuildingInk";
 import HistoryTicker from "@/components/HistoryTicker";
 
 export const metadata = {
@@ -31,7 +31,7 @@ export default function Home() {
         <div className="hero-inner">
           <p className="eyebrow">Marshall, Michigan &middot; Est. {site.since}</p>
 
-          <CrestSignature priority />
+          <BuildingInk />
 
           <h1>Come early if you want <em>the end cut.</em></h1>
           <p className="lede">
