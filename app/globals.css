@@ -820,7 +820,6 @@ section.dark .facts li::before { background: var(--cream); }
 
 .crest-plate { filter: none; }
 .crest-pen   { stroke-dashoffset: 0; }
-.crest-sheen { opacity: 0; }
 
 /* An engraved plate, not a grey wash: a flat desaturate of an oxblood field
    goes muddy and the hatching disappears, and the hatching is the one piece of
@@ -844,22 +843,12 @@ section.dark .facts li::before { background: var(--cream); }
   animation: crest-write var(--dur, 700ms) cubic-bezier(.28,.02,.72,.98) var(--delay, 0ms) both;
 }
 
-.crest-run .crest-sheen {
-  animation: crest-sheen 1400ms ease-in-out calc(var(--ink-done, 2500ms) + 900ms) both;
-}
 
 @keyframes crest-write  { to { stroke-dashoffset: 0; } }
 @keyframes crest-colour { to { filter: grayscale(0) contrast(1) brightness(1); } }
-@keyframes crest-sheen {
-  0%   { opacity: 0; transform: translateX(-58%) skewX(-12deg); }
-  22%  { opacity: 1; }
-  78%  { opacity: 1; }
-  100% { opacity: 0; transform: translateX(58%) skewX(-12deg); }
-}
 
 @media (prefers-reduced-motion: reduce) {
-  .crest-run .crest-plate, .crest-run .crest-pen, .crest-run .crest-sheen { animation: none; }
-  .crest-run .crest-plate { filter: none; }
+  .crest-run .crest-plate, .crest-run .crest-pen,   .crest-run .crest-plate { filter: none; }
   .crest-run .crest-pen { stroke-dashoffset: 0; }
 }
 
