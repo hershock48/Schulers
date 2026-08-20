@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can a guest book a table right now? A proposal for Schuler's</title>
+<meta name="description" content="A website proposal for Schuler's Restaurant &amp; Pub in Marshall, Michigan, where every claim links to the proof.">
+<meta name="robots" content="noindex, nofollow">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Glazed Web">
+<meta property="og:title" content="Can a guest book a table right now?">
+<meta property="og:description" content="A website proposal for Schuler's Restaurant &amp; Pub, where every claim links to the proof.">
+<meta property="og:url" content="https://schulers.glazedweb.com/">
+<meta property="og:image" content="https://schulers.glazedweb.com/pitch/schulers/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Can a guest book a table right now? A proposal from Glazed Web.">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23E84D8A'/%3E%3Ccircle cx='50' cy='50' r='11' fill='%23FDF6EC'/%3E%3C/svg%3E">
+
+<style>
+/* Palette and type lifted from glazedweb app/globals.css. Three pinks on
+   purpose: --raspberry is 3.34 as text on cream and 3.58 under white, so it is
+   accents only. --raspberry-deep (4.78) carries white text. --raspberry-ink
+   (4.63 on cream) is link text. Picking the wrong one reintroduces a fault
+   that took a full audit to find. */
+:root {
+  --raspberry: #E84D8A;
+  --raspberry-deep: #CE3672;
+  --raspberry-ink: #C9356F;
+  --slime: #BFE07A;
+  --slime-bright: #A9D65C;
+  --fern: #467C3D;
+  --chocolate: #2B1E16;
+  --chocolate-2: #201712;
+  --cream: #FDF6EC;
+  --cream-2: #FFFDF8;
+  --taupe: #7F6D5B;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--cream); color: var(--chocolate);
+  overflow-x: hidden;
+}
+::selection { background: var(--slime); color: var(--chocolate); }
+a { color: var(--raspberry-ink); }
+/* This document is full of long unbreakable tokens: domain names, upload paths,
+   "schulersrestaurant.com" in a 30px heading. At 320px they pushed the page 16px
+   wide. Fixed here, on the text elements, rather than on the one heading the
+   measurement named, because there are a dozen more of them in the findings. */
+h1, h2, h3, h4, p, li, span, a, b { overflow-wrap: break-word; }
+
+/* ============ header ============ */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(253, 246, 236, 0.85); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(43,30,22,0.07);
+}
+.navwrap { max-width: 1100px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--chocolate); }
+.brand .bw { font-weight: 800; font-size: 19px; letter-spacing: -0.6px; }
+.brand .bw span { font-weight: 350; color: var(--taupe); }
+.navfor { font-size: 13px; color: var(--taupe); font-weight: 600; text-align: right; }
+.navfor b { display: block; color: var(--chocolate); font-size: 14px; font-weight: 800; }
+
+.btn {
+  display: inline-block; background: var(--raspberry-deep); color: #fff !important;
+  font-weight: 700; border-radius: 999px; text-decoration: none;
+  padding: 10px 20px; font-size: 14px; border: none; cursor: pointer;
+  box-shadow: 0 6px 16px -6px rgba(232,77,138,0.55);
+  transition: transform .15s ease, box-shadow .15s ease;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -8px rgba(232,77,138,0.65); }
+.btn.big { padding: 15px 30px; font-size: 16px; }
+.btn.ghost { background: transparent; color: var(--chocolate) !important; box-shadow: none; border: 2px solid rgba(43,30,22,0.18); }
+.btn.ghost:hover { border-color: var(--raspberry-deep); color: var(--raspberry-deep) !important; }
+
+/* ============ hero ============ */
+.hero { max-width: 1100px; margin: 0 auto; padding: 64px 24px 78px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
+@media (max-width: 800px) { .hero { grid-template-columns: 1fr; text-align: center; } .hero .mark { order: -1; margin: 0 auto; } }
+.kicker { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--fern); font-weight: 700; margin-bottom: 18px; }
+h1 { font-size: clamp(36px, 5.2vw, 58px); font-weight: 800; letter-spacing: -2px; line-height: 1.04; }
+h1 em { font-style: normal; color: var(--raspberry); }
+.hero p.sub { margin-top: 22px; font-size: 18px; color: #6B5747; line-height: 1.6; max-width: 500px; }
+.hero .ctas { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; }
+@media (max-width: 800px) { .hero .ctas, .hero p.sub { justify-content: center; margin-left: auto; margin-right: auto; } }
+.hero .proof { margin-top: 26px; font-size: 13px; color: var(--taupe); line-height: 1.6; }
+.hero .proof b { color: var(--chocolate); }
+
+/* logo animations, lifted from globals.css */
+.goo { transform-box: fill-box; transform-origin: 50% 0%; animation: breathe 6s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.02); } }
+.wob1, .wob2, .wob3, .wobB { transform-box: fill-box; transform-origin: 50% 0%; }
+.wob1 { animation: sagg 3.8s ease-in-out infinite -0.6s; }
+.wob2 { animation: sagg 4.9s ease-in-out infinite -2.1s; }
+.wob3 { animation: sagg 4.3s ease-in-out infinite -1.3s; }
+.wobB { animation: sagg 5.6s ease-in-out infinite -3s; }
+@keyframes sagg { 0%,100% { transform: scaleY(1) scaleX(1); } 50% { transform: scaleY(1.07) scaleX(0.98); } }
+.string { transform-box: fill-box; transform-origin: 50% 0%; animation: stringy 3.4s cubic-bezier(.55,.1,.8,.5) infinite; }
+@keyframes stringy {
+  0% { transform: scaleY(0.1); opacity: 0; } 25% { transform: scaleY(0.8); opacity: 1; }
+  60% { transform: scaleY(1.7); opacity: .85; } 80% { transform: scaleY(2.4); opacity: 0; } 100% { transform: scaleY(0.1); opacity: 0; }
+}
+.droplet { transform-box: fill-box; transform-origin: center; animation: fall 3.4s cubic-bezier(.5,.08,.85,.6) infinite; }
+@keyframes fall {
+  0% { transform: translateY(-16px) scaleY(1.5) scaleX(.7); opacity: 0; }
+  22% { transform: translateY(-8px) scaleY(1.2) scaleX(.85); opacity: 1; }
+  60% { transform: translateY(10px) scale(1); opacity: 1; }
+  100% { transform: translateY(38px) scaleY(1.15) scaleX(.9); opacity: 0; }
+}
+.droplet2 { transform-box: fill-box; transform-origin: center; animation: fall2 5.1s cubic-bezier(.5,.08,.85,.6) infinite -2.4s; }
+@keyframes fall2 {
+  0% { transform: translateY(-10px) scaleY(1.4) scaleX(.75); opacity: 0; }
+  25% { transform: translateY(-4px) scale(1); opacity: 1; }
+  65% { transform: translateY(8px) scale(1); opacity: 1; }
+  100% { transform: translateY(26px) scale(1); opacity: 0; }
+}
+.sheen { animation: shimmer 6s ease-in-out infinite; }
+@keyframes shimmer { 0%,100% { opacity: .55; } 50% { opacity: .95; } }
+
+/* ============ ticker ============ */
+.ticker { background: var(--slime); overflow: hidden; padding: 13px 0; border-top: 2px solid var(--chocolate); border-bottom: 2px solid var(--chocolate); }
+.ticker-inner { display: flex; gap: 0; width: max-content; animation: scroll 34s linear infinite; }
+.ticker span { font-weight: 800; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: var(--chocolate); padding: 0 18px; white-space: nowrap; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ============ sections ============ */
+section .inner { max-width: 1100px; margin: 0 auto; padding: 84px 24px; }
+.sec-kicker { font-size: 12px; letter-spacing: .3em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; color: var(--fern); }
+h2.sec-title { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spacing: -1.4px; line-height: 1.1; }
+.sec-sub { margin-top: 14px; font-size: 16.5px; color: #6B5747; max-width: 620px; line-height: 1.6; }
+
+/* ============ findings ============ */
+#found { background: var(--cream-2); }
+.find-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+@media (max-width: 800px) { .find-grid { grid-template-columns: 1fr; } }
+.fcard {
+  background: #fff; border: 2px solid rgba(43,30,22,0.1); border-radius: 20px; padding: 26px 24px;
+  position: relative;
+}
+.fcard.urgent { border-color: var(--raspberry); box-shadow: 0 18px 40px -18px rgba(232,77,138,.35); grid-column: 1 / -1; }
+.fcard .tag { position: absolute; top: -13px; left: 24px; background: var(--raspberry-deep); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; border-radius: 999px; padding: 5px 12px; }
+.fcard h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.25; }
+.fcard p { font-size: 14.5px; color: #5A4A3A; line-height: 1.6; margin-top: 10px; }
+.fcard .proof { display: block; margin-top: 14px; font-size: 12.5px; font-weight: 700; color: var(--raspberry-ink); text-transform: uppercase; letter-spacing: .08em; word-break: break-word; }
+.fcard .proof a { color: var(--raspberry-ink); }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+@media (max-width: 560px) { .split { grid-template-columns: 1fr; } }
+.split > div { background: var(--cream); border-radius: 12px; padding: 13px 15px; border: 1px solid rgba(43,30,22,0.09); }
+.split b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--fern); margin-bottom: 4px; }
+.split span { font-size: 14.5px; color: #5A4A3A; line-height: 1.45; }
+
+.honest { margin-top: 40px; background: var(--cream); border: 2px solid rgba(43,30,22,0.09); border-radius: 16px; padding: 20px 22px; }
+.honest b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--fern); margin-bottom: 8px; }
+.honest p { font-size: 14.5px; color: #5A4A3A; line-height: 1.6; }
+.honest p + p { margin-top: 10px; }
+
+/* ============ the wedge ============ */
+#wedge { background: var(--chocolate-2); color: #F3EAE1; }
+#wedge .sec-kicker { color: var(--slime); }
+#wedge .sec-sub { color: #C3B2A2; }
+#wedge .lede { margin-top: 34px; font-size: 20px; line-height: 1.6; max-width: 720px; color: #F3EAE1; }
+#wedge .lede strong { color: var(--slime); }
+.wcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+@media (max-width: 800px) { .wcards { grid-template-columns: 1fr; } }
+.wcard { background: rgba(243,234,225,0.05); border: 1px solid rgba(243,234,225,0.14); border-radius: 18px; padding: 24px 22px; }
+.wcard b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--slime); margin-bottom: 10px; }
+.wcard p { font-size: 14.5px; color: #C3B2A2; line-height: 1.6; }
+.wcard p strong { color: #F3EAE1; }
+
+/* ============ build ============ */
+.blist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+@media (max-width: 800px) { .blist { grid-template-columns: 1fr; } }
+.bitem { background: var(--cream-2); border: 2px solid rgba(43,30,22,0.09); border-radius: 18px; padding: 24px 22px; }
+.bitem .num {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #EAF7C6 0%, var(--slime) 48%, #9CCB4F 100%);
+  box-shadow: inset 0 2px 3px rgba(255,255,255,.7), inset 0 -3px 5px rgba(67,129,58,.35);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 17px; color: var(--chocolate); margin-bottom: 16px;
+  border: 2px solid var(--chocolate);
+}
+.bitem h4 { font-size: 17.5px; font-weight: 800; letter-spacing: -0.3px; }
+.bitem .sub { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--fern); font-weight: 700; margin: 4px 0 10px; }
+.bitem p { font-size: 14.5px; color: #5A4A3A; line-height: 1.6; }
+.later { margin-top: 28px; font-size: 14.5px; color: var(--taupe); line-height: 1.65; max-width: 700px; }
+.later b { color: var(--chocolate); }
+
+/* ============ price ============ */
+#price { background: var(--cream-2); }
+.pricewrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 26px; margin-top: 44px; align-items: start; }
+@media (max-width: 860px) { .pricewrap { grid-template-columns: 1fr; } }
+.pcard {
+  background: #fff; border: 2px solid var(--raspberry); border-radius: 20px; padding: 32px 28px;
+  box-shadow: 0 18px 40px -18px rgba(232,77,138,.35); position: relative;
+}
+.pcard .tag { position: absolute; top: -13px; left: 24px; background: var(--raspberry-deep); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; border-radius: 999px; padding: 5px 12px; }
+.pcard h3 { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; }
+.pcard .flavor { font-size: 12.5px; color: var(--fern); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; margin-top: 4px; }
+.pcard .price { margin-top: 18px; font-size: 40px; font-weight: 800; letter-spacing: -1.8px; font-variant-numeric: tabular-nums; }
+.pcard .price small { font-size: 14px; color: var(--taupe); font-weight: 500; letter-spacing: 0; }
+.pcard .mo { margin-top: 6px; font-size: 20px; font-weight: 800; letter-spacing: -0.6px; font-variant-numeric: tabular-nums; }
+.pcard .mo small { font-size: 13.5px; color: var(--taupe); font-weight: 500; letter-spacing: 0; }
+.pcard ul { list-style: none; margin: 22px 0 0; display: grid; gap: 10px; }
+.pcard li { font-size: 14.5px; color: #5A4A3A; padding-left: 24px; position: relative; line-height: 1.45; }
+.pcard li::before {
+  content: ""; position: absolute; left: 0; top: 4px; width: 12px; height: 12px;
+  border: 3.5px solid var(--raspberry); border-radius: 50%;
+}
+.terms { display: grid; gap: 14px; }
+.terms > div { background: #fff; border: 2px solid rgba(43,30,22,0.1); border-radius: 16px; padding: 20px 22px; }
+.terms b { display: block; font-size: 15.5px; margin-bottom: 6px; }
+.terms span { font-size: 14.5px; color: #5A4A3A; line-height: 1.6; display: block; }
+
+/* ============ cta band ============ */
+.ctaband { background: var(--raspberry-deep); color: #fff; }
+.ctaband .inner { padding: 86px 24px; text-align: center; }
+.ctaband h2 { font-size: clamp(28px, 4.2vw, 44px); font-weight: 800; letter-spacing: -1.6px; line-height: 1.08; }
+.ctaband p { margin: 16px auto 30px; font-size: 17px; max-width: 520px; line-height: 1.55; color: #fff; }
+.ctaband .btn { background: var(--chocolate); box-shadow: 0 10px 24px -10px rgba(0,0,0,.4); }
+/* Was #FBEFF4, a softened white, which measured 4.27 on --raspberry-deep and
+   failed the 4.5 that normal-weight text needs. Same fault and same fix as the
+   band's own paragraph in globals.css: the softness was costing the pass on its
+   own, so it comes off and hierarchy comes from size instead. Full white is
+   4.78 on this ground. */
+.ctaband .after { margin-top: 22px; font-size: 13.5px; color: #fff; }
+
+/* ============ footer ============ */
+footer { background: var(--chocolate-2); color: #A6907F; }
+footer .inner { max-width: 1100px; margin: 0 auto; padding: 56px 24px 36px; }
+.foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; flex-wrap: wrap; }
+.foot-brand { display: flex; align-items: center; gap: 12px; }
+.foot-brand .bw { font-weight: 800; font-size: 22px; letter-spacing: -0.7px; color: #F3EAE1; }
+.foot-brand .bw span { font-weight: 350; color: #A6907F; }
+.foot-note { font-size: 14px; line-height: 1.6; max-width: 420px; }
+.foot-note a { color: #F3EAE1; font-weight: 700; text-decoration: none; }
+.foot-note a:hover { color: var(--slime); }
+.foot-bottom { margin-top: 40px; padding-top: 22px; border-top: 1px solid rgba(243,234,225,0.1); display: flex; justify-content: space-between; font-size: 12.5px; flex-wrap: wrap; gap: 10px; }
+
+/* drip dividers */
+.drip-divider { display: block; width: 100%; height: 54px; margin-bottom: -1px; }
+
+/* reveal on scroll. The un-animated state is the finished state: .reveal is
+   only added by JS, so a blocked script or reduced motion leaves a complete
+   page rather than an empty one. */
+.js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .goo, .wob1, .wob2, .wob3, .wobB, .string, .droplet, .droplet2, .sheen, .ticker-inner { animation: none; }
+  .string, .droplet, .droplet2 { opacity: 1; }
+  .btn:hover { transform: none; }
+}
+
+/* ============ mobile ============ */
+@media (max-width: 640px) {
+  .navwrap { padding: 11px 14px; }
+  .brand { gap: 7px; }
+  .brand .bw { font-size: 17px; }
+  .navfor { font-size: 12px; }
+  .navfor b { font-size: 13px; }
+  .hero { padding: 30px 20px 58px; gap: 22px; }
+  .hero .mark svg { width: 165px; height: 208px; }
+  .hero p.sub { font-size: 16px; }
+  .btn.big { padding: 13px 22px; font-size: 15px; }
+  section .inner { padding: 56px 20px; }
+  .ctaband .inner { padding: 60px 20px; }
+  .pcard .price { font-size: 34px; }
+  footer .inner { padding: 44px 20px 30px; }
+}
+@media (max-width: 390px) {
+  .brand .bw { font-size: 16px; }
+  .navfor { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Gradients and symbols, lifted verbatim from components/Logo.jsx in the
+     glazedweb repo. Mounted once, hidden, before anything references them. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="pinkGrad" cx="40%" cy="34%" r="75%">
+      <stop offset="0%" stop-color="#F887B2"/><stop offset="55%" stop-color="#E84D8A"/><stop offset="100%" stop-color="#CE3672"/>
+    </radialGradient>
+    <linearGradient id="lgGrad" x1="0" y1="92" x2="0" y2="215" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D9EDA0"/><stop offset="55%" stop-color="#BFE07A"/><stop offset="100%" stop-color="#A3CE55"/>
+    </linearGradient>
+    <linearGradient id="creepGrad" x1="0" y1="90" x2="0" y2="124" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E3F2B0"/><stop offset="100%" stop-color="#C3E181"/>
+    </linearGradient>
+    <linearGradient id="dgGrad" x1="0" y1="92" x2="0" y2="165" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5FA850"/><stop offset="100%" stop-color="#43813A"/>
+    </linearGradient>
+  </defs>
+  <!-- viewBox cropped to 46 16 110 186, the mark's real painted bounds. No
+       coordinate moves; the matting is gone so it reads at 26px. -->
+  <symbol id="mark" viewBox="46 16 110 186" overflow="visible">
+    <g fill="url(#dgGrad)">
+      <ellipse cx="100" cy="110" rx="38" ry="15"/>
+      <path d="M 86 100 C 86 116, 87 130, 88 142 C 88 148, 91 149, 92 142 C 93 130, 92 114, 92 100 Z"/>
+      <path d="M 114 100 C 114 112, 115 124, 116 134 C 116 140, 119 141, 120 134 C 121 124, 120 110, 120 100 Z"/>
+    </g>
+    <g fill="url(#lgGrad)">
+      <path d="M 64 100 C 63 120, 65 138, 66 152 C 66 164, 68 172, 74 173 C 80 172, 83 165, 82 154 C 84 136, 85 116, 86 100 Z"/>
+      <path d="M 92 100 C 91 128, 93 152, 94 172 C 94 188, 97 199, 104 200 C 111 199, 114 190, 112 174 C 113 150, 114 124, 114 100 Z"/>
+      <path d="M 120 100 C 119 116, 120 130, 121 142 C 121 152, 123 159, 129 160 C 134 159, 137 153, 135 144 C 136 130, 137 114, 137 100 Z"/>
+    </g>
+    <circle cx="100" cy="70" r="52" fill="url(#pinkGrad)"/>
+    <path d="M 56 98 A 52 52 0 0 0 144 98 C 142 94, 138 92, 134 94 C 130 97, 129 102, 125 104 C 119 106, 116 98, 110 96 C 104 94, 103 102, 98 105 C 93 107, 90 100, 84 97 C 78 95, 76 100, 71 102 C 66 103, 62 100, 56 98 Z" fill="url(#creepGrad)"/>
+    <path d="M 68 106 A 42 42 0 0 0 84 116" fill="none" stroke="#F1F8DC" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 97 144 Q 103 151 109 144" fill="none" stroke="#55974A" stroke-width="4" stroke-linecap="round"/>
+    <g stroke="#F1F8DC" fill="none" stroke-linecap="round">
+      <path d="M 97 128 C 96 148, 97 166, 100 182" stroke-width="4.5" opacity="0.85"/>
+      <path d="M 69 118 C 68 132, 70 146, 71 156" stroke-width="3.5" opacity="0.8"/>
+      <path d="M 124 114 C 123 124, 125 138, 126 148" stroke-width="3.5" opacity="0.8"/>
+    </g>
+    <circle cx="100" cy="192" r="2.5" fill="#F1F8DC" opacity="0.9"/>
+    <circle cx="100" cy="72" r="13" fill="var(--hole, #FDF6EC)"/>
+    <circle cx="100" cy="72" r="13" fill="none" stroke="#C22F6B" stroke-width="3" opacity="0.3"/>
+    <path d="M 62 46 A 44 44 0 0 1 82 28" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.75"/>
+    <circle cx="92" cy="26" r="3.5" fill="#FFFFFF" opacity="0.75"/>
+  </symbol>
+  <symbol id="dripEdge" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,0 H1440 V16 C1408 16 1400 44 1378 44 C1356 44 1362 16 1332 16 H1180 C1160 16 1156 52 1132 52 C1110 52 1116 16 1088 16 H880 C862 16 860 38 842 38 C824 38 828 16 802 16 H590 C574 16 572 48 550 48 C528 48 532 16 506 16 H300 C284 16 282 36 264 36 C246 36 250 16 224 16 H0 Z"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="navwrap">
+    <a class="brand" href="https://glazedweb.com">
+      <svg width="24" height="31" viewBox="46 16 110 186" overflow="visible" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="bw">glazed<span>web</span></span>
+    </a>
+    <div class="navfor">
+      Prepared for
+      <b>Schuler's Restaurant &amp; Pub</b>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div>
+    <p class="kicker">A website proposal, August 2026</p>
+    <h1>Can a guest book a table <em>right now?</em></h1>
+    <p class="sub">Not send a request and wait for a callback. Book it, see it confirmed, and get an email. On a Saturday night, at 11pm, from a phone in Chicago.</p>
+    <div class="ctas">
+      <a class="btn big" href="#found">See what we found</a>
+      <a class="btn big ghost" href="#price">Skip to the price</a>
+    </div>
+    <p class="proof">Every finding below links to the page on your own site that proves it. Nothing here is an opinion about your design.</p>
+  </div>
+  <div class="mark">
+    <!-- AnimatedMark, lifted verbatim. Hero only, one per page. -->
+    <svg width="230" height="290" viewBox="0 0 200 250" overflow="visible" aria-hidden="true">
+      <g class="goo">
+        <g fill="url(#dgGrad)">
+          <ellipse cx="100" cy="110" rx="38" ry="15"/>
+          <path class="wobB" d="M 86 100 C 86 116, 87 130, 88 142 C 88 148, 91 149, 92 142 C 93 130, 92 114, 92 100 Z"/>
+          <path d="M 114 100 C 114 112, 115 124, 116 134 C 116 140, 119 141, 120 134 C 121 124, 120 110, 120 100 Z"/>
+        </g>
+        <g fill="url(#lgGrad)">
+          <path class="wob1" d="M 64 100 C 63 120, 65 138, 66 152 C 66 164, 68 172, 74 173 C 80 172, 83 165, 82 154 C 84 136, 85 116, 86 100 Z"/>
+          <path class="wob2" d="M 92 100 C 91 128, 93 152, 94 172 C 94 188, 97 199, 104 200 C 111 199, 114 190, 112 174 C 113 150, 114 124, 114 100 Z"/>
+          <path class="wob3" d="M 120 100 C 119 116, 120 130, 121 142 C 121 152, 123 159, 129 160 C 134 159, 137 153, 135 144 C 136 130, 137 114, 137 100 Z"/>
+        </g>
+      </g>
+      <path class="string" d="M 104 199 L 104 209" stroke="#BFE07A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <g class="droplet">
+        <circle cx="104" cy="213" r="7" fill="#BFE07A"/>
+        <circle cx="102" cy="211" r="2" fill="#F1F8DC" opacity="0.9"/>
+      </g>
+      <circle class="droplet2" cx="74" cy="186" r="4.5" fill="#BFE07A"/>
+      <circle cx="100" cy="70" r="52" fill="url(#pinkGrad)"/>
+      <path d="M 56 98 A 52 52 0 0 0 144 98 C 142 94, 138 92, 134 94 C 130 97, 129 102, 125 104 C 119 106, 116 98, 110 96 C 104 94, 103 102, 98 105 C 93 107, 90 100, 84 97 C 78 95, 76 100, 71 102 C 66 103, 62 100, 56 98 Z" fill="url(#creepGrad)"/>
+      <path d="M 68 106 A 42 42 0 0 0 84 116" fill="none" stroke="#F1F8DC" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M 97 144 Q 103 151 109 144" fill="none" stroke="#55974A" stroke-width="4" stroke-linecap="round"/>
+      <g stroke="#F1F8DC" fill="none" stroke-linecap="round">
+        <path d="M 97 128 C 96 148, 97 166, 100 182" stroke-width="4.5" opacity="0.85"/>
+        <path d="M 69 118 C 68 132, 70 146, 71 156" stroke-width="3.5" opacity="0.8"/>
+        <path d="M 124 114 C 123 124, 125 138, 126 148" stroke-width="3.5" opacity="0.8"/>
+      </g>
+      <circle cx="100" cy="192" r="2.5" fill="#F1F8DC" opacity="0.9"/>
+      <circle cx="100" cy="72" r="13" fill="#FDF6EC"/>
+      <circle cx="100" cy="72" r="13" fill="none" stroke="#C22F6B" stroke-width="3" opacity="0.3"/>
+      <path class="sheen" d="M 62 46 A 44 44 0 0 1 82 28" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+      <circle class="sheen" cx="92" cy="26" r="3.5" fill="#FFFFFF"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span>Five rooms or eight?</span><span>&bull;</span><span>250 guests or 300?</span><span>&bull;</span><span>A Saturday at 19 Zero 9 is $5,500. Or $6,000.</span><span>&bull;</span><span>Events opens to Thanksgiving</span><span>&bull;</span><span>Gift cards arrive by mail</span><span>&bull;</span>
+    <span>Five rooms or eight?</span><span>&bull;</span><span>250 guests or 300?</span><span>&bull;</span><span>A Saturday at 19 Zero 9 is $5,500. Or $6,000.</span><span>&bull;</span><span>Events opens to Thanksgiving</span><span>&bull;</span><span>Gift cards arrive by mail</span><span>&bull;</span>
+  </div>
+</div>
+
+<section id="found">
+  <div class="inner">
+    <p class="sec-kicker reveal">What we found</p>
+    <h2 class="sec-title reveal">We read your website the way a guest does, then the way a search engine does.</h2>
+    <p class="sec-sub reveal">Fourteen findings. Here are the ones that cost you money or time. Every one links to the page it came from, so you can check us.</p>
+
+    <div class="find-grid">
+
+      <article class="fcard urgent reveal">
+        <span class="tag">Fix this today</span>
+        <h3>Your weekly staff schedules are public on the internet.</h3>
+        <p>Six schedule PDFs are sitting in your website's media library where anyone can download them, no password. We opened the week of August 17 to 23 and it lists roughly 55 employees by name against their shifts. Front of house and back of house, both. A new one goes up every week, so this is how somebody on your team is sharing the schedule, not a one-time slip.</p>
+        <p>You do not need us to fix it. Delete the files, and post the schedule somewhere that asks for a login. We are telling you first because it is the kind of thing an owner should hear from a stranger before it becomes a problem.</p>
+        <span class="proof">Proof: schulersrestaurant.com/wp-content/uploads/2026/08/8.23.26-Week-Ending-FOH.pdf</span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>Reservations are a request, not a booking.</h3>
+        <p>Your reservations page takes a name, a date and a party size, then somebody on your staff has to work the queue and call people back. Same-day guests are told to phone instead. You are also not on the OpenTable network, which OpenTable states on its own page for you, and the reviews there stopped in 2016.</p>
+        <p>A guest deciding between you and somewhere else at 9pm on a Thursday does not wait for a callback.</p>
+        <span class="proof"><a href="https://schulersrestaurant.com/reservations/">Your reservations page</a> &middot; <a href="https://www.opentable.com/r/schulers-restaurant-and-pub">Your OpenTable listing</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>Gift cards arrive by mail.</h3>
+        <p>Somebody buying a gift at 10pm on December 23 needs it in their inbox in ten seconds. Yours gets mailed. That is a full week of December where the sale goes to a restaurant that can email one.</p>
+        <span class="proof"><a href="https://schulersrestaurant.com/product/gift-card/">Your gift card page</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>The Royal Hotel is three rooms smaller on your busiest site.</h3>
+        <p>Your restaurant site, which is the one most people land on, still describes a five room hotel. royalhotelmarshall.com describes eight. The three rooms inside 19 Zero 9 do not appear on the restaurant site at all.</p>
+        <div class="split">
+          <div><b>schulersrestaurant.com</b><span>"beautifully restored 5 room hotel"</span></div>
+          <div><b>royalhotelmarshall.com</b><span>"eight beautifully appointed accommodations"</span></div>
+        </div>
+        <span class="proof"><a href="https://schulersrestaurant.com/the-royal-hotel/">Restaurant site</a> &middot; <a href="https://royalhotelmarshall.com/">Hotel site</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>19 Zero 9 holds 250 guests. It also holds 300.</h3>
+        <p>Your own two sites disagree, and so do the wedding marketplaces, which publish 250 while 19zero9.com says 300. A planner sizing a 275 guest wedding gets a yes on one page and a no on another, and the ones who get the no do not call to check.</p>
+        <span class="proof"><a href="https://19zero9.com/about/">19zero9.com</a> &middot; <a href="https://schulersrestaurant.com/special-events-and-meetings/">Your banquets page</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>Last year's banquet prices are still online, and Google can find them.</h3>
+        <p>Your current packet went up in April. The November 2024 packet is still live at its old address and still turns up in search. A couple who finds the old one is quoting a Saturday at 19 Zero 9 at $5,500 against your real $6,000, and Hyde Away at $2,000 against your real $5,000. Then they arrive at the meeting with the wrong number in their head.</p>
+        <div class="split">
+          <div><b>2024 packet, still live</b><span>Saturday $5,500 &middot; Hyde Away ceremony and reception $2,000</span></div>
+          <div><b>2026 packet, current</b><span>Saturday $6,000 &middot; Hyde Away ceremony and reception $5,000</span></div>
+        </div>
+        <span class="proof"><a href="https://schulersrestaurant.com/wp-content/uploads/2024/11/SchulersRestaurantBanquetPacket_web.pdf">The old packet</a> &middot; <a href="https://schulersrestaurant.com/wp-content/uploads/2026/04/Schulers_Restaurant_Banquet_Packet_web.pdf">The current one</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>Clicking Events in your menu opens a Thanksgiving page.</h3>
+        <p>It advertises dinner on November 28 with no year on it anywhere, plus a Turkey To Go and a fall wine dinner, and each listing appears twice. Meanwhile your Facebook page is carrying the wine dinners, the tastings and the holiday brunches that people actually want to find. The events are real. The website just is not being told about them.</p>
+        <span class="proof"><a href="https://schulersrestaurant.com/events/">Your events page</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>An older version of your website is still live underneath this one.</h3>
+        <p>Several pages from a previous build never came down. They are not linked from your menu, but Google still serves them, and they carry the old tagline, hours that contradict your real ones, and a "Centennial Room" that no longer exists. Someone searching for your banquet rooms can land on a page you stopped using years ago.</p>
+        <span class="proof"><a href="https://schulersrestaurant.com/banquets-catering/room-details/">The old room details page</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>19zero9.com never links back to Schuler's.</h3>
+        <p>Not in the navigation, not in the footer, not anywhere. Schuler's is named all over the copy and sits at the top of the preferred vendors list as plain text you cannot click. A couple touring the venue who then wants to see your menus has to retype your address.</p>
+        <p>That same vendors page lists three other hotels under accommodations. Your own eight rooms are one block away.</p>
+        <span class="proof"><a href="https://19zero9.com/preferred-vendors/">The preferred vendors page</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>Google does not know you are a restaurant.</h3>
+        <p>There is no structured data anywhere on the site telling search engines your address, your hours, your cuisine or your price range, even though all of it is printed in plain text on your contact page. Your homepage is titled "Home", which Google already ignores and rewrites. And your Facebook link in the site's own code points at a search results page rather than at your page.</p>
+        <span class="proof"><a href="https://schulersrestaurant.com/">Your homepage source</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>Nowhere on any of your three sites is a room rate.</h3>
+        <p>Not one nightly price for the Royal Hotel, Hyde Away or the 19 Zero 9 rooms. The National House Inn publishes all fourteen of theirs. Somebody comparing the two of you on a phone can price them and cannot price you, and the tab that has a number in it usually wins.</p>
+        <span class="proof"><a href="https://royalhotelmarshall.com/royal-hotel-rooms/">Your rooms page</a></span>
+      </article>
+
+      <article class="fcard reveal">
+        <h3>Your two paid wedding listings have one review each.</h3>
+        <p>19 Zero 9 sits in a sponsored slot on The Knot, above venues with 21 and 57 reviews. You are paying for the placement and then losing the click on the review count. The most recent review across all four marketplaces is the same one, from August 2025.</p>
+        <span class="proof"><a href="https://www.theknot.com/marketplace/venue-19-zero-9-marshall-mi-2083505">Your Knot listing</a></span>
+      </article>
+
+    </div>
+
+    <div class="honest reveal">
+      <b>What we could not check</b>
+      <p>We could not get a page speed score. Google's testing tool rate limited us on every attempt, so there is no performance number in this document and we are not going to guess one. If you want it, it takes about a minute with the right access and we will send it over.</p>
+      <p>We also want to be straight about one thing. We read your recent reviews looking for guests complaining about the website, the booking or the ordering, and there were none. Your ratings are strong and you are ranked first in Marshall. Nothing here is a guest complaint. It is work that is falling on your staff instead of on your website.</p>
+    </div>
+  </div>
+</section>
+
+<svg class="drip-divider" viewBox="0 0 1440 60" preserveAspectRatio="none" style="background:#FFFDF8" aria-hidden="true"><use href="#dripEdge" fill="#201712"/></svg>
+
+<section id="wedge">
+  <div class="inner">
+    <p class="sec-kicker reveal">The part that matters most</p>
+    <h2 class="sec-title reveal">Your website collects requests. It should complete transactions.</h2>
+    <p class="lede reveal">Every path on your site right now ends with a person on your payroll doing something by hand. A reservation is a form somebody answers. A gift card is an envelope somebody addresses. A carryout order is a phone call somebody keys in. A banquet inquiry is an email somebody chases. <strong>The Marshall Historical Society sells Home Tour tickets online through Square.</strong> A volunteer group can take money on the internet, and the best restaurant in town cannot.</p>
+
+    <div class="wcards">
+      <div class="wcard reveal">
+        <b>What you already own</b>
+        <p>You own your domains and your content, and there is a working store on the site selling Chef's Salt and the Take &amp; Bake. <strong>That store is the proof the idea works.</strong> Somebody updates it every single week. It just has almost nothing in it.</p>
+      </div>
+      <div class="wcard reveal">
+        <b>What renting it would cost</b>
+        <p>The booking and ordering features here are usually sold as subscriptions with a contract attached. Your own point of sale vendor sells online ordering on a <strong>36 month term</strong> that renews itself, raises the price every year, and charges you the full remaining balance if you leave early.</p>
+      </div>
+      <div class="wcard reveal">
+        <b>What we do instead</b>
+        <p>We write these features into your site so they belong to you. <strong>No subscription you did not choose.</strong> When the build is paid for, you own the code, the content and the accounts, and you can take all of it and go, any month, for any reason.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="drip-divider" viewBox="0 0 1440 60" preserveAspectRatio="none" style="background:#201712" aria-hidden="true"><use href="#dripEdge" fill="#FDF6EC"/></svg>
+
+<section id="build">
+  <div class="inner">
+    <p class="sec-kicker reveal">What we would build</p>
+    <h2 class="sec-title reveal">A new schulersrestaurant.com, with the two things it cannot do today.</h2>
+    <p class="sec-sub reveal">Written from scratch, not assembled from plugins. Your photography, your history, your voice. Fast on a phone, readable on a screen reader, and every page carrying the information Google needs to put you where you belong.</p>
+
+    <div class="blist">
+      <div class="bitem reveal">
+        <div class="num" aria-hidden="true">1</div>
+        <h4>Real reservations</h4>
+        <p class="sub">Booked, confirmed, done</p>
+        <p>A guest picks a date, a time and a party size, sees what is actually open, and gets a confirmation email before they close the tab. Your team gets one screen showing tonight's book instead of a queue of requests to answer. Holiday and special-menu dates handled, because Mother's Day and Christmas are where the phone currently melts.</p>
+      </div>
+      <div class="bitem reveal">
+        <div class="num" aria-hidden="true">2</div>
+        <h4>Gift cards that arrive in ten seconds</h4>
+        <p class="sub">Emailed, any amount, any hour</p>
+        <p>Bought on the site, delivered to the recipient's inbox with your name on it, redeemable at the register. Physical cards stay available for anyone who wants one in an envelope. December stops being a mailing operation.</p>
+      </div>
+      <div class="bitem reveal">
+        <div class="num" aria-hidden="true">3</div>
+        <h4>One set of facts</h4>
+        <p class="sub">Eight rooms, everywhere</p>
+        <p>Hours, capacities, room counts and prices live in one place in the code, so a correction is one edit and every page updates together. The old site comes down, the stale PDFs come down, and the contradictions in this document stop being possible.</p>
+      </div>
+      <div class="bitem reveal">
+        <div class="num" aria-hidden="true">4</div>
+        <h4>Menus, events and banquets that carry their weight</h4>
+        <p class="sub">Findable, current, linked</p>
+        <p>Menus as real pages a phone can read and Google can index, not a plugin's leftovers. A working events page you can update yourself in under a minute. A banquet inquiry form that reaches the right inbox with the event type, date and guest count already sorted.</p>
+      </div>
+      <div class="bitem reveal">
+        <div class="num" aria-hidden="true">5</div>
+        <h4>The store, opened up</h4>
+        <p class="sub">Chef's Salt, shipped</p>
+        <p>You already ship. Chef's Salt is yours, it keeps on a shelf, and it is sold nowhere else on earth. The Take &amp; Bake keeps its weekly rhythm. Same checkout, more in it.</p>
+      </div>
+      <div class="bitem reveal">
+        <div class="num" aria-hidden="true">6</div>
+        <h4>Found by the people looking for you</h4>
+        <p class="sub">Search, maps and link previews</p>
+        <p>Your address, hours, cuisine and price range written where search engines read them. Every page with its own title and description. Your link, when somebody texts it, showing your photograph and your name instead of a blank row.</p>
+      </div>
+    </div>
+
+    <p class="later reveal"><b>Not in this price, and worth naming now.</b> Pulling royalhotelmarshall.com and 19zero9.com under one roof, publishing your room rates, and getting the wedding marketplaces telling the same story is a second project. So is online food ordering, which we build and which we would rather talk about after you have seen us do this first. Nothing here depends on either of them.</p>
+  </div>
+</section>
+
+<section id="price">
+  <div class="inner">
+    <p class="sec-kicker reveal">What it costs</p>
+    <h2 class="sec-title reveal">$4,500 to build it. $250 a month to keep it.</h2>
+    <p class="sec-sub reveal">One number, not a range. If we find something during the build that changes the scope, we tell you before we do it, not after.</p>
+
+    <div class="pricewrap">
+      <div class="pcard reveal">
+        <span class="tag">Custom Order</span>
+        <h3>Schuler's Restaurant &amp; Pub</h3>
+        <p class="flavor">Marshall, Michigan, since 1909</p>
+        <p class="price">$4,500 <small>to build</small></p>
+        <p class="mo">$250 <small>a month after launch</small></p>
+        <ul>
+          <li>The full site, written not assembled</li>
+          <li>Real-time reservations</li>
+          <li>Instant emailed gift cards</li>
+          <li>Menus, events, banquets and the store</li>
+          <li>Search, maps and link previews set up properly</li>
+          <li>Hosting, security updates and content edits, monthly</li>
+        </ul>
+      </div>
+
+      <div class="terms">
+        <div class="reveal">
+          <b>You own it</b>
+          <span>When the build is paid, the code, the content and the accounts are yours. We hand over the repository and every login. The domain stays in your name and transfers free whenever you ask.</span>
+        </div>
+        <div class="reveal">
+          <b>Month to month, thirty days' notice</b>
+          <span>No term, no auto-renewal, no penalty for leaving. If you go, you take the whole site with you and it keeps working. The monthly buys care, not permission.</span>
+        </div>
+        <div class="reveal">
+          <b>What the monthly actually covers</b>
+          <span>Hosting, security patching, updates, and the small content edits that otherwise sit in a to-do pile: a new menu price, a holiday closing, a fall wine dinner. Send a text, it goes up.</span>
+        </div>
+        <div class="reveal">
+          <b>Nothing rented underneath it</b>
+          <span>The reservations and the gift cards are written into your site rather than licensed from anyone. The only outside cost is the card processing fee on money you collect, and you hear that number before it is added.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ctaband">
+  <div class="inner">
+    <h2>Give us thirty minutes.</h2>
+    <p>We will sit down at Schuler's, walk through the findings on a phone with you, and you can tell us where we are wrong. No slides.</p>
+    <a class="btn big" href="mailto:kevin@glazedweb.com?subject=Schuler%27s%20website%20proposal">Email Kevin</a>
+    <p class="after">Glazed Web is one person in Marshall. You would be working with Kevin, start to finish.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <svg width="30" height="38" viewBox="46 16 110 186" overflow="visible" style="--hole:#201712" aria-hidden="true"><use href="#mark"/></svg>
+        <span class="bw">glazed<span>web</span></span>
+      </div>
+      <p class="foot-note">Hand-built websites for small businesses in and around Marshall, Michigan. <a href="https://glazedweb.com">glazedweb.com</a></p>
+    </div>
+    <div class="foot-bottom">
+      <span>Prepared for Schuler's Restaurant &amp; Pub, August 2026.</span>
+      <span>Findings verified against the live sites on August 20, 2026.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* The class is added by script, so with JavaScript off nothing is ever hidden
+   and the page is complete on arrival. */
+document.documentElement.classList.add('js');
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('in');
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -60px 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
