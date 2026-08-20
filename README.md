@@ -537,6 +537,26 @@ to the client.
 - [ ] **`kevin@glazedweb.com` is the only action in the proposal.** Confirm that
       mailbox exists and is watched.
 
+## For the room, not for the document
+
+Two things Kevin should know and the proposal should not say. Both were in the
+proposal at one point and both were cut, because a sales document that spends
+three paragraphs qualifying itself immediately before naming a price reads as
+doubt.
+
+**There is no page speed number.** Google's API rate limited every attempt
+across three sessions. The proposal makes no speed claim, so there is nothing to
+disclaim, and a paragraph explaining a measurement nobody asked for is a
+paragraph about us. If Sue asks, it takes a minute with a key.
+
+**No guest is complaining.** Their recent reviews contain nothing about the
+website, booking, or ordering; the ratings are strong and they are first in
+Marshall. Do not let this be a surprise in the room. It is also not a weakness
+in the pitch, and the proposal now says so in the wedge instead of in a caveat
+box: the table that did not get booked at eleven at night does not leave a
+review. The damage is invisible by nature, which is exactly why it has gone
+unaddressed.
+
 ## Two traps that would cost the account
 
 Both are in the research doc; repeated here because they are easy to walk into.
