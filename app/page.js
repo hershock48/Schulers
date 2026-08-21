@@ -6,6 +6,7 @@ import OpenNow from "@/components/OpenNow";
 import ReserveStrip from "@/components/ReserveStrip";
 import BuildingInk from "@/components/BuildingInk";
 import HistoryTicker from "@/components/HistoryTicker";
+import YearCount from "@/components/YearCount";
 
 export const metadata = {
   title: "Schuler's Restaurant & Pub | Marshall, Michigan since 1909",
@@ -114,7 +115,7 @@ export default function Home() {
           <div className="split">
             <div className="reveal">
               <p className="eyebrow on-dark">Since {site.since}</p>
-              <span className="years" aria-hidden="true" />
+              <YearCount />
               {/* The number above is a YEAR rolling 1909 to 2026. The previous label
                   said "years feeding Marshall", which made the finished frame read
                   "2026 years feeding Marshall". A label that has to work under a
