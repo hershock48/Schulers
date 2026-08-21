@@ -5,39 +5,39 @@ import { useEffect, useRef } from "react";
 /**
  * 1909 counting up to the present, under "and counting".
  *
- * This used to be scrubbed to scroll — `animation-timeline: view()` mapped the
- * count onto the number's pass through the viewport, the house pattern. That
- * reads well under a desktop wheel and badly under a thumb, and the reason is
- * arithmetic rather than taste.
+ * TWO THINGS HAVE TO BE TRUE AT ONCE and each previous version held only one.
  *
- * The count is 117 steps wide. The active band was 40% of `cover`, and the
- * number is only 57.6px tall at 390px wide, so `cover` is barely more than one
- * viewport: 902px, of which 40% is 361px. That is 3.08px of scroll per year.
- * A normal flick — roughly 900px in 450ms, decelerating — crosses the whole
- * band in about seven frames, so the count rendered EIGHT values and lurched
- * in twenty-year jumps:
+ *   1. The count must not be driven by scroll POSITION. The number is 57.6px
+ *      tall at 390px wide, so its `cover` distance is barely one viewport and
+ *      the old `cover 34%`–`74%` band was 361px: 3.08px per year across 117
+ *      years. A flick crosses that in about seven frames, so the count showed
+ *      EIGHT values and lurched in twenty-year jumps.
  *
- *     1909 → 1922 → 1946 → 1967 → 1987 → 2005 → 2019 → 2026
+ *   2. The count must only SPEND ITSELF WHILE THE NUMBER IS ON SCREEN. This is
+ *      the part a plain timer throws away, and it is the whole virtue of
+ *      scrubbing. Measured on a Pixel 7 profile with a normal flick, a
+ *      fire-once 2.4s timer ran with the element at top: -283px for every
+ *      frame of the count — zero frames where a mid-count year was visible.
+ *      The visitor saw nothing at all, then 2026 forever after, which is worse
+ *      than the lurch it replaced.
  *
- * Widening the band does not rescue it; the full `cover` range still only buys
- * about fifteen values on the same flick. A ticker is time-based by nature.
+ * So: time drives the count, and visibility gates the clock. The animation is
+ * paused whenever the number is off screen and runs whenever it is on, which
+ * means every year it passes through is a year somebody could actually see. A
+ * visitor who flicks past mid-count finds it exactly where they left it when
+ * they come back, rather than finished.
  *
- * So the count now runs over a fixed duration once the number is properly in
- * frame. It reads identically on a slow desktop scroll and a fast thumb, it
- * cannot run backwards when the visitor scrolls up, and it no longer competes
- * with momentum scrolling for frames.
+ * Three states, in the order they arrive:
+ *   is-armed     first pixel of it is visible  -> hold 1909
+ *   is-counting  90% of it is visible          -> start the clock, once
+ *   is-onscreen  any part visible              -> clock runs; absent = paused
  *
- * One-shot on purpose: it fires once and disconnects. A number that re-counts
- * every time you pass it is a toy rather than a fact about the building.
+ * Arming on first intersection rather than on mount matters: if the number is
+ * never scrolled to, no class is ever added and it sits at its registered
+ * initial value of 2026 — the finished state and the true one. Arming at mount
+ * would strand it on 1909 for anyone whose scroll never reached it.
  *
- * Two classes rather than one, to avoid a flash. `is-armed` goes on at mount
- * and holds 1909 while the number is still below the fold; `is-counting` goes
- * on when it arrives. Without that, the registered initial value (2026) would
- * be visible first and the number would snap backwards to 1909 before running.
- *
- * With no JavaScript, or under reduced motion, neither class is ever added and
- * the number sits at 2026 — the finished state and the true one, which is the
- * same fallback the scrolled version had wherever `view()` was unsupported.
+ * With no JavaScript, or under reduced motion, the same is true for everyone.
  */
 export default function YearCount() {
   const ref = useRef(null);
@@ -47,22 +47,40 @@ export default function YearCount() {
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    el.classList.add("is-armed");
+    let started = false;
 
-    const io = new IntersectionObserver(
+    // ARMING runs on a root stretched 400px past the bottom edge, so 1909 is
+    // in place BEFORE the number is ever on screen. Arming on real
+    // intersection instead put a frame or two of 2026 at the bottom of the
+    // screen before it snapped back to 1909 — measured, not theorised.
+    const arm = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        el.classList.add("is-counting");
-        io.disconnect();
+        el.classList.add("is-armed");
+        arm.disconnect();
       },
-      // Whole number visible AND up off the bottom edge. `threshold: 1` alone
-      // is satisfied while it sits on the very bottom of the screen, which is
-      // the readability problem the old `cover 34%` hold was written to solve.
-      { threshold: 1, rootMargin: "0px 0px -15% 0px" }
+      { rootMargin: "0px 0px 400px 0px" }
     );
 
-    io.observe(el);
-    return () => io.disconnect();
+    // THE GATE runs on the real viewport and never disconnects: it has to keep
+    // pausing and resuming for as long as the page is scrollable.
+    const gate = new IntersectionObserver(
+      ([entry]) => {
+        el.classList.toggle("is-onscreen", entry.isIntersecting);
+        if (!started && entry.intersectionRatio >= 0.9) {
+          started = true;
+          el.classList.add("is-counting");
+        }
+      },
+      // 0 for the on/off gate, 0.9 to start. Not 1: a fractional device pixel
+      // or a sub-pixel layout can hold the ratio just under 1 forever, and the
+      // count would then never begin at all.
+      { threshold: [0, 0.9] }
+    );
+
+    arm.observe(el);
+    gate.observe(el);
+    return () => { arm.disconnect(); gate.disconnect(); };
   }, []);
 
   return <span ref={ref} className="years" aria-hidden="true" />;

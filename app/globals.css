@@ -786,27 +786,28 @@ section.dark .facts li::before { background: var(--cream); }
   background-position: 0 bottom;
 }
 
-/* THE YEARS COUNT is time-based, not scrubbed to scroll, and that is the one
-   place this site departs from the house pattern. The measurement is in
-   components/YearCount.jsx: 117 steps across 361px of scroll is 3.08px per
-   year, and a normal phone flick crosses the whole band in about seven frames,
-   so the scrubbed version rendered eight values and lurched in twenty-year
-   jumps. Scroll position cannot drive a counter this dense at thumb speed.
-   The dots below stay scrubbed: a leader drawing left to right has no steps to
-   skip, so it degrades into "drawn a bit further", never into a stutter. */
+/* THE YEARS COUNT is time-based with a visibility-gated clock, and it is the
+   one place this site departs from the scroll-scrubbed house pattern. Both
+   halves were earned the hard way; see components/YearCount.jsx for the
+   measurements.
+
+   Scrubbing failed because 117 years across a 361px band is 3.08px of scroll
+   per year and a flick renders eight of them. A plain fire-once timer failed
+   worse: measured on a phone profile, the whole 2.4s ran with the number at
+   top:-283px, so ZERO mid-count years were ever on screen and the visitor saw
+   nothing. Pausing the clock off screen is what puts the two together — every
+   year it passes through is a year somebody could see.
+
+   The dots below stay scrubbed. A leader drawing left to right has no steps to
+   skip, so a flick degrades it into "drawn a bit further", never a stutter. */
 @media not (prefers-reduced-motion: reduce) {
-  /* Held while the number is still below the fold, so the registered initial
-     value (2026) is never seen first and the number never snaps backwards to
-     1909 before it runs. */
+  /* Held from the first visible pixel, so 1909 is what sits at the bottom edge
+     while the number climbs into frame. */
   .years.is-armed { --year: 1909; }
-  /* 2.4s reads as a count without outlasting the eye's trip to the paragraph
-     below, and plain ease-out is the curve that actually spins DOWN. Measured
-     across the four 600ms quarters, it covers 44, 36, 26 and 11 years, so it
-     is still visibly ticking as it lands. The showier curves are worse here:
-     cubic-bezier(.12,.78,.28,1) spends its first quarter on 89 years and the
-     last on ONE, which reads as a lurch followed by a stall, and easeOutQuint
-     reaches 2026 at 1.8s and then sits there for 600ms of dead animation. */
-  .years.is-counting { animation: years 2400ms ease-out both; }
+  /* Paused by default: is-counting can be added a frame before is-onscreen, and
+     a count that starts before the gate opens is the bug this file exists for. */
+  .years.is-counting { animation: years 1800ms ease-out both; animation-play-state: paused; }
+  .years.is-counting.is-onscreen { animation-play-state: running; }
 }
 
 @supports (animation-timeline: view()) {
