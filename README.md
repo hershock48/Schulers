@@ -88,9 +88,10 @@ Env: NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com  (pitch only, see .e
    The host string has to match `PITCH_HOST` in `next.config.mjs` exactly or
    the rewrites never fire and the prospect lands on the demo instead of the
    pitch. Both are `schulers.glazedweb.com`, checked.
-3. Set `NEXT_PUBLIC_SITE_ORIGIN=https://schulers.glazedweb.com`, or every
-   `og:image` resolves to a domain that does not serve this build and the link
-   preview is blank. Delete the variable on launch day.
+3. The pitch origin is baked into `app/layout.js` as the fallback, because the
+   env-var route was never set in the dashboard and every live og:image 404'd.
+   **Launch-day step: change that fallback back to `SITE_URL`** so canonicals
+   and cards point at schulersrestaurant.com. It is one line, loudly commented.
 4. Fetch `https://schulers.glazedweb.com/` and confirm it serves the proposal,
    not the site. Then fetch `/demo` and confirm the opposite.
 5. Confirm `X-Robots-Tag` on both the pitch host and the `.vercel.app` host, and

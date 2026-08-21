@@ -70,7 +70,15 @@ const mono = IBM_Plex_Mono({
  * the pitch, and DELETE it on launch day. Everything on the pitch host is
  * noindex, so a canonical pointing there costs nothing while it is set.
  */
-const ORIGIN = process.env.NEXT_PUBLIC_SITE_ORIGIN || SITE_URL;
+/* PITCH DEFAULT, FLIP ON LAUNCH DAY. The env-var route documented above was
+   never set in the Vercel dashboard, so every live og:image resolved to
+   schulersrestaurant.com and 404'd -- found in the final review, on the live
+   host only. A dashboard variable is also exactly the class of invisible state
+   that caused this project's framework-preset 404, so the pitch origin now
+   lives HERE, in the repo, where the next person can see it.
+   LAUNCH-DAY STEP (on the README checklist): change the fallback below to
+   SITE_URL so canonicals and cards point at their real domain. */
+const ORIGIN = process.env.NEXT_PUBLIC_SITE_ORIGIN || "https://schulers.glazedweb.com";
 
 export const metadata = {
   metadataBase: new URL(ORIGIN),
