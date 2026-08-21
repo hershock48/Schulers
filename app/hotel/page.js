@@ -58,7 +58,11 @@ export default function Hotel() {
               />
             </div>
             <div>
-              <h2>Rooms above a hundred-year-old dining room</h2>
+              {/* Not "a hundred-year-old dining room": the dining room dates to the
+                  mid-1930s per the state marker, and this build does not carry
+                  numbers the marker contradicts. Fifty years is checkable: rooms
+                  closed in the 1970s, back in 2023. */}
+              <h2>The rooms came back after fifty years.</h2>
               <p>
                 The Royal Hotel operated on this corner until the 1970s. The rooms came back in
                 2023, restored rather than rebuilt, and they are still the shortest walk to a table

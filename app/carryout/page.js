@@ -49,10 +49,11 @@ export default function Carryout() {
                 {sec.items.map((it) => {
                   const price = it.carryout ? it.carryout.price : it.price;
                   const unit = it.carryout ? it.carryout.unit : it.unit;
+                  const name = it.carryout?.name || it.name;
                   return (
                     <article className="mrow" key={it.id}>
                       <div className="mrow-top">
-                        <h3 className="mrow-name">{it.name}</h3>
+                        <h3 className="mrow-name">{name}</h3>
                         <span className="mrow-dots" aria-hidden="true" />
                         <span className="mrow-price">{money(price)}</span>
                       </div>

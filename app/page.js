@@ -115,13 +115,22 @@ export default function Home() {
             <div className="reveal">
               <p className="eyebrow on-dark">Since {site.since}</p>
               <span className="years" aria-hidden="true" />
-              <span className="years-label">years feeding Marshall, and counting</span>
+              {/* The number above is a YEAR rolling 1909 to 2026. The previous label
+                  said "years feeding Marshall", which made the finished frame read
+                  "2026 years feeding Marshall". A label that has to work under a
+                  year at every frame of the count. */}
+              <span className="years-label">and counting</span>
               <h2 style={{ marginTop: 30 }}>It started as a cigar store.</h2>
               <p>
-                Albert Schuler bought a small shop on Eagle Street in {site.since} and started
-                serving food to the people already standing in it. His son Win turned it into a
-                restaurant people drove across the state for. Four generations later the prime rib
-                is still cut in the English tradition and the room is still full on a Saturday.
+                {/* 1909 is Main Street and cigars; Eagle Street is the Royal Hotel,
+                    bought in 1924. The state historical marker is the source, the
+                    distinction is recorded in lib/site.js, and this exact error has
+                    now been reintroduced once by a rewrite. Keep them straight. */}
+                Albert Schuler opened a shop on Main Street in {site.since}. It sold cigars, and
+                then it sold lunch to the people already standing in it. By 1924 the family had
+                the Royal Hotel on Eagle Street, and his son Win turned it into a restaurant
+                people drove across the state for. Four generations later the prime rib is still
+                cut in the English tradition and the room is still full on a Saturday.
               </p>
               <p>
                 Sue Damron runs it now, after more than twenty years in the building. The recipes
@@ -184,7 +193,7 @@ export default function Home() {
           <div className="grid g3 stagger">
             <article className="card reveal">
               <div className="card-img reveal-img">
-                <Image src="/assets/schulers/room-signature.webp" alt="The Signature Room set for a private dinner" width={600} height={400} sizes="(max-width: 620px) 100vw, 33vw" />
+                <Image src="/assets/schulers/banquets-banner.webp" alt="A private event at Schuler's" width={1600} height={635} sizes="(max-width: 620px) 100vw, 33vw" />
               </div>
               <div className="card-body">
                 <h3>Banquets and Events</h3>
@@ -212,7 +221,7 @@ export default function Home() {
 
             <article className="card reveal">
               <div className="card-img reveal-img">
-                <Image src="/assets/schulers/banquets-banner.webp" alt="Venue 19 Zero 9 set for a reception" width={1600} height={635} sizes="(max-width: 620px) 100vw, 33vw" />
+                <Image src="/assets/schulers/venue-19zero9.webp" alt="The hall at Venue 19 Zero 9, tables set under the timber trusses" width={1100} height={734} sizes="(max-width: 620px) 100vw, 33vw" />
               </div>
               <div className="card-body">
                 <h3>Venue 19 Zero 9</h3>

@@ -37,9 +37,9 @@ export default function Banquets() {
           <div className="split">
             <div>
               <Image
-                src="/assets/schulers/room-signature.webp"
-                alt="The Signature Room set for a private dinner"
-                width={600} height={400}
+                src="/assets/schulers/banquets-banner.webp"
+                alt="A private event at Schuler's"
+                width={1763} height={700}
                 sizes="(max-width: 860px) 100vw, 50vw"
               />
             </div>
@@ -54,14 +54,19 @@ export default function Banquets() {
               {/* Only two of these five capacities are published anywhere. The rest
                   say so rather than carrying a plausible-looking invention, which is
                   how a guest plans a party around a number nobody checked. */}
+              {/* Only two capacities are published anywhere, so only two rooms get
+                  numbers, and the rest share one honest line instead of repeating
+                  "ask us" three times like a form letter. */}
               <ul className="facts">
-                {site.banquetRooms.map((r) => (
+                {site.banquetRooms.filter((r) => r.seats).map((r) => (
                   <li key={r.name}>
-                    <b>{r.name}</b>
-                    {r.seats ? <>, {r.seats} guests</> : <>, ask us for the count</>}
-                    {r.note ? `. ${r.note}` : ""}
+                    <b>{r.name}</b>, {r.seats} guests{r.note ? `. ${r.note}` : ""}
                   </li>
                 ))}
+                <li>
+                  <b>{site.banquetRooms.filter((r) => !r.seats).map((r) => r.name).join(", ")}</b>{" "}
+                  round out the floor. Tell us your count and we will match the room.
+                </li>
               </ul>
             </div>
           </div>
@@ -110,8 +115,8 @@ export default function Banquets() {
               <p>
                 Seats {site.family.venue.capacity}. Two dressing suites, three hotel rooms upstairs,
                 and every plate out of this kitchen. Venue fees run{" "}
-                {money(site.banquets.venueFee.sunThu)} Sunday through Thursday,{" "}
-                {money(site.banquets.venueFee.fri)} Friday and {money(site.banquets.venueFee.sat)} Saturday.
+                ${site.banquets.venueFee.sunThu.toLocaleString()} Sunday through Thursday,{" "}
+                ${site.banquets.venueFee.fri.toLocaleString()} Friday and ${site.banquets.venueFee.sat.toLocaleString()} Saturday.
               </p>
               <p style={{ marginTop: 26 }}>
                 <a className="btn ghost on-dark" href={site.family.venue.url}>Visit 19 Zero 9</a>
@@ -119,9 +124,9 @@ export default function Banquets() {
             </div>
             <div>
               <Image
-                src="/assets/schulers/banquets-banner.webp"
-                alt="Venue 19 Zero 9 set for a reception"
-                width={1600} height={635}
+                src="/assets/schulers/venue-19zero9.webp"
+                alt="The hall at Venue 19 Zero 9, tables set under the timber trusses"
+                width={1100} height={734}
                 sizes="(max-width: 860px) 100vw, 50vw"
               />
             </div>

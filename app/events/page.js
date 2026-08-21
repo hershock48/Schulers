@@ -12,7 +12,7 @@ export const metadata = {
     title: "Events | Schuler's Restaurant & Pub",
     description: "Wine dinners, holiday service and Home Tour weekend.",
     url: "/events",
-    images: [{ url: "/assets/schulers/room-signature.webp", width: 600, height: 400, alt: "A private room set for dinner at Schuler's" }],
+    images: [{ url: "/assets/schulers/banquets-banner.webp", width: 1600, height: 635, alt: "A private event at Schuler's" }],
   },
 };
 
